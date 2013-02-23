@@ -1,0 +1,74 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: relatedYouTubeVideos\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-18 22:49+0100\n"
+"PO-Revision-Date: 2013-02-18 22:49+0100\n"
+"Last-Translator: \n"
+"Language-Team: meomundo.com <doerr@meomundo.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:18
+msgid "Related YouTube Videos"
+msgstr "Passende YouTube Videos"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:20
+msgid "Embeds YouTube videos that are related to the current post(s) in some way."
+msgstr "Zeigt YouTube videos, die auf irgendeine Art und Weise zur aktuellen Seite passen."
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:65
+msgid "Widget"
+msgstr "Widget"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:68
+msgid "Title:"
+msgstr "Titel:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:74
+msgid "Related By"
+msgstr "&Auml;hnlichkeit Durch"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:76
+msgid "Post Title"
+msgstr "Seiten Titel"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:77
+msgid "Post Tags"
+msgstr "Seiten Tags"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:78
+msgid "Keywords: "
+msgstr "Suchbegriffe:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:82
+msgid "Advanced Settings"
+msgstr "Weitere Einstellungen"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:87
+msgid "Order By:"
+msgstr "Ordnen nach:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:108
+msgid "Width:"
+msgstr "Breite:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:113
+msgid "Height:"
+msgstr "H&ouml;he:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:118
+msgid "Offset:"
+msgstr "Offset:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:123
+msgid "Nr. of Videos:"
+msgstr "Anz. Videos:"
+
