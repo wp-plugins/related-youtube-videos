@@ -26,6 +26,9 @@ class RelatedYouTubeVideos extends Meomundo_WP {
 
     // Widget
     add_action( 'widgets_init', create_function( '', 'register_widget( "RelatedYouTubeVideos_Widget" );' ) );
+    
+    // Add a README Page (will appear under Settings > Related YouTube Videos)
+    add_action( 'admin_menu', array( $this, 'registerBackend' ) );
 
   }
 
@@ -85,6 +88,34 @@ class RelatedYouTubeVideos extends Meomundo_WP {
         'height'  => $data['height']
       )
     );
+    
+  }
+  
+  /**
+   * Register Backend Pages
+   */
+  public function registerBackend() {
+    
+    // ReadMe or How To
+    $readme = add_options_page( 'Related YouTube Videos', 'Related YT Videos', 'edit_posts', $this->slug . '_readme', array( $this, 'showReadmePage' ) );
+    
+  }
+
+  /**
+   * Display the ReadMe / How To Page
+   */
+  public function showReadmePage() {
+    
+    if( file_exists( $this->path . 'readmePage.html' ) ) {
+      
+      echo file_get_contents( $this->path . 'readmePage.html' );
+
+    }
+    else {
+      
+      echo '<h2>File Not Found!</h2>';
+      
+    }
     
   }
 
