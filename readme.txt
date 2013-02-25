@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.1
-Stable tag:         1.0.3
+Stable tag:         1.0.4
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,7 @@ Automatically embed YouTube videos that are related to your content.
 
 == Description ==
 
-**relatedYouTubeVideos** is a free WordPress plugin that embeds a number of, well, YouTube videos that are related to your content. The list is put together by using the YouTube search API. And you can specify the relation between the videos and your content by:
+**Related YouTube Videos** is a free WordPress plugin that embeds a number of, well, YouTube videos that are related to your content. The list is put together by using the YouTube search API. And you can specify the relation between the videos and your content by:
 
 * the title of your current post, page or custom post type.
 * the tags of your current post, page or custom post type.
@@ -81,7 +81,7 @@ Just log into the WordPress backend as someone who has the right to install and 
 
 You can also download the current plugin ZIP file, for example from [http://www.WordPress.org/extend/plugins/related-youtube-videos/](http://www.WordPress.org/extend/plugins/related-youtube-videos/), and upload it yourself via FTP, for example.
 
-First you have to download the plugin ZIP file, for example from [http://www.WordPress.org/extend/plugins/related-youtube-videos/](http://www.WordPress.org/extend/plugins/related-youtube-videos/), and extract the archive on your local machine. Then start any FTP client of your choice (e.g. FileZilla) and connect to your web server. Browse to your WordPress' root directory and then into /wp-content/plugins/. Now upload the /relatedYouTubeVideos/ folder you just extracted from the ZIP archive with all its containing files.
+First you have to download the plugin ZIP file, for example from [http://www.WordPress.org/extend/plugins/related-youtube-videos/](http://www.WordPress.org/extend/plugins/related-youtube-videos/), and extract the archive on your local machine. Then start any FTP client of your choice (e.g. FileZilla) and connect to your web server. Browse to your WordPress' root directory and then into /wp-content/plugins/. Now upload the /related-youtube-videos/ folder you just extracted from the ZIP archive with all its containing files.
 
 Then log into the WordPress backend as someone who has the right to install and activate new plugins. Go to the "Plugins" section and look for the "relatedYouTubeVideos" in your plugin list. If the plugin doesn't appear in this list, you might have to switch to the "Inactive" tab and look again. If you have found it just hit the "Activate" link below the plugin name in the first column and you are good to go.
 
@@ -126,6 +126,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.0.4 =
+* Spelling corrections
 
 = 1.0.3 =
 * Added a ReadMe or How-To page to the WordPress backend under Settings > Related YT Videos
