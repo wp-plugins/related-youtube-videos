@@ -1,0 +1,68 @@
+<div class="wrap">
+
+ <h2>Related YouTube Videos</h2>
+
+ <div>By <a href="http://profiles.wordpress.org/Zenation" target="_blank">Zenation</a> | Version 1.0.2 | License: <a hrfe="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPLv2</a></div>
+
+ <div style="margin-top:2em;font:11pt/1.3em Arial;">
+
+  <p><strong>Related YouTube Videos</strong> is a free WordPress plugin that embeds a number of, well, YouTube videos that are related to your content. The list is put together by using the YouTube search API. And you can specify the relation between the videos and your content by:</p>
+
+  <ol>
+   <li>the title of your current post, page or custom post type.</li>
+   <li>the tags of your current post, page or custom post type.</li>
+   <li>any keywords you specify.</li>
+  </ol>
+
+  <p>Also, this plugin offers you two ways to embed related videos:</p>
+
+  <ol>
+   <li>by using the shortcode [relatedYouTubeVideos] somewhere in your post/page content</li>
+   <li>by using the WordPress widget "Related YouTube Videos" in any of your widget areas (multiple instances are possible)</li>
+  </ol>
+
+  <h4 style="margin-top:2em;border-bottom:1px solid #CCC;">The Shortcode</h4>
+
+  <p>You can put the shortcode <strong>[relatedYouTubeVideos]</strong> anywhere you want inside the content of a page, post, or custom post type - as long as your WordPress theme is supporting shortcodes.</p>
+
+  <p>You can also add a number of attributes to configure the assembling of the list of videos that will be embedded:</p>
+
+  <ul>
+   <li style="padding-left:1em;"><strong>width</strong> - Numeric width of the HTML video object</li>
+   <li style="padding-left:1em;"><strong>height</strong> - Numeric height of the HTML video object</li>
+   <li style="padding-left:1em;"><strong>terms</strong> - Search YouTube for these terms - no separating commas required.</li>
+   <li style="padding-left:1em;"><strong>orderBy</strong> - Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.</li>
+   <li style="padding-left:1em;"><strong>start</strong> - Numeric offset / numbers of search results that will be skipped. 0 being the default.</li>
+   <li style="padding-left:1em;"><strong>max</strong> - Number of videos (or search results) that will be returned. Can be any number between 1 and 10!</li>
+   <li style="padding-left:1em;"><strong>apiVersion</strong> - Version of the YouTube/Google API that will be used.</li>
+   <li style="padding-left:1em;"><strong>class</strong> - You can specify an additional HTML class name for the wrapping &lt;ul&gt; element</li>
+   <li style="padding-left:1em;"><strong>id</strong> - You can specify the HTML id attribute for the wrapping &lt;ul&gt; element.</li>
+   <li style="padding-left:1em;"><strong>relation</strong> - Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).</li>
+  </ul>
+
+  <p>I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.</p>
+
+  <p>Shortcode Example 1: <strong>[relatedYouTubeVideos relation="postTags" max="3"]</strong> Will show three videos coming back from the search YouTube for (all!) the tags you have assigned to this post or page.</p>
+
+  <p>Shortcode Example 2: <strong>[relatedYouTubeVideos relation="keywords" terms="monty python" max="5"]</strong> Will show five Monty Python videos from YouTube.</p>
+
+  <p>Shortcode Example 3: <strong>[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]</strong> Will show the second most popular video (the first being skipped) relating to your post or page title.</p>
+
+  <h4 style="margin-top:2em;border-bottom:1px solid #CCC;">The Widget</h4>
+
+  <p>The widget almost works the same way. Or at least it has the same options for configuring the video request. If you log into your WordPress backend and go to the "Appearance > Widget" menu (given that your theme supports widgets) you can drag&drop a widget instance into the widget area of your choice.</p>
+  
+  <p>There is one more opion you only have using the widget: If you check the "Site Search" option the user's search terms will be used as relation (if he/she is doing a site interal search). On pages other than the search results page of your theme the "normal" relation you specified will be used. In other words: If you check this widget option the relation will be overruled (only) on search resutlts pages.</p>
+
+  <p>The *Related YouTube Videos* widget allows multiple instances. So you can put as many widgets as you like into as many widget areas as you like.</p>
+
+  <p>The difference between the widget and the shortcode is not in terms of functionality but usually in the context they reside. Widgets usually go into sidebars or footers and alike and the same widget usually shows up for many, if not all pages, just the same. Shortcodes are placed inside the actual content and therefore will only show up when the page or post where they're put is shown.</p>
+
+  <h4 style="margin-top:2em;border-bottom:1px solid #CCC;">Errors</h4>
+
+  <p>The videos will be embedded from YouTube by using its search API. This API call is being done by sending an internal request over the web. And as we all know, there can be a million reasons why even a service like YouTube cannot be reached all the time. If that's the case or a request itself is invalid for some reason you will get an error message and no videos! But instead of breaking your design by showing your visitors error messages, they will just see nothing: The error message will be hidden in the HTML source code in form of an HTML comment.</p>
+
+  <p>So if you don't see any videos while you think you should, please take a look at the HTML source code of your current page and look for "[relatedYouTubeVideos] Error...".</p>
+
+ </div>
+</div>
