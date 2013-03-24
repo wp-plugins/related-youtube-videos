@@ -191,7 +191,9 @@ class RelatedYouTubeVideos_API {
     $id           = isset( $args['class'] )       ? strip_tags( $args['id'] )               : '';
     
     $relation     = isset( $args['relation'] )    ? strtolower( $args['relation'] )         : '';
-    
+
+    $wpSearch     = ( isset( $args['wpSearch'] ) && $args['wpSearch'] == true ) ? true      : false; 
+
     if( $relation !== 'posttags' && $relation !== 'keywords' ) {
       
       $relation = 'posttitle';
@@ -236,7 +238,7 @@ class RelatedYouTubeVideos_API {
       $search = trim( $searchTerms );
       
     }
-    
+
     return array(
       'title'       => $title,
       'terms'       => $searchTerms,
@@ -249,7 +251,8 @@ class RelatedYouTubeVideos_API {
       'class'       => $class,
       'id'          => $id,
       'relation'    => $relation,
-      'search'      => $search
+      'search'      => $search,
+      'wpSearch'    => $wpSearch
     );
 
   }

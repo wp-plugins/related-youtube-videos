@@ -55,7 +55,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
       )
 		);
     
-    $this->API = new RelatedYouTubeVideos_API( $this->path, $this->url, $this->slug );
+    $this->API = new RelatedYouTubeVideos_API();
 		
 	}
 
@@ -88,6 +88,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $relPostTags  = ( strtolower( $data['relation'] ) == 'posttags' )  ? ' checked="checked"' : '';
 
     $relKeywords  = ( strtolower( $data['relation'] ) == 'keywords' )   ? ' checked="checked"' : '';
+    
+    $wpSearch     = ( $data['wpSearch'] == true ) ? ' checked="checked"' : '';
 
     /**
      * Generating the HTML form for the widget options.
@@ -111,6 +113,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTags"' . $relPostTags . ' /> <label>' . __( 'Post Tags', $this->slug ) . '</label></li>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="keywords"' . $relKeywords . ' /> <label>' . __( 'Keywords: ', $this->slug ) . '</label><input type="text" name="' . $this->get_field_name( 'terms' ) . '" value="' . $data['terms'] . '" /></li>' . "\n";
     $html .= ' </ul>' . "\n";
+    $html .= ' <input type="checkbox" name="' . $this->get_field_name( 'wpSearch' ) . '" ' . $wpSearch . ' /> <label> ' . __( 'Site Search (On Search Results Page)', $this->slug ) . "</label>\n";
     $html .= '</fieldset>' . "\n";
 
     $html .= '<h3>' . __( 'Advanced Settings', $this->slug ) . '</h3>' . "\n";
@@ -228,8 +231,13 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
       $data['height'] = 480;
       
     }
+
     
-    $results      = $this->API->searchYouTube( $data['search'], $data['orderBy'], $data['start'], $data['max'], $data['apiVersion'] );
+    $wpSearch     = trim( get_search_query() );
+
+    $searchTerms  = ( $data['wpSearch'] == true && $wpSearch !== '' ) ? $wpSearch : $data['search'];
+    
+    $results      = $this->API->searchYouTube( $searchTerms, $data['orderBy'], $data['start'], $data['max'], $data['apiVersion'] );
     
     /**
      * View results in form of an unordered HTML list.
