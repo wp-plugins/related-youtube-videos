@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.1
-Stable tag:         1.0.5
+Stable tag:         1.0.6
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.0.6 =
+* Fixed the ZIP package (since I've messed it up with the last update^^)
 
 = 1.0.5 =
 * New widget option "Site Search". It allows (if checked) to use the terms a user has entered into the WordPress search box an look these up at YouTube.

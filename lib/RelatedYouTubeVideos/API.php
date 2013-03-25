@@ -192,7 +192,7 @@ class RelatedYouTubeVideos_API {
     
     $relation     = isset( $args['relation'] )    ? strtolower( $args['relation'] )         : '';
 
-    $wpSearch     = ( isset( $args['wpSearch'] ) && $args['wpSearch'] == true ) ? true      : false; 
+    $wpSearch     = ( isset( $args['wpSearch'] ) && $args['wpSearch'] == true ) ? true      : false;  // Will only have an effect on the search results page
 
     if( $relation !== 'posttags' && $relation !== 'keywords' ) {
       
