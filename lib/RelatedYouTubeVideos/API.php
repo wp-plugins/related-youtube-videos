@@ -120,6 +120,7 @@ class RelatedYouTubeVideos_API {
 
         $html .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
         $html .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
+        $html .= '     <param name="wmode" value="transparent" />' . "\n";
         $html .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
         $html .= "    </object>\n";
   

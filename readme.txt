@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.1
-Stable tag:         1.0.7
+Stable tag:         1.0.8
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.0.8 =
+* Added parameter "wmode = transparent" which should allow HTML elements to be positioned above a video object.
 
 = 1.0.7 =
 * Repo fix
