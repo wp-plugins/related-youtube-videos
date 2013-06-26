@@ -160,6 +160,13 @@ class RelatedYouTubeVideos_API {
       
     }
     
+    // looks like the YouTube API is case sensitive here!
+    if( $orderBy == 'viewcount' ) {
+
+      $orderBy = 'viewCount';
+
+    }
+    
     $start        = isset( $args['start'] )       ? (int) abs( $args['start'] )             : 0;
     
     if( $start < 0 ) {
