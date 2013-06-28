@@ -2,72 +2,81 @@ msgid ""
 msgstr ""
 "Project-Id-Version: relatedYouTubeVideos\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-18 22:49+0100\n"
-"PO-Revision-Date: 2013-02-18 22:49+0100\n"
+"POT-Creation-Date: 2013-06-28 18:18+0100\n"
+"PO-Revision-Date: 2013-06-28 18:18+0100\n"
 "Last-Translator: \n"
 "Language-Team: meomundo.com <doerr@meomundo.com>\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:18
+#: ../lib/RelatedYouTubeVideos/Widget.php:52
 msgid "Related YouTube Videos"
 msgstr "Related YouTube Videos"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:20
-msgid "Embeds YouTube videos that are related to the current post(s) in some way."
-msgstr "Embeds YouTube videos that are related to the current post(s) in some way."
+#: ../lib/RelatedYouTubeVideos/Widget.php:54
+msgid ""
+"Embeds YouTube videos that are related to the current post(s) in some way."
+msgstr ""
+"Embeds YouTube videos that are related to the current post(s) in some way."
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:65
+#: ../lib/RelatedYouTubeVideos/Widget.php:102
 msgid "Widget"
 msgstr "Widget"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:68
+#: ../lib/RelatedYouTubeVideos/Widget.php:105
 msgid "Title:"
 msgstr "Title:"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:74
+#: ../lib/RelatedYouTubeVideos/Widget.php:112
 msgid "Related By"
 msgstr "Related By"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:76
+#: ../lib/RelatedYouTubeVideos/Widget.php:114
 msgid "Post Title"
 msgstr "Post Title"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:77
+#: ../lib/RelatedYouTubeVideos/Widget.php:115
 msgid "Post Tags"
 msgstr "Post Tags"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:78
+#: ../lib/RelatedYouTubeVideos/Widget.php:116
 msgid "Keywords: "
 msgstr "Keywords:"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:82
+#: ../lib/RelatedYouTubeVideos/Widget.php:117
+msgid "(try) exact match"
+msgstr "(try) exact match"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:120
+msgid "Site Search (On Search Results Page)"
+msgstr "Site Search (On Search Results Page)"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:123
 msgid "Advanced Settings"
 msgstr "Advanced Settings"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:87
+#: ../lib/RelatedYouTubeVideos/Widget.php:129
 msgid "Order By:"
 msgstr "Order By"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:108
+#: ../lib/RelatedYouTubeVideos/Widget.php:151
 msgid "Width:"
 msgstr "Width:"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:113
+#: ../lib/RelatedYouTubeVideos/Widget.php:157
 msgid "Height:"
 msgstr "Height:"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:118
+#: ../lib/RelatedYouTubeVideos/Widget.php:163
 msgid "Offset:"
 msgstr "Offset:"
 
-#: ../lib/RelatedYouTubeVideos/Widget.php:123
+#: ../lib/RelatedYouTubeVideos/Widget.php:169
 msgid "Nr. of Videos:"
 msgstr "Nr. of Videos:"
-

@@ -13,19 +13,49 @@ class RelatedYouTubeVideos_API {
   /**
    * Do the actual YouTube search by generating a GET request.
    *
-   * @param string  $searchTerm These terms will be user to search YouTube for results.
-   * @param string  $orderBy    Order the search results by a given set of rules.
-   * @param int     $start      Number of videos/search results that will be skipped.
-   * @param int     $max        Number of videos/search results that will be returned.
-   * @param int     $apiVersion Verion of the YouTube API that shall be used.
+   * @param array   $args       An array of parameters.
+   * 
+   * string   searchTerm    These terms will be user to search YouTube for results.
+   * bool     exact         Will search for the exact phrase that has been set in the 'searchTerms' parameter.
+   * string   orderBy       Order the search results by a given set of rules.
+   * int      start         Number of videos/search results that will be skipped.
+   * int      max           Number of videos/search results that will be returned.
+   * int      apiVersion    Verion of the YouTube API that shall be used.
+   *
    * @return mixed              Will return FALSE in case the request was invalid or some other error has occured (like a timeout) or an array containing the search results.
    */
-  public function searchYouTube( $searchTerms, $orderBy, $start, $max, $apiVersion = 2 ) {
-
-    $apiVersion   = (int) $apiVersion;
-
-    $searchTerms  = urlencode( $searchTerms );
+/*
+  // Downwards compatibility?!
+  public function searchYouTube( $args, $orderBy = '', $start = '', $max = '', $apiVersion = 2 ) {
   
+    if ( !is_array( $args ) ) {
+      
+      $args = array();
+      
+      $args['searchTerms']  = $args;
+      $args['orderBy']      = $orderBy;
+      $args['start']        = $start;
+      $args['max']          = $max;
+      $args['apiVersion']   = $apiVersion;
+      
+    }
+*/  
+  public function searchYouTube( $args ) {
+
+    $searchTerms  = isset( $args['searchTerms'] ) ? $args['searchTerms']      : '';
+
+    $orderBy      = isset( $args['orderBy'] )     ? $args['orderBy']          : '';
+
+    $start        = isset( $args['start'] )       ? $args['start']            : '';
+
+    $max          = isset( $args['max'] )         ? $args['max']              : '';
+
+    $apiVersion   = isset( $args['apiVersion'] )  ? (int) $args['apiVersion'] : 2;
+
+    $exact        = ( isset( $args['exact'] ) && $args['exact'] === true ) ? true : false;
+
+    $searchTerms  = ( $exact === true ) ? '%22' . urlencode( $searchTerms ) . '%22' : urlencode( $searchTerms );
+    
     $orderBy      = urlencode( $orderBy );
     
     $start        = (int) $start +1;
@@ -188,6 +218,8 @@ class RelatedYouTubeVideos_API {
       
     }
     
+    $exact        = ( isset( $args['exact'] ) && ( $args['exact'] === true || $args['exact'] == 'true' || (int) $args['exact'] == 1 || $args['exact'] == 'on' ) ) ? true : false;
+
     $apiVersion   = isset( $args['apiVersion'] )  ? (int) abs( $args['apiVersion'] )        : 2;
 
     $width        = isset( $args['width'] )       ? (int) abs( $args['width'] )             : 0; // The default width should be specified in the calling environment (widget or shortode)
@@ -260,7 +292,8 @@ class RelatedYouTubeVideos_API {
       'id'          => $id,
       'relation'    => $relation,
       'search'      => $search,
-      'wpSearch'    => $wpSearch
+      'wpSearch'    => $wpSearch,
+      'exact'       => $exact
     );
 
   }

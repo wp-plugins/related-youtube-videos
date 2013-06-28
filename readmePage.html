@@ -2,7 +2,7 @@
 
  <h2>Related YouTube Videos</h2>
 
- <div>By <a href="http://profiles.wordpress.org/Zenation" target="_blank">Zenation</a> | Version 1.0.2 | License: <a hrfe="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPLv2</a></div>
+ <div>By <a href="http://profiles.wordpress.org/Zenation" target="_blank">Zenation</a> | Version 1.1.0 | License: <a hrfe="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPLv2</a></div>
 
  <div style="margin-top:2em;font:11pt/1.3em Arial;">
 
@@ -31,6 +31,7 @@
    <li style="padding-left:1em;"><strong>width</strong> - Numeric width of the HTML video object</li>
    <li style="padding-left:1em;"><strong>height</strong> - Numeric height of the HTML video object</li>
    <li style="padding-left:1em;"><strong>terms</strong> - Search YouTube for these terms - no separating commas required.</li>
+   <li style="padding-left:1em;"><strong>exact</strong> - Set it to 'true' if you want to search for an exact phrase.</li>
    <li style="padding-left:1em;"><strong>orderBy</strong> - Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.</li>
    <li style="padding-left:1em;"><strong>start</strong> - Numeric offset / numbers of search results that will be skipped. 0 being the default.</li>
    <li style="padding-left:1em;"><strong>max</strong> - Number of videos (or search results) that will be returned. Can be any number between 1 and 10!</li>
@@ -46,7 +47,9 @@
 
   <p>Shortcode Example 2: <strong>[relatedYouTubeVideos relation="keywords" terms="monty python" max="5"]</strong> Will show five Monty Python videos from YouTube.</p>
 
-  <p>Shortcode Example 3: <strong>[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]</strong> Will show the second most popular video (the first being skipped) relating to your post or page title.</p>
+  <p>Shortcode Example 3: <strong>[relatedYouTubeVideos relation="keywords" terms="real madrid" exact="true" max="2"]</strong> Will search for the exact phrase "Real Madrid" and (hopefully) not just anything "real".</p>
+
+  <p>Shortcode Example 4: <strong>[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]</strong> Will show the second most popular video (the first being skipped) relating to your post or page title.</p>
 
   <h4 style="margin-top:2em;border-bottom:1px solid #CCC;">The Widget</h4>
 

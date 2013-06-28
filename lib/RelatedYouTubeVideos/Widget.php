@@ -90,6 +90,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $relKeywords  = ( strtolower( $data['relation'] ) == 'keywords' )   ? ' checked="checked"' : '';
     
     $wpSearch     = ( $data['wpSearch'] == true ) ? ' checked="checked"' : '';
+    
+    $exact        = ( $data['exact'] == true ) ? ' checked="checked"' : '';
 
     /**
      * Generating the HTML form for the widget options.
@@ -111,7 +113,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= ' <ul>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTitle"' . $relPostTitle . ' /> <label>' . __( 'Post Title', $this->slug ) . '</label></li>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTags"' . $relPostTags . ' /> <label>' . __( 'Post Tags', $this->slug ) . '</label></li>' . "\n";
-    $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="keywords"' . $relKeywords . ' /> <label>' . __( 'Keywords: ', $this->slug ) . '</label><input type="text" name="' . $this->get_field_name( 'terms' ) . '" value="' . $data['terms'] . '" /></li>' . "\n";
+    $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="keywords"' . $relKeywords . ' /> <label>' . __( 'Keywords: ', $this->slug ) . '</label><input type="text" name="' . $this->get_field_name( 'terms' ) . '" value="' . $data['terms'] . '" /></li>';
+    $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'exact' ) . '" ' . $exact . ' /> <label> ' . __( '(try) exact match', $this->slug ) . "</label></li>\n";
     $html .= ' </ul>' . "\n";
     $html .= ' <input type="checkbox" name="' . $this->get_field_name( 'wpSearch' ) . '" ' . $wpSearch . ' /> <label> ' . __( 'Site Search (On Search Results Page)', $this->slug ) . "</label>\n";
     $html .= '</fieldset>' . "\n";
@@ -237,7 +240,16 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
 
     $searchTerms  = ( $data['wpSearch'] == true && $wpSearch !== '' ) ? $wpSearch : $data['search'];
     
-    $results      = $this->API->searchYouTube( $searchTerms, $data['orderBy'], $data['start'], $data['max'], $data['apiVersion'] );
+    $results      = $this->API->searchYouTube(
+      array(
+        'searchTerms' => $searchTerms,
+        'orderBy'     => $data['orderBy'],
+        'start'       => $data['start'],
+        'max'         => $data['max'],
+        'apiVersion'  => $data['apiVersion'],
+        'exact'       => $data['exact']
+      )
+    );
     
     /**
      * View results in form of an unordered HTML list.

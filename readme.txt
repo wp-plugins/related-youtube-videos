@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.1
-Stable tag:         1.0.9
+Stable tag:         1.1.0
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,14 +32,15 @@ You can also add a number of attributes to configure the assembling of the list 
 
 * 'width'       (numeric)   Width of the HTML video object
 * 'height'      (numeric)   Height of the HTML video object
+* 'relation'    (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
 * 'terms'       (string)    Search YouTube for these terms - no separating commas required.
+* 'exact'       (string)    Set to 'true' will (try to) search for the exact phrase.
 * 'orderBy'     (string)    Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
 * 'start'       (numeric)   Offset / numbers of search results that will be skipped. 0 being the default.
 * 'max'         (numeric)   Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
-* 'apiVersion'  (numeric)   Version of the YouTube/Google API that will be used.
 * 'class'       (string)    You can specify an additional HTML class name for the wrapping `<ul>` element
 * 'id'          (string)    You can specify the HTML id attribute for the wrapping `<ul>` element.
-* 'relation'    (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
+* 'apiVersion'  (numeric)   Version of the YouTube/Google API that will be used.
   
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
 
@@ -47,7 +48,9 @@ Shortcode Example 1: **[relatedYouTubeVideos relation="postTags" max="3"]** Will
 
 Shortcode Example 2: **[relatedYouTubeVideos relation="keywords" terms="monty python" max="5"]** Will show five Monty Python videos from YouTube.
 
-Shortcode Example 3: **[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]** Will show the second most popular video (the first being skipped) relating to your post or page title.
+Shortcode Example 3: **[relatedYouTubeVideos relation="keywords" terms="real madrid" exact="true" max="2"]** Will search for the exact phrase "Real Madrid" and (hopefully) not just anything "real".
+
+Shortcode Example 4: **[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]** Will show the second most popular video (the first being skipped) relating to your post or page title.
 
 = The Widget =
 
@@ -103,12 +106,13 @@ $args = $RYV->validateConfiguration(
     'class'       => ''           // (string)   You can specify an additional HTML class name for the wrapping <ul> element
     'id'          => ''           // (string)   You can specify the HTML id attribute for the wrapping <ul> element.
     'relation'    => 'postTags',  // (string)   Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTile', 'postTags', or 'keywords' (in which case the attribute 'keywords' will be used).
-    'terms'       => ''           // (string)   Search YouTube for these terms
+    'terms'       => '',          // (string)   Search YouTube for these terms.
+    'exact'       => false        // (bool)     Try to search for the exact phrase.
   )
 );
 
 // Getting the list of videos from YouTube
-$relatedVideos = $RYV->searchYouTube( $args['search'], $args['orderBy'], $args['start'], $args['max'], $args['apiVersion'] );
+$relatedVideos = $RYV->searchYouTube( $args );
 
 // Display the list as an unordered HTML list
 echo $RYV->displayResults(
@@ -126,6 +130,10 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.1.0 =
+* Added optional parameter 'exact' which allows you to search for an exact phrase. It basically equals a search on YouTube with quotation marks around your search terms.
+* Also changed the API for the sake of scalability! The API method "searchYouTube" now takes an array(!) of configurational parameters as argument.
 
 = 1.0.9 =
 * Bug fixed: YouTube API seems to be case sensitive on some parameters which had caused problems with the "viewCount" (orderBy) parameter.

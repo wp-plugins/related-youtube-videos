@@ -75,7 +75,16 @@ class RelatedYouTubeVideos extends Meomundo_WP {
       
     }
     
-    $results      = $API->searchYouTube( $data['search'], $data['orderBy'], $data['start'], $data['max'], $data['apiVersion'] );
+    $results      = $API->searchYouTube(
+      array(
+        'searchTerms' => $data['search'],
+        'orderBy'     => $data['orderBy'],
+        'start'       => $data['start'],
+        'max'         => $data['max'],
+        'apiVersion'  => $data['apiVersion'],
+        'exact'       => $data['exact']
+      )
+    );
 
     /**
      * View the search results in form of an unordered HTML list.
