@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.1
-Stable tag:         1.1.1
+Stable tag:         1.1.2
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.1.2 =
+* Updating half the fix makes only half sense, sry^^
 
 = 1.1.1 =
 * API fix for handling the "orderBy" parameter more robust.
