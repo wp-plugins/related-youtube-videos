@@ -184,12 +184,15 @@ class RelatedYouTubeVideos_API {
 
     $orderBy      = isset( $args['orderBy'] )     ? strtolower( trim( $args['orderBy'] ) )  : '';
     
+    /* Array indexes are case-sensitive^^ */
+    $orderBy      = isset( $args['orderby'] )     ? strtolower( trim( $args['orderby'] ) )  : $orderBy;
+    
     if( $orderBy !== 'published' && $orderBy !== 'rating' && $orderBy !== 'viewcount' ) {
       
       $orderBy    = 'relevance';
       
     }
-    
+
     // looks like the YouTube API is case sensitive here!
     if( $orderBy == 'viewcount' ) {
 
