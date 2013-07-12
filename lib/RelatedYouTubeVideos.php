@@ -87,9 +87,9 @@ class RelatedYouTubeVideos extends Meomundo_WP {
     );
 
     /**
-     * View the search results in form of an unordered HTML list.
+     * View/Return the search results in form of an unordered HTML list.
      */
-    echo $API->displayResults(
+    return $API->displayResults(
       $results,
       array(
         'id'      => 'relatedVideos',
