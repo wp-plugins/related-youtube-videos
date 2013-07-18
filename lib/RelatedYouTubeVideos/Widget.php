@@ -163,6 +163,12 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= '  <input type="text" name="' . $this->get_field_name( 'start' ) . '" value="' . $data['start'] . '"/>' . "\n";
     $html .= ' </li>' . "\n";
 
+    // Random - Show a random video in terms of {number of videos} random videos out of {random}
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'random' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Random:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'random' ) . '" value="' . $data['random'] . '"/>' . "\n";
+    $html .= ' </li>' . "\n";
+
     // Number of videos / search results that will be returned (between 1 and 10)
     $html .= ' <li>' . "\n";
     $html .= '  <label for="' . $this->get_field_id( 'max' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Nr. of Videos:', $this->slug ) . '</label>' . "\n";
@@ -239,7 +245,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $wpSearch     = trim( get_search_query() );
 
     $searchTerms  = ( $data['wpSearch'] == true && $wpSearch !== '' ) ? $wpSearch : $data['search'];
-    
+
     $results      = $this->API->searchYouTube(
       array(
         'searchTerms' => $searchTerms,
@@ -247,7 +253,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
         'start'       => $data['start'],
         'max'         => $data['max'],
         'apiVersion'  => $data['apiVersion'],
-        'exact'       => $data['exact']
+        'exact'       => $data['exact'],
+        'random'      => $data['random']
       )
     );
     

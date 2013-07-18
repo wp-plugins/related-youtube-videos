@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.2
-Stable tag:         1.1.3
+Stable tag:         1.2.0
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,9 @@ You can also add a number of attributes to configure the assembling of the list 
 * 'exact'       (string)    Set to 'true' will (try to) search for the exact phrase.
 * 'orderBy'     (string)    Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
 * 'start'       (numeric)   Offset / numbers of search results that will be skipped. 0 being the default.
+* 'offset'      (numeric)   START and OFFSET are interchangably the same and just other words for the same option.
 * 'max'         (numeric)   Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
+* 'random'      (numeric)   Select MAX number of videos out of RANDOM number of videos.
 * 'class'       (string)    You can specify an additional HTML class name for the wrapping `<ul>` element
 * 'id'          (string)    You can specify the HTML id attribute for the wrapping `<ul>` element.
 * 'apiVersion'  (numeric)   Version of the YouTube/Google API that will be used.
@@ -59,6 +61,16 @@ The widget almost works the same way. Or at least it has the same options for co
 The *relatedYouTubeVideos* widget allows multiple instances. So you can put as many widgets as you like into as many widget areas as you like.
 
 The difference between the widget and the shortcode is not in terms of functionality but usually in the context they reside. Widgets usually go into sidebars or footers and alike and the same widget usually shows up for many, if not all pages, just the same. Shortcodes are placed inside the actual content and therefore will only show up when the page or post where they're put is shown.
+
+= Randomize Results =
+
+The same keywords (or post title/tags) will ususally return the same video(s) for a period of time. Basically, that's up to YouTube but in can take days, weeks or even months until fresh videos will show up.
+
+When you set a numeric value for the RANDOM parameter/option you can get random videos from a pool of results. The MAX value plays along with the RANDOM value and both read like this: Show me {MAX} random videos out of {RANDOM} videos.
+
+**[relatedYouTubeVideos relation="keywords" terms="fast cars" max="2" random="10"]** will actually request 10 videos from YouTube but only show 2 random ones out of that 10.
+
+So RANDOM will determine the size of the pool MAX videos will be chosen from.
 
 = Errors =
 
@@ -130,6 +142,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.2.0 =
+* New RANDOM option/parameter added. "Random" has to be a numeric value and determines the size of a pool, {MAX} number of random videos will be picked from. It could read like: Give me {MAX} random videos from a pool of {RANDOM}. Don't worry, I'm about to revise the documentation to make it understandable again^^
 
 = 1.1.3 =
 * Shortcode fix (return, don't echo...)

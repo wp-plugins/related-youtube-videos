@@ -34,7 +34,9 @@
    <li style="padding-left:1em;"><strong>exact</strong> - Set it to 'true' if you want to search for an exact phrase.</li>
    <li style="padding-left:1em;"><strong>orderBy</strong> - Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.</li>
    <li style="padding-left:1em;"><strong>start</strong> - Numeric offset / numbers of search results that will be skipped. 0 being the default.</li>
+   <li style="padding-left:1em;"><strong>offset</strong> - OFFSET and START are interchangably the same and just other words for the same option.</li>
    <li style="padding-left:1em;"><strong>max</strong> - Number of videos (or search results) that will be returned. Can be any number between 1 and 10!</li>
+   <li style="padding-left:1em;"><strong>random</strong> - Select MAX random videos out of RANDOM number of results.</li>
    <li style="padding-left:1em;"><strong>apiVersion</strong> - Version of the YouTube/Google API that will be used.</li>
    <li style="padding-left:1em;"><strong>class</strong> - You can specify an additional HTML class name for the wrapping &lt;ul&gt; element</li>
    <li style="padding-left:1em;"><strong>id</strong> - You can specify the HTML id attribute for the wrapping &lt;ul&gt; element.</li>
@@ -60,6 +62,16 @@
   <p>The *Related YouTube Videos* widget allows multiple instances. So you can put as many widgets as you like into as many widget areas as you like.</p>
 
   <p>The difference between the widget and the shortcode is not in terms of functionality but usually in the context they reside. Widgets usually go into sidebars or footers and alike and the same widget usually shows up for many, if not all pages, just the same. Shortcodes are placed inside the actual content and therefore will only show up when the page or post where they're put is shown.</p>
+
+  <h4 style="margin-top:2em;border-bottom:1px solid #CCC;">Randomize Results</h4>
+
+  <p>The same keywords (or post title/tags) will ususally return the same video(s) for a period of time. Basically, that's up to YouTube but in can take days, weeks or even months until fresh videos will show up.</p>
+
+  <p>When you set a numeric value for the RANDOM parameter/option you can get random videos from a pool of results. The MAX value plays along with the RANDOM value and both read like this: Show me {MAX} random videos out of {RANDOM} videos.</p>
+
+  <p><strong>[relatedYouTubeVideos relation="keywords" terms="fast cars" max="2" random="10"]</strong> will actually request 10 videos from YouTube but only show 2 random ones out of that 10.</p>
+
+  <p>So RANDOM will determine the size of the pool MAX videos will be chosen from.</p>
 
   <h4 style="margin-top:2em;border-bottom:1px solid #CCC;">Errors</h4>
 

@@ -43,6 +43,12 @@ class RelatedYouTubeVideos_API {
   public function searchYouTube( $args ) {
 
     $searchTerms  = isset( $args['searchTerms'] ) ? $args['searchTerms']      : '';
+    
+    if( $searchTerms == '' && isset( $args['terms'] ) ) {
+      
+      $searchTerms = $args['terms'];
+      
+    }
 
     $orderBy      = isset( $args['orderBy'] )     ? $args['orderBy']          : '';
 
@@ -61,8 +67,20 @@ class RelatedYouTubeVideos_API {
     $start        = (int) $start +1;
     
     $max          = (int) $max;
+    
+    $random       = ( isset( $args['random'] ) && $args['random'] > $max )  ? (int) $args['random'] : $max;
+
+    
+    if( $random > $max ) {
+      
+      $target       = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $random . '&v=2';
+      
+    }
+    else {
   
-    $target       = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $max . '&v=2';
+      $target       = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $max . '&v=2';
+    
+    }
 
     // @todo (future feature) $target caching with the filename containing the blog ID for MultiSite use!
     $xml          = simplexml_load_file( $target );
@@ -86,8 +104,54 @@ class RelatedYouTubeVideos_API {
       $result[]    = $video;
 
     }
+
+    /* {max} random videos out of {random} */
+    if( $random > $max ) {
+
+      $total = count( $result );
+      
+      if( $total < $random ) {
+        
+        $random = $total;
+        
+      }
+
+      $count      = 0;
+      
+      $randIndex  = array();
+
+      /* Generate random index numbers, between 0 and $random */
+      while( $count < $max ) {
+        
+        $tmp = mt_rand( 0, ( $random -1 ) );
+        
+        if( !in_array( $tmp, $randIndex ) ) {
+          
+          $randIndex[] = $tmp;
+          
+          $count++;
+          
+        }
+        
+      }
+
+      /* Use the random index number so re-build the results array */
+      $randResults = array();
+
+      foreach( $randIndex as $index ) {
+        
+        $randResults[] = $result[ $index ];
+        
+      }
+
+      return $randResults;
+      
+    }
+    else {
     
-    return $result;
+      return $result;
+    
+    }
 
   }
 
@@ -202,6 +266,12 @@ class RelatedYouTubeVideos_API {
     
     $start        = isset( $args['start'] )       ? (int) abs( $args['start'] )             : 0;
     
+    if( $start == 0 && isset( $args['offset'] ) ) {
+      
+      $start = (int) abs( $args['offset'] );
+      
+    }
+    
     if( $start < 0 ) {
       
       $start = 0;
@@ -236,6 +306,14 @@ class RelatedYouTubeVideos_API {
     $relation     = isset( $args['relation'] )    ? strtolower( $args['relation'] )         : '';
 
     $wpSearch     = ( isset( $args['wpSearch'] ) && $args['wpSearch'] == true ) ? true      : false;  // Will only have an effect on the search results page
+    
+    $random       = ( isset( $args['random'] ) )    ? (int) abs( $args['random'] )            : $max;
+  
+    if( $random < $max ) {
+      
+      $random = $max;
+      
+    }
 
     if( $relation !== 'posttags' && $relation !== 'keywords' ) {
       
@@ -296,7 +374,8 @@ class RelatedYouTubeVideos_API {
       'relation'    => $relation,
       'search'      => $search,
       'wpSearch'    => $wpSearch,
-      'exact'       => $exact
+      'exact'       => $exact,
+      'random'      => $random
     );
 
   }
