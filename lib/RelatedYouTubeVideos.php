@@ -93,11 +93,13 @@ class RelatedYouTubeVideos extends Meomundo_WP {
     return $API->displayResults(
       $results,
       array(
-        'id'      => 'relatedVideos',
-        'width'   => $data['width'],
-        'height'  => $data['height'],
-        'class'   => $data['class'],
-        'id'      => $data['id']
+        'id'                    => 'relatedVideos',
+        'width'                 => $data['width'],
+        'height'                => $data['height'],
+        'class'                 => $data['class'],
+        'id'                    => $data['id'],
+        'showvideotitle'        => $data['showvideotitle'],
+        'showvideodescription'  => $data['showvideodescription']
       )
     );
     

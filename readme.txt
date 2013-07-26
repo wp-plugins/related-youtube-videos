@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.2
-Stable tag:         1.2.1
+Stable tag:         1.3.0
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,19 +30,21 @@ You can put the shortcode **[relatedYouTubeVideos]** anywhere you want inside th
 
 You can also add a number of attributes to configure the assembling of the list of videos that will be embedded:
 
-* 'width'       (numeric)   Width of the HTML video object
-* 'height'      (numeric)   Height of the HTML video object
-* 'relation'    (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
-* 'terms'       (string)    Search YouTube for these terms - no separating commas required.
-* 'exact'       (string)    Set to 'true' will (try to) search for the exact phrase.
-* 'orderBy'     (string)    Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
-* 'start'       (numeric)   Offset / numbers of search results that will be skipped. 0 being the default.
-* 'offset'      (numeric)   START and OFFSET are interchangably the same and just other words for the same option.
-* 'max'         (numeric)   Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
-* 'random'      (numeric)   Select MAX number of videos out of RANDOM number of videos.
-* 'class'       (string)    You can specify an additional HTML class name for the wrapping `<ul>` element
-* 'id'          (string)    You can specify the HTML id attribute for the wrapping `<ul>` element.
-* 'apiVersion'  (numeric)   Version of the YouTube/Google API that will be used.
+* 'width'               (numeric)   Width of the HTML video object
+* 'height'              (numeric)   Height of the HTML video object
+* 'relation'            (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
+* 'terms'               (string)    Search YouTube for these terms - no separating commas required.
+* 'exact'               (string)    Set to 'true' will (try to) search for the exact phrase.
+* 'orderBy'             (string)    Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
+* 'start'               (numeric)   Offset / numbers of search results that will be skipped. 0 being the default.
+* 'offset'              (numeric)   START and OFFSET are interchangably the same and just other words for the same option.
+* 'max'                 (numeric)   Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
+* 'random'              (numeric)   Select MAX number of videos out of RANDOM number of videos.
+* 'class'               (string)    You can specify an additional HTML class name for the wrapping `<ul>` element
+* 'id'                  (string)    You can specify the HTML id attribute for the wrapping `<ul>` element.
+* 'apiVersion'          (numeric)   Version of the YouTube/Google API that will be used.
+* 'showVideoTitle'      (string)    "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
+* 'showVideoDescripton  (string)    "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
   
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
 
@@ -53,6 +55,8 @@ Shortcode Example 2: **[relatedYouTubeVideos relation="keywords" terms="monty py
 Shortcode Example 3: **[relatedYouTubeVideos relation="keywords" terms="real madrid" exact="true" max="2"]** Will search for the exact phrase "Real Madrid" and (hopefully) not just anything "real".
 
 Shortcode Example 4: **[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]** Will show the second most popular video (the first being skipped) relating to your post or page title.
+
+Shortcode Example 5: **[relatedYouTubeVideos relation="keywords" terms="monthy python" max="1" showVideoTitle="true" showVideoDescription="true"]** Will show a Monty Python video, followed by the video title, followed by the video, followed by the video description.
 
 = The Widget =
 
@@ -109,17 +113,19 @@ $RYV  = new RelatedYouTubeVideos();
 // Configuring the request
 $args = $RYV->validateConfiguration(
   array(
-    'width'       => 720,         // (numeric)  Width of the HTML video object
-    'height'      => 480,         // (numeric)  Height of the HTML video object
-    'orderBy'     => 'relevance', // (string)   Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
-    'start'       => 0,           // (numeric)  Offset / numbers of search results that will be skipped - could in theory be used for pagination.
-    'max'         => 3,           // (numeric)  Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
-    'apiVersion'  => 2,           // (numeric)  Version of the YouTube/Google API that will be used.
-    'class'       => ''           // (string)   You can specify an additional HTML class name for the wrapping <ul> element
-    'id'          => ''           // (string)   You can specify the HTML id attribute for the wrapping <ul> element.
-    'relation'    => 'postTags',  // (string)   Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTile', 'postTags', or 'keywords' (in which case the attribute 'keywords' will be used).
-    'terms'       => '',          // (string)   Search YouTube for these terms.
-    'exact'       => false        // (bool)     Try to search for the exact phrase.
+    'width'                 => 720,         // (numeric)  Width of the HTML video object
+    'height'                => 480,         // (numeric)  Height of the HTML video object
+    'orderBy'               => 'relevance', // (string)   Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
+    'start'                 => 0,           // (numeric)  Offset / numbers of search results that will be skipped - could in theory be used for pagination.
+    'max'                   => 3,           // (numeric)  Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
+    'apiVersion'            => 2,           // (numeric)  Version of the YouTube/Google API that will be used.
+    'class'                 => ''           // (string)   You can specify an additional HTML class name for the wrapping <ul> element
+    'id'                    => ''           // (string)   You can specify the HTML id attribute for the wrapping <ul> element.
+    'relation'              => 'postTags',  // (string)   Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTile', 'postTags', or 'keywords' (in which case the attribute 'keywords' will be used).
+    'terms'                 => '',          // (string)   Search YouTube for these terms.
+    'exact'                 => false,       // (bool)     Try to search for the exact phrase.
+    'showvideotitle'        => true,        // (bool)     Display the video title, yes/no. Be aware that the key is all lower case!
+    'showvideodescription'  => true         // (bool)   Display the video description, yes/no. Be aware that the key is all lower case!
   )
 );
 
@@ -142,6 +148,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.3.0 =
+* Two new attributes/options added: showVideoTitle and showVideoDescription.
 
 = 1.2.1 =
 * Fixes issues when adding custom HTML class or id attribute.

@@ -204,6 +204,8 @@ class RelatedYouTubeVideos_API {
       $videoID    = isset( $match[1] )      ? (string) $match[1]          : null;
   
       $videoTitle = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
+
+      $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
   
       $html .= "   <li>\n";
 
@@ -217,6 +219,14 @@ class RelatedYouTubeVideos_API {
         $html .= '     <param name="wmode" value="transparent" />' . "\n";
         $html .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
         $html .= "    </object>\n";
+
+
+        if( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) {
+          $html .= '    <div class="title">' . $videoTitle . "</div>\n";
+        }
+        if( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) {
+          $html .= '    <div class="description">' . $videoDescription . "</div>\n";
+        }
   
       }
       else {
@@ -290,6 +300,10 @@ class RelatedYouTubeVideos_API {
       $max = 10;
       
     }
+
+    $showTitle    = ( isset( $args['showvideotitle'] ) && ( $args['showvideotitle'] === true || $args['showvideotitle'] == 'true' || (int) $args['showvideotitle'] == 1 || $args['showvideotitle'] == 'on' ) ) ? true : false;
+
+    $showDescr    = ( isset( $args['showvideodescription'] ) && ( $args['showvideodescription'] === true || $args['showvideodescription'] == 'true' || (int) $args['showvideodescription'] == 1 || $args['showvideodescription'] == 'on' ) ) ? true : false;
     
     $exact        = ( isset( $args['exact'] ) && ( $args['exact'] === true || $args['exact'] == 'true' || (int) $args['exact'] == 1 || $args['exact'] == 'on' ) ) ? true : false;
 
@@ -361,21 +375,23 @@ class RelatedYouTubeVideos_API {
     }
 
     $norm = array(
-      'title'       => $title,
-      'terms'       => $searchTerms,
-      'orderBy'     => $orderBy,
-      'start'       => $start,
-      'max'         => $max,
-      'apiVersion'  => $apiVersion,
-      'width'       => $width,
-      'height'      => $height,
-      'class'       => $class,
-      'id'          => $id,
-      'relation'    => $relation,
-      'search'      => $search,
-      'wpSearch'    => $wpSearch,
-      'exact'       => $exact,
-      'random'      => $random
+      'title'                 => $title,
+      'terms'                 => $searchTerms,
+      'orderBy'               => $orderBy,
+      'start'                 => $start,
+      'max'                   => $max,
+      'apiVersion'            => $apiVersion,
+      'width'                 => $width,
+      'height'                => $height,
+      'class'                 => $class,
+      'id'                    => $id,
+      'relation'              => $relation,
+      'search'                => $search,
+      'wpSearch'              => $wpSearch,
+      'exact'                 => $exact,
+      'random'                => $random,
+      'showvideotitle'        => $showTitle,
+      'showvideodescription'  => $showDescr
     );
 
     return $norm;
