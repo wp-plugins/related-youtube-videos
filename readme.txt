@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.2
-Stable tag:         1.3.0
+Stable tag:         1.3.1
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,7 +149,7 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
-= 1.3.0 =
+= 1.3.1 =
 * Two new attributes/options added: showVideoTitle and showVideoDescription.
 
 = 1.2.1 =
