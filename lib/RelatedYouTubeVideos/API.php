@@ -180,7 +180,7 @@ class RelatedYouTubeVideos_API {
       return '<!-- [relatedYouTubeVideos] Error: ' . str_replace( '_', ' ', $results['error'] ) . '! -->';
 
     }
-    
+
     $class  = isset( $args['class'] )   ? 'class="relatedYouTubeVideos ' . strip_tags( $args['class'] ) . '"' : 'class="relatedYouTubeVideos"';
     
     $id     = isset( $args['id'] )      ? 'id="' . strip_tags( $args['id'] ) . '"'                            : '';
@@ -194,7 +194,7 @@ class RelatedYouTubeVideos_API {
      */
     $html   = '';
     
-    $html   .= '  <ul class="youtubeResults">' . "\n";
+    $html   .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
 
     foreach( $results as $video ) {
 
@@ -360,7 +360,7 @@ class RelatedYouTubeVideos_API {
       
     }
 
-    return array(
+    $norm = array(
       'title'       => $title,
       'terms'       => $searchTerms,
       'orderBy'     => $orderBy,
@@ -377,6 +377,8 @@ class RelatedYouTubeVideos_API {
       'exact'       => $exact,
       'random'      => $random
     );
+
+    return $norm;
 
   }
   

@@ -157,6 +157,18 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= '  <input type="text" name="' . $this->get_field_name( 'height' ) . '" value="' . $data['height'] . '" />' . "\n";
     $html .= ' </li>' . "\n";
 
+    // HTML id attribute
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'id' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'ID:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'id' ) . '" value="' . $data['id'] . '" />' . "\n";
+    $html .= ' </li>' . "\n";
+
+    // HTML class attribute
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'class' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Class:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'class' ) . '" value="' . $data['class'] . '" />' . "\n";
+    $html .= ' </li>' . "\n";
+
     // Offset - skip this number of videos/search results
     $html .= ' <li>' . "\n";
     $html .= '  <label for="' . $this->get_field_id( 'start' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Offset:', $this->slug ) . '</label>' . "\n";
@@ -276,7 +288,9 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
       array(
         'id'      => 'relatedVideos',
         'width'   => $data['width'],
-        'height'  => $data['height']
+        'height'  => $data['height'],
+        'class'   => $data['class'],
+        'id'      => $data['id']
       )
     );
 

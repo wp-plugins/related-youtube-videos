@@ -95,7 +95,9 @@ class RelatedYouTubeVideos extends Meomundo_WP {
       array(
         'id'      => 'relatedVideos',
         'width'   => $data['width'],
-        'height'  => $data['height']
+        'height'  => $data['height'],
+        'class'   => $data['class'],
+        'id'      => $data['id']
       )
     );
     

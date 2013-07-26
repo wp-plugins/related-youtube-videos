@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.5.2
-Stable tag:         1.2.0
+Stable tag:         1.2.1
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -142,6 +142,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixes issues when adding custom HTML class or id attribute.
 
 = 1.2.0 =
 * New RANDOM option/parameter added. "Random" has to be a numeric value and determines the size of a pool, {MAX} number of random videos will be picked from. It could read like: Give me {MAX} random videos from a pool of {RANDOM}. Don't worry, I'm about to revise the documentation to make it understandable again^^
