@@ -50,6 +50,12 @@ class RelatedYouTubeVideos_API {
       
     }
 
+    if( $searchTerms == '' && isset( $args['search'] ) ) {
+      
+      $searchTerms = $args['search'];
+      
+    }
+    
     $orderBy      = isset( $args['orderBy'] )     ? $args['orderBy']          : '';
 
     $start        = isset( $args['start'] )       ? $args['start']            : '';
