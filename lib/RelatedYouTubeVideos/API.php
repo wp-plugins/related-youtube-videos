@@ -200,52 +200,149 @@ class RelatedYouTubeVideos_API {
      */
     $html   = '';
     
-    $html   .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
+    /**
+     * In PREVIEW mode only the images will be displayed. When clicked such an image will be replace with the video.
+     * This requires Javascript to be enabled in the browser!!
+     */
 
-    foreach( $results as $video ) {
+    if( $args['preview'] === true ) {
 
-      // Try detecting the YouTube Video ID 
-      preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
-  
-      $videoID    = isset( $match[1] )      ? (string) $match[1]          : null;
-  
-      $videoTitle = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
-
-      $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
-  
-      $html .= "   <li>\n";
-
-      /**
-       * This is meant to be valid (x)HTML embedding of the videos, so please correct me if I'm wrong!
-       */
-      if( $videoID != null ) {
-
-        $html .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
-        $html .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
-        $html .= '     <param name="wmode" value="transparent" />' . "\n";
-        $html .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
-        $html .= "    </object>\n";
-
-
-        if( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) {
-          $html .= '    <div class="title">' . $videoTitle . "</div>\n";
-        }
-        if( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) {
-          $html .= '    <div class="description">' . $videoDescription . "</div>\n";
-        }
-  
-      }
-      else {
-
-        $html .= '  <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
-
-      }
-
-      $html .= "   </li>\n";
-
+      $jsFunction =<<<EOF
+<script type="text/javascript">
+if( typeof showRelatedVideo !== 'function' ) {
+  function showRelatedVideo( config ) {
+    
+    'use strict';
+    
+    if( undefined === config.videoID ) {
+      return '<i>Invalid Video ID</i>';
     }
 
-    $html   .= "  </ul>\n";
+    if( undefined === config.width ) {
+      config.width = 480;
+    }
+    
+    if( undefined === config.height ) {
+      config.height = 360;
+    }
+
+    var video = '',
+        videoTitle = ( undefined === config.title ) ? '' : config.title;
+    
+    video += '<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' +  config.videoID + '?autoplay=1" width="' + config.width +  '" height="' + config.height + '">';
+    video += ' <param name="movie" value="http://www.youtube.com/v/' + config.videoID + '" />';
+    video += ' <param name="wmode" value="transparent" />';
+    video += ' <a href="http://www.youtube.com/watch?v=' + config.videoID + '"><img src="http://img.youtube.com/vi/' + config.videoID + '/0.jpg" alt="' + videoTitle + '" /><br />YouTube Video</a>';
+    video += '</object>';
+    
+    if( undefined !== config.title ) {
+      video += '<div class="title">' + config.title + '</div>';
+    }
+    
+    if( undefined !== config.description ) {
+      video += '<div class="description">' + config.description + '</div>';
+    }
+
+    return video;
+
+  }
+}
+</script>
+EOF;
+
+      $html   .= $jsFunction;
+      
+      $html   .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
+
+      foreach( $results as $video ) {
+
+        // Try detecting the YouTube Video ID 
+        preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
+  
+        $videoID          = isset( $match[1] )      ? (string) $match[1]          : null;
+  
+        $videoTitle       = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
+
+        $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
+
+        
+        $videoTitle       = ( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) ? ", videoTitle : '" . $videoTitle . "'" : '';
+
+        $videoDescription = ( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) ? ", description : '" . $videoDescription . "'" : '';
+
+        
+        $argsObj = "{ videoID:'" . $videoID . "', width:" . $width . ", height:" . $height . $videoTitle . $videoDescription . "}";
+  
+        $html .= '   <li onClick="innerHTML = showRelatedVideo(' . $argsObj . ");removeAttribute('onClick');\">\n";
+
+        if( $videoID != null ) {
+
+          $html .= '     <img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" width="' . $width . '" height="' . $height . '" />' . "\n";
+
+        }
+        else {
+
+          $html .= '  <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
+
+        }
+
+        $html .= "   </li>\n";
+
+      }
+
+      $html   .= "  </ul>\n";
+
+    }
+    else {
+    
+      $html   .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
+
+      foreach( $results as $video ) {
+
+        // Try detecting the YouTube Video ID 
+        preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
+  
+        $videoID    = isset( $match[1] )      ? (string) $match[1]          : null;
+  
+        $videoTitle = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
+
+        $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
+  
+        $html .= "   <li>\n";
+
+        /**
+         * This is meant to be valid (x)HTML embedding of the videos, so please correct me if I'm wrong!
+         */
+        if( $videoID != null ) {
+
+          $html .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
+          $html .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
+          $html .= '     <param name="wmode" value="transparent" />' . "\n";
+          $html .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
+          $html .= "    </object>\n";
+
+          if( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) {
+            $html .= '    <div class="title">' . $videoTitle . "</div>\n";
+          }
+        
+          if( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) {
+            $html .= '    <div class="description">' . $videoDescription . "</div>\n";
+          }
+  
+        }
+        else {
+
+          $html .= '  <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
+
+        }
+
+        $html .= "   </li>\n";
+
+      }
+
+      $html   .= "  </ul>\n";
+    
+    }
 
     return $html;
     
@@ -327,6 +424,8 @@ class RelatedYouTubeVideos_API {
 
     $wpSearch     = ( isset( $args['wpSearch'] ) && $args['wpSearch'] == true ) ? true      : false;  // Will only have an effect on the search results page
     
+    $preview      = ( isset( $args['preview'] ) && ( $args['preview'] === true || $args['preview'] == 'true' || (int) $args['preview'] == 1 || $args['preview'] == 'on' ) ) ? true : false;
+    
     $random       = ( isset( $args['random'] ) )    ? (int) abs( $args['random'] )            : $max;
   
     if( $random < $max ) {
@@ -397,7 +496,8 @@ class RelatedYouTubeVideos_API {
       'exact'                 => $exact,
       'random'                => $random,
       'showvideotitle'        => $showTitle,
-      'showvideodescription'  => $showDescr
+      'showvideodescription'  => $showDescr,
+      'preview'               => $preview
     );
 
     return $norm;

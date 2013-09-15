@@ -46,6 +46,7 @@ class RelatedYouTubeVideos extends Meomundo_WP {
    *  'class'       (string)    You can specify an additional HTML class name for the wrapping <ul> element
    *  'id'          (string)    You can specify the HTML id attribute for the wrapping <ul> element.
    *  'relation'    (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTile', 'postTags', or 'keywords' (in which case the attribute 'keywords' will be used).
+   *  'preview'     (string)    (optional) 'true' will show the preview image and only load the video when the image has been clicked (via Javascript!!)
    *
    * @param array $atts Array of shortcode attributes - provided by the WordPress shortcode API
    */
@@ -99,7 +100,8 @@ class RelatedYouTubeVideos extends Meomundo_WP {
         'class'                 => $data['class'],
         'id'                    => $data['id'],
         'showvideotitle'        => $data['showvideotitle'],
-        'showvideodescription'  => $data['showvideodescription']
+        'showvideodescription'  => $data['showvideodescription'],
+        'preview'               => $data['preview']
       )
     );
     

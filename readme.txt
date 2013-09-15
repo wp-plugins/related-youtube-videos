@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.5.2
-Stable tag:         1.3.2
+Tested up to:       3.6.2
+Stable tag:         1.4.0
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,7 @@ You can also add a number of attributes to configure the assembling of the list 
 * 'apiVersion'          (numeric)   Version of the YouTube/Google API that will be used.
 * 'showVideoTitle'      (string)    "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
 * 'showVideoDescripton  (string)    "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
+* 'preview'             (string)    "true" will only display the preview image and only load the video (via Javascript!) when this image has been clicked.
   
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
 
@@ -57,6 +58,8 @@ Shortcode Example 3: **[relatedYouTubeVideos relation="keywords" terms="real mad
 Shortcode Example 4: **[relatedYouTubeVideos relation="postTitle" max="1" orderBy="viewCount" start="1"]** Will show the second most popular video (the first being skipped) relating to your post or page title.
 
 Shortcode Example 5: **[relatedYouTubeVideos relation="keywords" terms="monthy python" max="1" showVideoTitle="true" showVideoDescription="true"]** Will show a Monty Python video, followed by the video title, followed by the video, followed by the video description.
+
+Shortcode Example 6: **[relatedYouTubeVideos relation="keywords" terms="monthy python" max="1" preview="true"]** Will show the thumbnail of a Monty Python video and load + play the video only when it's being clicked.
 
 = The Widget =
 
@@ -107,37 +110,31 @@ Then log into the WordPress backend as someone who has the right to install and 
 == Other Notes ==
 
 Developers can also use the API class outside the plugin context, for example in a theme template file. All you have to do is include the class (if it doesn't already exist) and create an object like this:
+
 `
-$RYV  = new RelatedYouTubeVideos();
+if( class_exists( 'RelatedYouTubeVideos_API' ) ) {
 
-// Configuring the request
-$args = $RYV->validateConfiguration(
-  array(
-    'width'                 => 720,         // (numeric)  Width of the HTML video object
-    'height'                => 480,         // (numeric)  Height of the HTML video object
-    'orderBy'               => 'relevance', // (string)   Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
-    'start'                 => 0,           // (numeric)  Offset / numbers of search results that will be skipped - could in theory be used for pagination.
-    'max'                   => 3,           // (numeric)  Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
-    'apiVersion'            => 2,           // (numeric)  Version of the YouTube/Google API that will be used.
-    'class'                 => ''           // (string)   You can specify an additional HTML class name for the wrapping <ul> element
-    'id'                    => ''           // (string)   You can specify the HTML id attribute for the wrapping <ul> element.
-    'relation'              => 'postTags',  // (string)   Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTile', 'postTags', or 'keywords' (in which case the attribute 'keywords' will be used).
-    'terms'                 => '',          // (string)   Search YouTube for these terms.
-    'exact'                 => false,       // (bool)     Try to search for the exact phrase.
-    'showvideotitle'        => true,        // (bool)     Display the video title, yes/no. Be aware that the key is all lower case!
-    'showvideodescription'  => true         // (bool)   Display the video description, yes/no. Be aware that the key is all lower case!
-  )
-);
+  $RYTV     = new RelatedYouTubeVideos_API();
 
-// Getting the list of videos from YouTube
-$relatedVideos = $RYV->searchYouTube( $args );
+  $args     = $RYTV->validateConfiguration(
+    array(
+      'orderBy'     => 'relevance',
+      'max'         => 1,
+      'exact'       => false,
+      'relation'    => 'keywords',
+      'terms'       => 'ministry of silly walks',
+      'width'       => 400,
+      'height'      => 300
+    )
+  );
 
-// Display the list as an unordered HTML list
-echo $RYV->displayResults(
-  $relatedVideos,
-  $args
-);
-`
+  $results  = $RYTV->searchYouTube( $args );
+
+  $html     = $RYTV->displayResults( $results, $args );
+
+  echo $html;
+
+}`
 
 == Frequently Asked Questions ==
 
@@ -148,6 +145,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.4.0 =
+* New attribute: preview. Set to 'true' will display preview thumbnail images and only load (and play) the video when such an image has been clicked.
 
 = 1.3.2 =
 * Issues fixed with relation="postTitle" and id attribute.
