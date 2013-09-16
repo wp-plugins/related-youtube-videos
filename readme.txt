@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.6.2
-Stable tag:         1.4.0
+Stable tag:         1.4.1
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -145,6 +145,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.4.1 =
+* Request only videos of a certain length: "short" = less than four minutes. "medium" = between 4 and 20 minutes. "long" = longer than 20 minutes.
 
 = 1.4.0 =
 * New attribute: preview. Set to 'true' will display preview thumbnail images and only load (and play) the video when such an image has been clicked.

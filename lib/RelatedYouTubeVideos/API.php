@@ -24,22 +24,7 @@ class RelatedYouTubeVideos_API {
    *
    * @return mixed              Will return FALSE in case the request was invalid or some other error has occured (like a timeout) or an array containing the search results.
    */
-/*
-  // Downwards compatibility?!
-  public function searchYouTube( $args, $orderBy = '', $start = '', $max = '', $apiVersion = 2 ) {
-  
-    if ( !is_array( $args ) ) {
-      
-      $args = array();
-      
-      $args['searchTerms']  = $args;
-      $args['orderBy']      = $orderBy;
-      $args['start']        = $start;
-      $args['max']          = $max;
-      $args['apiVersion']   = $apiVersion;
-      
-    }
-*/  
+ 
   public function searchYouTube( $args ) {
 
     $searchTerms  = isset( $args['searchTerms'] ) ? $args['searchTerms']      : '';
@@ -67,9 +52,11 @@ class RelatedYouTubeVideos_API {
     $exact        = ( isset( $args['exact'] ) && $args['exact'] === true ) ? true : false;
 
     $searchTerms  = ( $exact === true ) ? '%22' . urlencode( $searchTerms ) . '%22' : urlencode( $searchTerms );
-    
+
     $orderBy      = urlencode( $orderBy );
-    
+
+    $duration     = ( isset( $args['duration'] ) && preg_match( '#^(short|medium|long)$#i', trim( $args['duration']  ) ) ) ? trim( strtolower( $args['duration'] ) ) : '';
+
     $start        = (int) $start +1;
     
     $max          = (int) $max;
@@ -86,6 +73,12 @@ class RelatedYouTubeVideos_API {
   
       $target       = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $max . '&v=2';
     
+    }
+
+    if( $duration !== '' ) {
+      
+      $target .= '&duration=' . $duration;
+      
     }
 
     // @todo (future feature) $target caching with the filename containing the blog ID for MultiSite use!
@@ -416,6 +409,8 @@ EOF;
 
     $height       = isset( $args['height'] )      ? (int) abs( $args['height'] )            : 0; // The default height should be specified in the calling environment (widget or shortode)
     
+    $duration     = ( isset( $args['duration'] ) && preg_match( '#^(short|medium|long)$#i', trim( $args['duration']  ) ) ) ? trim( strtolower( $args['duration'] ) ) : '';
+
     $class        = isset( $args['class'] )       ? strip_tags( $args['class'] )   	        : '';
     
     $id           = isset( $args['class'] )       ? strip_tags( $args['id'] )               : '';
@@ -497,7 +492,8 @@ EOF;
       'random'                => $random,
       'showvideotitle'        => $showTitle,
       'showvideodescription'  => $showDescr,
-      'preview'               => $preview
+      'preview'               => $preview,
+      'duration'              => $duration
     );
 
     return $norm;
