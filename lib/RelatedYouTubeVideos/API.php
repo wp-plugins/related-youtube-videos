@@ -198,7 +198,7 @@ class RelatedYouTubeVideos_API {
      * This requires Javascript to be enabled in the browser!!
      */
 
-    if( $args['preview'] === true ) {
+    if( isset( $args['preview'] ) && $args['preview'] === true ) {
 
       $jsFunction =<<<EOF
 <script type="text/javascript">
@@ -225,6 +225,7 @@ if( typeof showRelatedVideo !== 'function' ) {
     video += '<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' +  config.videoID + '?autoplay=1" width="' + config.width +  '" height="' + config.height + '">';
     video += ' <param name="movie" value="http://www.youtube.com/v/' + config.videoID + '" />';
     video += ' <param name="wmode" value="transparent" />';
+    video += ' <param name="allowfullscreen" value="true" />';
     video += ' <a href="http://www.youtube.com/watch?v=' + config.videoID + '"><img src="http://img.youtube.com/vi/' + config.videoID + '/0.jpg" alt="' + videoTitle + '" /><br />YouTube Video</a>';
     video += '</object>';
     
@@ -311,6 +312,7 @@ EOF;
           $html .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
           $html .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
           $html .= '     <param name="wmode" value="transparent" />' . "\n";
+          $html .= '     <param name="allowfullscreen" value="true" />' . "\n";
           $html .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
           $html .= "    </object>\n";
 

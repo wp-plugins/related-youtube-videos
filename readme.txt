@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.6.2
-Stable tag:         1.4.1
+Tested up to:       3.6.1
+Stable tag:         1.4.2
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -145,6 +145,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.4.2 =
+* Added internal "Allow fullscreen mode" (HTML) parameter.
 
 = 1.4.1 =
 * Request only videos of a certain length: "short" = less than four minutes. "medium" = between 4 and 20 minutes. "long" = longer than 20 minutes.
