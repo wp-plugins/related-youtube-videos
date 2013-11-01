@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.6.1
-Stable tag:         1.4.2
+Tested up to:       3.7.1
+Stable tag:         1.4.3
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -136,6 +136,13 @@ if( class_exists( 'RelatedYouTubeVideos_API' ) ) {
 
 }`
 
+
+= Available Languages: =
+* English
+* German
+* Serbo-Croatian - by Borisa Djuraskovic ([Webhostinghub](http://www.webhostinghub.com/))
+
+
 == Frequently Asked Questions ==
 
 If you have any question, any kind of suggestion, or maybe a feature request, please let me know. All feedback except trolling is welcome!
@@ -145,6 +152,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.4.3 =
+* Added Serbo-Croatian translation, thanks to by Borisa Djuraskovic.
 
 = 1.4.2 =
 * Added internal "Allow fullscreen mode" (HTML) parameter.
