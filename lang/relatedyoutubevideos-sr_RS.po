@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: relatedYouTubeVideos\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-31 16:32+0100\n"
+"PO-Revision-Date: 2013-11-01 10:13+0100\n"
+"Last-Translator: \n"
+"Language-Team: meomundo.com <doerr@meomundo.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:52
+msgid "Related YouTube Videos"
+msgstr "Related YouTube Videos"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:54
+msgid ""
+"Embeds YouTube videos that are related to the current post(s) in some way."
+msgstr ""
+"Učitava YouTube videe koji su na bilo koji način vezani za trenutne postove."
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:106
+msgid "Widget"
+msgstr "Widget"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:109
+msgid "Title:"
+msgstr "Naslov:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:116
+msgid "Related By"
+msgstr "Vezano za"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:118
+msgid "Post Title"
+msgstr "Naslov posta"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:119
+msgid "Post Tags"
+msgstr "Tagovi posta"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:120
+msgid "Keywords: "
+msgstr "Kjučne reči:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:121
+msgid "(try) exact match"
+msgstr "(pokušati) podudara se"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:123
+msgid "Site Search (On Search Results Page)"
+msgstr "Pretraga sajta (na stranici sa rezultatima pretrage)"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:127
+msgid "Appearance"
+msgstr "Izgled"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:131
+msgid "Display video title"
+msgstr "Prikaz video naslova"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:134
+msgid "Display video description"
+msgstr "Prikaz video opisa"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:140
+msgid "Advanced Settings"
+msgstr "Unapredjene postavke"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:146
+msgid "Order By:"
+msgstr "Poručeno od strane:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:168
+msgid "Width:"
+msgstr "Širina:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:174
+msgid "Height:"
+msgstr "Visina:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:180
+msgid "ID:"
+msgstr "ID:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:186
+msgid "Class:"
+msgstr "Class:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:192
+msgid "Offset:"
+msgstr "Offset:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:198
+msgid "Random:"
+msgstr "Nasumicno:"
+
+#: ../lib/RelatedYouTubeVideos/Widget.php:204
+msgid "Nr. of Videos:"
+msgstr "Nr. of Videos:"
