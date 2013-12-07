@@ -43,6 +43,8 @@
    <li style="padding-left:1em;"><strong>relation</strong> - Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).</li>
    <li style="padding-left:1em;"><strong>preview</strong> - Set to 'true' will display preview thumbnail images and only load (+ play) the video if such a thumbnail has been clicked. This requires Javascript to be enabled!</li>
    <li style="padding-left:1em;"><strong>duration</strong> - Request only videos of a certain length: "short" = less than four minutes. "medium" = between 4 and 20 minutes. "long" = longer than 20 minutes.</li>
+   <li style="padding-left:1em;"><strong>lang</strong> - Restrict videos to a given <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php" target="_blank">ISO 639-2 two-letter language code</a> if possible.</li>
+   <li style="padding-left:1em;"><strong>region</strong> - Only show videos that are viewable for a given region, specified through a <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm" target="_blank">ISO 3166 two-letter country code</a>.</li>
   </ul>
 
   <p>I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.</p>

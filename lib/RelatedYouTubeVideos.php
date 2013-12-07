@@ -85,7 +85,9 @@ class RelatedYouTubeVideos extends Meomundo_WP {
         'apiVersion'  => $data['apiVersion'],
         'exact'       => $data['exact'],
         'random'      => $data['random'],
-        'duration'    => $data['duration']
+        'duration'    => $data['duration'],
+        'lang'        => $data['lang'],
+        'region'      => $data['region']
       )
     );
 

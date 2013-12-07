@@ -49,6 +49,10 @@ class RelatedYouTubeVideos_API {
 
     $apiVersion   = isset( $args['apiVersion'] )  ? (int) $args['apiVersion'] : 2;
 
+    $lang         = ( isset( $args['lang'] ) && preg_match( '#^[a-z]{2}$#i', $args['lang'] ) ) ? strtolower( $args['lang'] ) : '';
+
+    $region       = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
+
     $exact        = ( isset( $args['exact'] ) && $args['exact'] === true ) ? true : false;
 
     $searchTerms  = ( $exact === true ) ? '%22' . urlencode( $searchTerms ) . '%22' : urlencode( $searchTerms );
@@ -79,6 +83,18 @@ class RelatedYouTubeVideos_API {
       
       $target .= '&duration=' . $duration;
       
+    }
+
+    if( $lang !== '' ) {
+  
+      $target .= '&lr=' . $lang;
+
+    }
+
+    if( $region !== '' ) {
+
+      $target .= '&region=' . $region;
+
     }
 
     // @todo (future feature) $target caching with the filename containing the blog ID for MultiSite use!
@@ -431,6 +447,10 @@ EOF;
       
     }
 
+    $lang = ( isset( $args['lang'] ) && preg_match( '#^[a-z]{2}$#i', $args['lang'] ) ) ? strtolower( $args['lang'] ) : '';
+
+    $region = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
+
     if( $relation !== 'posttags' && $relation !== 'keywords' ) {
       
       $relation = 'posttitle';
@@ -495,7 +515,9 @@ EOF;
       'showvideotitle'        => $showTitle,
       'showvideodescription'  => $showDescr,
       'preview'               => $preview,
-      'duration'              => $duration
+      'duration'              => $duration,
+      'lang'                  => $lang,
+      'region'                => $region
     );
 
     return $norm;
