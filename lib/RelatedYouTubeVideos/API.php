@@ -53,6 +53,9 @@ class RelatedYouTubeVideos_API {
 
     $region       = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
 
+$author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
+
+
     $exact        = ( isset( $args['exact'] ) && $args['exact'] === true ) ? true : false;
 
     $searchTerms  = ( $exact === true ) ? '%22' . urlencode( $searchTerms ) . '%22' : urlencode( $searchTerms );
@@ -96,6 +99,13 @@ class RelatedYouTubeVideos_API {
       $target .= '&region=' . $region;
 
     }
+
+if( $author !== '' ) {
+  
+  $target .= '&author=' . $author;
+  
+}
+
 
     // @todo (future feature) $target caching with the filename containing the blog ID for MultiSite use!
     $xml          = simplexml_load_file( $target );
@@ -451,6 +461,9 @@ EOF;
 
     $region = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
 
+$author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
+
+
     if( $relation !== 'posttags' && $relation !== 'keywords' ) {
       
       $relation = 'posttitle';
@@ -517,7 +530,8 @@ EOF;
       'preview'               => $preview,
       'duration'              => $duration,
       'lang'                  => $lang,
-      'region'                => $region
+      'region'                => $region,
+      'author'                => $author
     );
 
     return $norm;

@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.7.1
-Stable tag:         1.4.5
+Stable tag:         1.4.6
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ You can also add a number of attributes to configure the assembling of the list 
 * 'showVideoTitle'      (string)    "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
 * 'showVideoDescripton  (string)    "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
 * 'preview'             (string)    "true" will only display the preview image and only load the video (via Javascript!) when this image has been clicked.
+* 'lang'                (string)    {2-letter-language-code} will show videos in that language.
+* 'region'              (string)    {2-letter-country-code} will show videos that are actually viewable in that region/country.
+* 'author'              (string)    Only show videos from a given YouTube User(name) .
   
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
 
@@ -152,6 +155,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.4.6 =
+* New attribute added: author="{YouTube Username}" will only show videos from that very YT user.
 
 = 1.4.5 =
 * New attribute added: lang="", e.g. lang="en". Inserting a two-letter language code should restricts the videos to that very language.
