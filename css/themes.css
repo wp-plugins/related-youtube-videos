@@ -1,0 +1,66 @@
+/* CSS Theming v1.0 */
+
+/* RESET */
+.relatedYouTubeVideos {
+  margin:           0;
+  padding:          0;
+  list-style-type:  none !important;
+}
+.relatedYouTubeVideos li {
+  margin:           0.25em;
+  padding:          0;
+}
+
+/* .inline */
+.relatedYouTubeVideos.inline li,
+.relatedYouTubeVideos.horizontal li {
+  display:          inline;
+}
+
+/* .center */
+.relatedYouTubeVideos.center {
+  text-align:       center;
+}
+
+/* float left */
+.relatedYouTubeVideos.left {
+  float:            left;
+}
+
+/* float right */
+.relatedYouTubeVideos.right {
+  float:            right;
+}
+
+/* bg-black */
+.relatedYouTubeVideos.bg-black {
+  background-color: #000;
+  color:            #FFF;
+}
+/* bg-white */
+.relatedYouTubeVideos.bg-white {
+  background-color: #FFF;
+  color:            #000;
+}
+
+
+/* spacing-5 */
+.relatedYouTubeVideos.spacing-5 li {
+  padding:          5px;
+}
+/* spacing-10 */
+.relatedYouTubeVideos.spacing-10 li {
+  padding: 	        10px;
+}
+/* spacing-15 */
+.relatedYouTubeVideos.spacing-15 li {
+  padding:          15px;
+}
+/* spacing-20 */
+.relatedYouTubeVideos.spacing-20 li {
+  padding:          20px;
+}
+/* spacing-25 */
+.relatedYouTubeVideos.spacing-25 li {
+  padding:        25px;
+}

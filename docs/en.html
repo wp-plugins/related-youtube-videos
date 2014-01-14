@@ -1,0 +1,224 @@
+<div id="rytv_tableOfContents">
+ <h4>Table of Contents</h4>
+ <ul>
+  <li><a href="javascript:void(0);">Introduction</a></li>
+  <li><a href="#rytv_docs_settings">Settings</a></li>
+  <li><a href="#rytv_docs_parameters">Parameters</a></li>
+  <li><a href="#rytv_docs_themes">Themes / Styles</a></li>
+  <li><a href="#rytv_docs_api">API</a></li>
+  <li><a href="#rytv_docs_credits">Credits</a></li>
+ </ul>
+</div>
+
+<h4 class="rytv_docs">Introduction</h4>
+
+<p>The <strong>Related YouTube Videos</strong> plugin allows you to easily embed YouTube videos that automatically relate to your content in one way or another by using a simple shortcode <strong class="marker">[relatedYouTubeVideos]</strong> or a widget.</p>
+<p>You can specify if the relation is by <strong>post title</strong>, <strong>post tags</strong>, <strong>post categories</strong>, or by using your own <strong>custom keywords</strong>.</p>
+<p class="top"><a href="#top">top</a></p>
+
+<a name="rytv_docs_settings" class="anchor">&nbsp;</a>
+<h4 class="rytv_docs">Settings</h4>
+
+<h5 class="rytv_docs">Load CSS theme file in the frontend.</h5>
+<p>If this option is checked an additional CSS file will be loaded when visiting the frontend of your website. If you want to use the out-of-the-box <a href="#rytv_docs_themes">themes or styles</a> that are being provided by this plugin you will have to do this!</p>
+<p>Yes, it's an additional HTTP request that needs to be made. But the current CSS file is minified and currently under 1KB(!) so you <em>really</em> shouldn't obsess over it.</p>
+<p>This CSS file also contains a basic reset! Since the HTML for embedding the videos is an unordered list, <strong>this reset will remove the typical list elements</strong> (dots, discs, or squares, etc).</p>
+
+<h5 class="rytv_docs">Default Relation.</h5>
+<p>You can select the default relation to be <strong>post title</strong>, <strong>post tags</strong>, <strong>post categories</strong>, or <strong>custom keywords</strong>. So in case you either don't (want to) set the <em>relation</em> parameter or the value contains none of these types, this default will be used.</p>
+
+<p class="top"><a href="#top">top</a></p>
+
+<a name="rytv_docs_parameters" class="anchor">&nbsp;</a>
+<h4 class="rytv_docs">Parameters</h4>
+<p>The parameters you can use to customize the related videos are the same for the shortcode as well as the widget.</p>
+<p>While you already have input fields in the widget settings you have to add parameters to the shortcode in the form of <strong>parameter="{value}"</strong>.<br />For example: <strong class="marker">[relatedYouTubeVideos relation="postTags" max="3" class="horizontal center bg-black"]</strong></p>
+<p>Of course you can add multiple parameters to a single shortcode. But be aware that <em>paramters</em> are <strong>case-sensitive</strong>!</p>
+
+<table class="rytv_params">
+
+ <tr>
+  <th colspan="2" class="group">Appearance</th>
+ </tr>
+ <tr>
+  <th>id</th>
+  <td>HTML id attribute that will be added the HTML list element &lt;ul&gt; that contains the videos.<td>
+ <tr>
+  <th>class</th>
+  <td>HTML class attribute. You can add your own classes here (multiples separated by a space character). If you want to your the themes/styles coming with this plugin you basically add one or more pre-defined classes here.</td>
+ </tr>
+ <tr>
+  <th>width</th>
+  <td>Numeric width of the videos in pixels.</td>
+ </tr>
+ <tr>
+  <th>height</th>
+  <td>Numeric height of the videos in pixels.</td>
+ </tr>
+ <tr>
+  <th>preview</th>
+  <td>Can either be set to <strong>true</strong> or left out completly (which equals <em>false</em>).<br /><strong><code>preview="true"</code></strong> will show an image first and only when clicking this image the actual video will be loaded and played. This will make your page(s) load faster since videos tend to block the process of rendering the rest of the page but it requires Javascript to be enabled in a user's browser.</td>
+ </tr>
+ <tr>
+  <th>showVideoTitle</th>
+  <td>Can either be set to <strong>true</strong> or left out completly (which equals <em>false</em>).<br /><strong><code>viewVideoTitle="true"</code></strong> will show the title of the video given by the uploader.</td>
+ </tr>
+ <tr>
+  <th>showVideoDescription</th>
+  <td>Can either be set to <strong>true</strong> or left out completly (which equals <em>false</em>).<br /><strong><code>viewVideoDescription="true"</code></strong> will show the description of a video given by the uploader.</td>
+ </tr>
+
+ <tr>
+  <th colspan="2" class="group">Configuration</th>
+ </tr>
+ <tr>
+  <th>max</th>
+  <td>Number of videos to show.<br /><strong><code>max="2"</code></strong> will show you 2 videos.</td>
+ </tr>
+ <tr>
+  <th>random</th>
+  <td>You can also show random videos to make it more interesting for visitors of your site. The number you set here will determine the pool size from which <em>max</em> random videos will be show.<br /><strong><code>max="2" random="10"</code></strong> will show 2 random videos from a pool of 10.</td>
+ </tr>
+ <tr>
+  <th>offset</th>
+  <td>Number of videos to skip from the beginning of the results coming from YouTube. If used it has to be &gt; 0.<br /><strong><code>offset="2"</code></strong> will skip the first two results and start showing videos form position 3 on.</td>
+ </tr>
+
+
+ <tr>
+  <th colspan="2" class="group">YouTube</th>
+ </tr>
+ <tr>
+  <th>relation</th>
+  <td>Can either be set to <strong>postTitle</strong>, <strong>postTags</strong>, <strong>postCategories</strong>, or <strong>keywords</strong> (in which case you will also have to set the <em>terms</em> parameter).<br /><strong><code>relation="postTags"</code></strong> will search YouTube for videos matching a blog posts list of tags. The default, like when you don't specify any relation at all or have a typo in it, is <em>postTitle</em>.</td>
+ </tr>
+ <tr>
+  <th>terms</th>
+  <td>Here, you can specify custom keywords all by yourself - in case of <em>relation="keywords"</em>.<br /><strong><code>relation="keywords" terms="monty python"</code></strong> will show Monty Python videos, no matter what the post title or the tags or the categories say.</td>
+ </tr>
+ <tr>
+  <th>exact</th>
+  <td>Can either be set to <strong>true</strong> or left out completly (which equals <em>false</em>).<br /><strong><code>exact="true"</code></strong> will search YouTube for exact matches for your post title, tags, categories or custom keywords. An <em>exact</em> search is like when you wrap your search terms into quotation marks.</td>
+ </tr>
+ <tr>
+  <th>orderBy</th>
+  <td>Can either be <strong>relavance</strong>, <strong>published</strong>, <strong>rating</strong>, or <strong>viewCount</strong>. If it's not set <strong>relevance</strong> will be used as default.<br /><strong><code>orderBy="rating"</code></strong> will show videos with the best ratings amongst the search results.</td>
+ </tr>
+ <tr>
+  <th>lang</th>
+  <td>Two-letter language code. Will only show videos in that language, if possible.<br /><strong><code>lang="fr"</code></strong> will only show videos in french. You can also exclude all other languages by using this parameter.</td>
+ </tr>
+ <tr>
+  <th>region</th>
+  <td>Two-letter country code. Will only show videos that are actually <em>viewable</em> in the given region/country.<br /><strong><code>region="de"</code></strong> will only show videos viewable (= not blocked) in Germany.</td>
+ </tr>
+ <tr>
+  <th>author</th>
+  <td>Only show videos uploaded from a given YouTube username.<br /><strong><code>author="meomundodotcom"</code></strong> will only show videos from the YouTube user <em>meomundodtocom</em>.</td>
+ </tr>
+ <tr>
+  <th>filter</th>
+  <td>Add additional keywords or filtering search parameters. This might be usefull if your relation is title, tags, or categories. In case of <em>keywords</em> you could add these filters to your keywords directly.<br /><strong><code>filter="intitle:official -intitle:cover -intitle:lyrics"</code></strong> will (hopefully) only show the official music video and no cover version or lyrics slideshow.</td>
+ </tr>
+
+
+
+</table>
+<p class="top"><a href="#top">top</a></p>
+
+
+<a name="rytv_docs_themes" class="anchor">&nbsp;</a>
+<h4 class="rytv_docs">Themes / Styles</h4>
+<p>If you allow to load the plugin's theme CSS file you can add one or more of the following <strong>classes to the <em>class</em> parameter</strong>, separated by a space character, in case you want to combine multiple ones.</p>
+<p>Of course you can use your own CSS formatting but maybe it's easier to use some of the pre-defined styles.</p>
+<table class="rytv_params">
+ <tr>
+  <th>left</th>
+  <td>Lets the video container float left and therefore the surrouding text right next to it.<br /><strong><code>class="left"</code></strong></td>
+ </tr>
+ <tr>
+  <th>right</th>
+  <td>Lets the video container float right and therefore the surrouding text left next to it.<br /><strong><code>class="right"</code></strong></td>
+ </tr>
+ <tr>
+  <th>center</th>
+  <td>If more than one video is show they will be centered within the container element.<br /><strong><code>class="right"</code></strong></td>
+ </tr>
+ <tr>
+  <th>inline<br />horizontal</th>
+  <td>Will show videos inline instead of underneath one another.<br /><strong><code>class="horizontal"</code></strong></td>
+ </tr>
+ <tr>
+  <th>bg-black</th>
+  <td>Sets the background color of the video container to black and the text color (video title and description) to white.<br /><strong><code>class="bg-black"</code></strong></td>
+ </tr>
+ <tr>
+  <th>bg-white</th>
+  <td>Sets the background color of the video container to white and the text color (video title and description) to black.<br /><strong><code>class="bg-black"</code></strong></td>
+ </tr>
+ <tr>
+  <th>spacing-5<br />spacing-10<br />spacing-15<br />spacing-20<br />spacing-25</th>
+  <td>Will create a 5, 10, 15, 20, or 25 pixels space around each video.<br /><strong><code>class="spacing-10"</code></strong></td>
+ </tr>
+</table>
+<p class="marker">Combined example: <strong><code>[relatedYouTubeVideos relation="postTitle" max="5" lang="en" class="left horizontal bg-black center" previewMode="true"]</code></strong></p>
+<p class="top"><a href="#top">top</a></p>
+
+
+<a name="rytv_docs_api" class="anchor">&nbsp;</a>
+<h4 class="rytv_docs">API</h4>
+<p>If you want to you can <em>hard-code</em> the related videos directly into your theme, respectively the page or post tempaltes of your theme. To do so you should use the following PHP code:</p>
+<pre><code>
+&lt;?php
+/* Load the "Related YouTube Videos" API class if it does not exist yet. */
+if( !class_exists( 'RelatedYouTubeVideos_API' ) ) {
+
+  $file = str_replace( '/', DIRECTORY_SEPARATOR, ABSPATH ) . 'lib' . DIRECTORY_SEPARATOR . 'RelatedYouTubeVidoes' . DIRECTORY_SEPARATOR . 'API.php';
+
+  if( file_exists( $file ) ) {
+    
+    include_once $file;
+    
+  }
+
+}
+/* Only continue if the API class could be loaded properly. */
+if( class_exists( 'RelatedYouTubeVideos_API' ) ) {
+
+  $RytvAPI  = new RelatedYouTubeVideos_API();
+  
+  /* Do your configuration */
+  $data     = $RytvAPI->validateConfiguration(
+    array(
+     'relation' => 'postTitle',
+     'max'      => '3',
+     'width'    => 150,
+     'height'   => 150,
+     'lang'     => 'en',
+     'region'   => 'de',
+     'class'    => 'left center inline bg-black',
+     'preview'  => true
+    )
+  );
+
+  /* Search YouTube. */
+  $results  = $RytvAPI->searchYouTube( $data );
+
+  /* Generate the unordered HTML list of videos according to the YouTube results and your configuration.  */
+  $html     = $RytvAPI->displayResults( $results, $data );
+  
+  echo $html; // Or do with it whatever you like ;)
+
+}
+?&gt;
+</code></pre>
+<p class="top"><a href="#top">top</a></p>
+
+<a name="rytv_docs_credits" class="anchor">&nbsp;</a>
+<h4 class="rytv_docs">Credits</h4>
+<p>If you have any questions or requests which might be usefull to others as well please post them on <a href="http://wordpress.org/support/plugin/related-youtube-videos" target="_post">wordpress.org/support/plugin/related-youtube-videos</a>. Or you can contact me directly via <a href="http://www.meomundo.com/contact/" target="_blank">meomundo.com</a>.
+<p>I'd also like to thank Borisa Djuraskovic for providing the Serbo-Croatian translation.</p>
+<p>Oh, and if you like this plugin it would be nice of you to <a href="http://wordpress.org/plugins/related-youtube-videos/">give it a little rating</a> (in the sidebar), thx :)</p>
+<p class="top"><a href="#top">top</a></p>
+
+<div class="clearfix">&nbsp;</div>

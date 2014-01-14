@@ -1,0 +1,150 @@
+/* General styles */
+#rytv .clearfix {
+  clear:              both;
+  height:             0;
+  font:               0/0 a;
+  line-height:        0;
+  visibility:         hidden;
+}
+#rytv .marker {
+  background-color:   #FF0;
+  padding:            5px 10px;
+}
+#rytv .anchor {
+  padding-top:        1.25em;
+}
+#rytv p.top {
+  text-align:         right;
+  padding-right:      1em;
+  margin-bottom:      0;
+}
+#rytv pre,
+#rytv pre code {
+  display:            block;
+}
+
+/* Logo */
+#rytv_logo small {
+  font-size:          0.7em;
+  color:              #666;
+}
+
+/* Settings Form */
+#rytv_settings {
+  background-color:   #FFF;
+  padding:            1em;
+  display:            inline-block;
+}
+#rytv h3 {
+  border-bottom:      1px solid #000;
+}
+#rytv_settings h3 {
+  margin:             0;
+  padding:            0;
+}
+#rytv table.settings th {
+  text-align:         right;
+  padding-right:      0.5em;
+}
+#rytv table.settings th,
+#rytv table.settings td {
+  padding-top:        0.5em;
+  padding-bottom:     0.5em;
+}
+
+/* Documentation */
+#rytv_tableOfContents {
+  background-color:   #FFF;
+  padding:            0 1em 1em 1em;
+  margin:             0 1em 1em 0;
+  float:              left;
+}
+#rytv_tableOfContents h3 {
+  font-style:         normal;
+  font-weight:        bold;
+  margin:             0;
+  padding:            0;
+}
+#rytv_tableOfContents ul {
+  margin:             0 0 0 0.5em;
+  padding:            0;
+}
+#rytv_tableOfContents li {
+  margin-left:        1em;
+  padding-bottom:     0.5em;
+  list-style-type:    square;
+}
+#rytv_tableOfContents a {
+  display:            block;
+}
+h4.rytv_docs {
+  text-decoration:    underline;
+  font-size:          1.5em;
+  margin-bottom:      0;
+  margin-top:         0;
+}
+h5.rytv_docs {
+  font-size:          1.25em;
+  margin-bottom:      0;
+  padding:            0;
+}
+.rytv_params th {
+  text-align:         right;
+  padding-right:      1em;
+}
+.rytv_params th.group {
+  text-align:         left;
+  font-size:          1.25em;
+  padding:            0.5em;
+  background-color:   #FFF;
+}
+.rytv_params th,
+.rytv_params td {
+  vertical-align:     top;
+}
+.rytv_params td {
+  padding:            0.25em 0.25em 1.5em 0.25em;
+}
+
+/* Changelog */
+#rytv ul.changelog {
+  margin:             1em 0;
+  padding:            0;
+}
+#rytv ul.changelog li {
+  font-weight:        bold;
+  list-style-type:    none;
+  padding-bottom:     1em;
+}
+#rytv ul.changelog ul {
+  margin-top:         0.25em;
+  margin-left:        1em;
+}
+#rytv ul.changelog ul li {
+  margin-left:        0.25em;
+  font-weight:        normal;
+  list-style-type:    square;
+  padding-bottom:     0.25em;
+}
+/* System Requirements List */
+ul.sysreq li,
+p.sysreq {
+  padding-left:       2em;
+  padding-bottom:     5px;
+}
+ul.sysreq li.success,
+p.sysreq.success {
+  background:         transparent url( '../images/checkmark.png' ) left center no-repeat;
+}
+ul.sysreq li.error,
+p.sysreq.error {
+  background:         transparent url( '../images/xmark.png' ) left center no-repeat;
+}
+p.sysreq {
+  font-size:          1.15em;
+  font-weight:        bold;
+  border-top:         1px solid #000;
+  display:            inline-block;
+  margin-top:         0;
+  padding-top:        10px;
+}

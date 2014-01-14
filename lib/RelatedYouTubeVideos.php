@@ -23,38 +23,85 @@ class RelatedYouTubeVideos extends Meomundo_WP {
     
     // Shortcode
     add_shortcode( 'relatedYouTubeVideos', array( $this, 'handleShortcode' ) );
+    
+    // Shortcode alias 1
+    add_shortcode( 'RelatedYouTubeVideos', array( $this, 'handleShortcode' ) );
+
+    // Shortcode alias 2
+    add_shortcode( 'relatedyoutubevideos', array( $this, 'handleShortcode' ) );
 
     // Widget
     add_action( 'widgets_init', create_function( '', 'register_widget( "RelatedYouTubeVideos_Widget" );' ) );
     
-    // Add a README Page (will appear under Settings > Related YouTube Videos)
+    // Add backend pages
     add_action( 'admin_menu', array( $this, 'registerBackend' ) );
+    
+    // Add the themes css file only in the frontend and only if the option is not set to FALSE
+    if( !is_admin() ) {
+      
+      $options = get_option( $this->slug );
+      
+      if( !isset( $options['loadThemes'] ) || $options['loadThemes'] === true ) {
+
+        add_action( 'wp_enqueue_scripts', array( $this, 'registerFrontendStyles' ) );
+      
+      }
+
+    }
+    else {
+
+      // Register styles and scripts to be used on the plugin's backend pages.
+      add_action( 'admin_init', array( $this, 'adminInit' ) );
+
+    }
 
   }
-
+  
   /**
-   * Handle Shortcode [relatedYouTubeVideos]
+   * Admin ini action
+   */
+  public function adminInit() {
+    
+    // $wp_version
+    
+    // Register backend CSS for this plugin.
+    wp_register_style( $this->slug . '_backendStyles', $this->url . 'css/backend.css' );
+    
+  }
+  
+  /**
+   * Actually enqueue styles and scripts on certain backend pages.
+   */
+  public function loadBackendStyles() {
+
+    wp_enqueue_style( $this->slug . '_backendStyles' );
+
+  }
+  
+  /**
+   * Load the theme.css file in the frontend.
+   */
+  public function registerFrontendStyles() {
+    
+    wp_enqueue_style( $this->slug . '_frontendStyles', $this->url . 'css/themes.css' );
+
+  }
+  
+  /**
+   * Handle the plugin shortcode.
    *
-   * Attributes for further configuration:
-   *  'width'       (numeric)   Width of the HTML video object
-   *  'height'      (numeric)   Height of the HTML video object
-   *  'terms'       (string)    Search YouTube for these terms
-   *  'orderBy'     (string)    Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
-   *  'start'       (numeric)   Offset / numbers of search results that will be skipped - could in theory be used for pagination.
-   *  'max'         (numeric)   Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
-   *  'apiVersion'  (numeric)   Version of the YouTube/Google API that will be used.
-   *  'class'       (string)    You can specify an additional HTML class name for the wrapping <ul> element
-   *  'id'          (string)    You can specify the HTML id attribute for the wrapping <ul> element.
-   *  'relation'    (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTile', 'postTags', or 'keywords' (in which case the attribute 'keywords' will be used).
-   *  'preview'     (string)    (optional) 'true' will show the preview image and only load the video when the image has been clicked (via Javascript!!)
+   * Sadly the regular expression that's being used for handling shortcodes does not allow
+   * the /i option, meaning "not case-sensitive". Therefore the two most common spelling variations
+   * will have also been registered as shortcodes that all will be handled by this very method.
    *
-   * @param array $atts Array of shortcode attributes - provided by the WordPress shortcode API
+   * [relatedYouTubeVideos]
+   * [RelatedYouTubeVideos]
+   * [relatedyoutubevideos]
+   *
+   * @param array $atts Array of shortcode attributes, provided by the WordPress shortcode API
    */
   public function handleShortcode( $atts ) {
 
-    /**
-     * Let the API do the heavy lifting.
-     */
     $this->loadClass( 'RelatedYouTubeVideos_API' );
     
     $API          = new RelatedYouTubeVideos_API();
@@ -76,6 +123,13 @@ class RelatedYouTubeVideos extends Meomundo_WP {
       
     }
     
+    /**
+     * This is kind of a "manually normalized" way to call YouTube.
+     *
+     * Having to handling a thousand places like this when adding a new feature is prone to failure.
+     * Therefore this will be replaced by some kind of automation in a future version!
+     * The pattern is alread in testing :)
+     */
     $results      = $API->searchYouTube(
       array(
         'searchTerms' => $data['search'],
@@ -116,26 +170,33 @@ class RelatedYouTubeVideos extends Meomundo_WP {
    */
   public function registerBackend() {
     
-    // ReadMe or How To
-    $readme = add_options_page( 'Related YouTube Videos', 'Related YT Videos', 'edit_posts', $this->slug . '_readme', array( $this, 'showReadmePage' ) );
-    
+    $page = add_menu_page( 'Related YouTube Videos', 'Related YouTube Videos', 'manage_options', $this->slug . '_index', array( $this, 'ViewBackend' ) );
+
+    add_action( 'admin_print_styles-' . $page, array( $this, 'loadBackendStyles' ) );
+
   }
 
   /**
-   * Display the ReadMe / How To Page
+   * Show the plugin backend page.
+   *
+   * If there were multiple pages this method would act as controller.
+   * But for now I've decided to implement only one single page
+   * that contains of a fairly short settings area and the plugin documentation.
+   *
+   * Also, only load the code for the backend pages only when the page actually should be displayed.
+   * This shoudl save some memory and maybe even CPU when you're in the backend but not on this plugin's page.
    */
-  public function showReadmePage() {
+  public function viewBackend() {
     
-    if( file_exists( $this->path . 'readmePage.html' ) ) {
-      
-      echo file_get_contents( $this->path . 'readmePage.html' );
+    $this->loadClass( 'RelatedYouTubeVideos_Backend_Index' );
+    
+    $Backend = new RelatedYouTubeVideos_Backend_Index( $this->path, $this->url, $this->slug );
+    
+    echo '<div class="wrap" id="rytv" name="top">';
 
-    }
-    else {
-      
-      echo '<h2>File Not Found!</h2>';
-      
-    }
+    echo $Backend->controller();
+
+    echo '</div>';
     
   }
 

@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.7.1
-Stable tag:         1.4.6
+Tested up to:       3.8.0
+Stable tag:         1.5.0
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,35 +21,65 @@ Automatically embed YouTube videos that are related to your content.
 
 Also, this plugin offers you two ways to embed related videos:
 
-1. by using the shortcode [relatedYouTubeVideos] somewhere in your post/page content
-2. by using the WordPress widget "Related YouTube Videos" in any of your widget areas (multiple instances are possible)
+1. by using the shortcode [relatedYouTubeVideos] somewhere in your post/page content.
+2. by using the WordPress widget "Related YouTube Videos" in any of your widget areas (multiple instances are possible).
+
+
+= System Requirements =
+
+In order to run this plugin you need the following components installed and enabled in your server and PHP environment:
+
+* PHP 5.1.2+
+* SimpleXML (usually is enabled by default anyways)
+* cURL (preferred) or fopen/fsockopen
+* OpenSSL + HTTPS wrapper (is only required if cURL is not available)
+* WordPress 3.0+
+
+In general you should not have to worry about these things since they're included in most web hosting packages nowadays.
+But to be sure you can download and install this plugin and then check the backend page. There is a "System Requirements" section that will show you exactly if you can good to go or if there is any problem.
+
+In case you're getting a "URL file-access is disabled in the server configuration" error you should make sure your PHP.ini file contains these two lines:
+
+  allow_url_include = on
+  
+  allow_url_fopen = on
+
 
 = The Shortcode =
 
+I'm only going to explain the options/paramters for the shortcode but they work exactly the same for the widget, of course.
+
 You can put the shortcode **[relatedYouTubeVideos]** anywhere you want inside the content of a page, post, or custom post type - as long as your WordPress theme is supporting shortcodes.
 
-You can also add a number of attributes to configure the assembling of the list of videos that will be embedded:
+You can use the following options/parameters/attributes:
 
-* 'width'               (numeric)   Width of the HTML video object
-* 'height'              (numeric)   Height of the HTML video object
-* 'relation'            (string)    Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
-* 'terms'               (string)    Search YouTube for these terms - no separating commas required.
-* 'exact'               (string)    Set to 'true' will (try to) search for the exact phrase.
-* 'orderBy'             (string)    Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
-* 'start'               (numeric)   Offset / numbers of search results that will be skipped. 0 being the default.
-* 'offset'              (numeric)   START and OFFSET are interchangably the same and just other words for the same option.
-* 'max'                 (numeric)   Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
-* 'random'              (numeric)   Select MAX number of videos out of RANDOM number of videos.
-* 'class'               (string)    You can specify an additional HTML class name for the wrapping `<ul>` element
-* 'id'                  (string)    You can specify the HTML id attribute for the wrapping `<ul>` element.
-* 'apiVersion'          (numeric)   Version of the YouTube/Google API that will be used.
-* 'showVideoTitle'      (string)    "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
-* 'showVideoDescripton  (string)    "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
-* 'preview'             (string)    "true" will only display the preview image and only load the video (via Javascript!) when this image has been clicked.
-* 'lang'                (string)    {2-letter-language-code} will show videos in that language.
-* 'region'              (string)    {2-letter-country-code} will show videos that are actually viewable in that region/country.
-* 'author'              (string)    Only show videos from a given YouTube User(name) .
-  
+**Appearance**
+
+* **id**                  - You can specify the HTML id attribute for the wrapping `<ul>` element.
+* **class**               - You can specify an additional HTML class name for the wrapping `<ul>` element
+* **width**               - Width of the HTML video object
+* **height**              - Height of the HTML video object
+* **preview**             - "true" will only display the preview image and only load the video (via Javascript!) when this image has been clicked.
+* **showVideoTitle**      - "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
+* **showVideoDescripton** - "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
+
+**Configuration**
+
+* **max**                 - Number of videos (or search results) that will be returned. Can be any number between 1 and 10!
+* **random**              - Select MAX number of videos out of RANDOM number of videos.
+* **offset**              - START and OFFSET are interchangably the same and just other words for the same option.
+
+**YouTube**
+
+* **relation**            - Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
+* **terms**               - Search YouTube for these terms - no separating commas required.
+* **exact**               - Set to 'true' will (try to) search for the exact phrase.
+* **orderBy**             - Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
+* **lang**                - {2-letter-language-code} will show videos in that language.
+* **region**              - {2-letter-country-code} will show videos that are actually viewable in that region/country.
+* **author**              - Only show videos from a given YouTube User(name) .
+* **filter**              - Add additional keywords or filtering search parameters. Those will **always** be added even when the relation is set to post title, tags, or so.
+
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
 
 Shortcode Example 1: **[relatedYouTubeVideos relation="postTags" max="3"]** Will show three videos coming back from the search YouTube for (all!) the tags you have assigned to this post or page.
@@ -63,6 +93,8 @@ Shortcode Example 4: **[relatedYouTubeVideos relation="postTitle" max="1" orderB
 Shortcode Example 5: **[relatedYouTubeVideos relation="keywords" terms="monthy python" max="1" showVideoTitle="true" showVideoDescription="true"]** Will show a Monty Python video, followed by the video title, followed by the video, followed by the video description.
 
 Shortcode Example 6: **[relatedYouTubeVideos relation="keywords" terms="monthy python" max="1" preview="true"]** Will show the thumbnail of a Monty Python video and load + play the video only when it's being clicked.
+
+Shortcode Example 7: **[relatedYouTubeVideos relation="postTitle" filter="intitle:official -intitle:cover" max="1" preview="true"]** If the post title is about a music video (band and song title, for example) this will only show the official music video.
 
 = The Widget =
 
@@ -82,11 +114,11 @@ When you set a numeric value for the RANDOM parameter/option you can get random 
 
 So RANDOM will determine the size of the pool MAX videos will be chosen from.
 
-= Errors =
+= Available Languages: =
+* English
+* German
+* Serbo-Croatian - by Borisa Djuraskovic ([Webhostinghub](http://www.webhostinghub.com/))
 
-The videos will be embedded from YouTube by using its search API. This API call is being done by sending an internal request over the web. And as we all know, there can be a million reasons why even a service like YouTube cannot be reached all the time. If that's the case or a request itself is invalid for some reason you will get an error message and no videos! But instead of breaking your design by showing your visitors error messages, they will just see nothing: The error message will be hidden in the HTML source code in form of an HTML comment.
-
-So if you don't see any videos while you think you should, please take a look at the HTML source code of your current page and look for "[relatedYouTubeVideos] Error...".
 
 == Installation ==
 
@@ -115,35 +147,47 @@ Then log into the WordPress backend as someone who has the right to install and 
 Developers can also use the API class outside the plugin context, for example in a theme template file. All you have to do is include the class (if it doesn't already exist) and create an object like this:
 
 `
+/* Load the "Related YouTube Videos" API class if it does not exist yet. */
+if( !class_exists( 'RelatedYouTubeVideos_API' ) ) {
+
+  $file = str_replace( '/', DIRECTORY_SEPARATOR, ABSPATH ) . 'lib' . DIRECTORY_SEPARATOR . 'RelatedYouTubeVidoes' . DIRECTORY_SEPARATOR . 'API.php';
+
+  if( file_exists( $file ) ) {
+    
+    include_once $file;
+    
+  }
+
+}
+/* Only continue if the API class could be loaded properly. */
 if( class_exists( 'RelatedYouTubeVideos_API' ) ) {
 
-  $RYTV     = new RelatedYouTubeVideos_API();
-
-  $args     = $RYTV->validateConfiguration(
+  $RytvAPI  = new RelatedYouTubeVideos_API();
+  
+  /* Do your configuration */
+  $data     = $RytvAPI->validateConfiguration(
     array(
-      'orderBy'     => 'relevance',
-      'max'         => 1,
-      'exact'       => false,
-      'relation'    => 'keywords',
-      'terms'       => 'ministry of silly walks',
-      'width'       => 400,
-      'height'      => 300
+     'relation' => 'postTitle',
+     'max'      => '3',
+     'width'    => 150,
+     'height'   => 150,
+     'lang'     => 'en',
+     'region'   => 'de',
+     'class'    => 'left center inline bg-black',
+     'preview'  => true
     )
   );
 
-  $results  = $RYTV->searchYouTube( $args );
+  /* Search YouTube. */
+  $results  = $RytvAPI->searchYouTube( $data );
 
-  $html     = $RYTV->displayResults( $results, $args );
+  /* Generate the unordered HTML list of videos according to the YouTube results and your configuration.  */
+  $html     = $RytvAPI->displayResults( $results, $data );
+  
+  echo $html; // Or do with it whatever you like ;)
 
-  echo $html;
-
-}`
-
-
-= Available Languages: =
-* English
-* German
-* Serbo-Croatian - by Borisa Djuraskovic ([Webhostinghub](http://www.webhostinghub.com/))
+}
+`
 
 
 == Frequently Asked Questions ==
@@ -155,6 +199,10 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.5.0 =
+* New attribute added filter="" you can add more keywords or search parameters here that will always be added to the YT search and -eg if the relation is postTitle or postTags- can be used to modify or filter the results.
+* The plugin now has a backend page. This contains a little settings section, a system requirements check and the documentation.
 
 = 1.4.6 =
 * New attribute added: author="{YouTube Username}" will only show videos from that very YT user.
@@ -169,61 +217,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 = 1.4.2 =
 * Added internal "Allow fullscreen mode" (HTML) parameter.
 
-= 1.4.1 =
-* Request only videos of a certain length: "short" = less than four minutes. "medium" = between 4 and 20 minutes. "long" = longer than 20 minutes.
-
-= 1.4.0 =
-* New attribute: preview. Set to 'true' will display preview thumbnail images and only load (and play) the video when such an image has been clicked.
-
-= 1.3.2 =
-* Issues fixed with relation="postTitle" and id attribute.
-
-= 1.3.1 =
-* Two new attributes/options added: showVideoTitle and showVideoDescription.
-
-= 1.2.1 =
-* Fixes issues when adding custom HTML class or id attribute.
-
-= 1.2.0 =
-* New RANDOM option/parameter added. "Random" has to be a numeric value and determines the size of a pool, {MAX} number of random videos will be picked from. It could read like: Give me {MAX} random videos from a pool of {RANDOM}. Don't worry, I'm about to revise the documentation to make it understandable again^^
-
-= 1.1.3 =
-* Shortcode fix (return, don't echo...)
-
-= 1.1.2 =
-* Updating half the fix makes only half sense, sry^^
-
-= 1.1.1 =
-* API fix for handling the "orderBy" parameter more robust.
-
-= 1.1.0 =
-* Added optional parameter 'exact' which allows you to search for an exact phrase. It basically equals a search on YouTube with quotation marks around your search terms.
-* Also changed the API for the sake of scalability! The API method "searchYouTube" now takes an array(!) of configurational parameters as argument.
-
-= 1.0.9 =
-* Bug fixed: YouTube API seems to be case sensitive on some parameters which had caused problems with the "viewCount" (orderBy) parameter.
-
-= 1.0.8 =
-* Added parameter "wmode = transparent" which should allow HTML elements to be positioned above a video object.
-
-= 1.0.7 =
-* Repo fix
-
-= 1.0.6 =
-* Fixed the ZIP package (since I've messed it up with the last update^^)
-
-= 1.0.5 =
-* New widget option "Site Search". It allows (if checked) to use the terms a user has entered into the WordPress search box an look these up at YouTube.
-On "normal" pages (other than the search results page) your other settings will be used to define the relation. So there's no harm done here :)
-
-= 1.0.4 =
-* Spelling corrections
-
-= 1.0.3 =
-* Added a ReadMe or How-To page to the WordPress backend under Settings > Related YT Videos
-
-= 1.0.2 =
-* Plugin launch.
 
 == Upgrade Notice ==
 

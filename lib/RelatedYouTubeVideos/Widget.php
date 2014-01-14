@@ -96,6 +96,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $videoTitle   = ( $data['showvideotitle'] === true ) ? ' checked="checked"' : '';
 
     $videoDescription   = ( $data['showvideodescription'] === true ) ? ' checked="checked"' : '';
+    
+    $previewMode = ( $data['preview'] === true ) ? 'checked="checked"' : '';
 
     /**
      * Generating the HTML form for the widget options.
@@ -103,7 +105,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html         = '';
 
     // Widget Settings: Title
-    $html .= '<h3>' . __( 'Widget', $this->slug ) . '</h3>' . "\n";
+    $html .= '<h3 style="border-bottom:1px solid #000;">' . __( 'Widget', $this->slug ) . '</h3>' . "\n";
     $html .= '<ul>' . "\n";
     $html .= ' <li>' . "\n";
     $html .= '  <label for="' . $this->get_field_id( 'title' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Title:', $this->slug ) . '</label>' . "\n";
@@ -113,7 +115,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
 
     // Related by postType, postTags, or keywords (in which case you have to enter your search terms/keywords)
     $html .= '<fieldset>' . "\n";
-    $html .= ' <h3 style="margin-top:0;">' . __( 'Related By', $this->slug ) . '</h3>' . "\n";
+    $html .= ' <h3 style="margin-top:1.5em;border-bottom:1px solid #000;" class="rytv_widget">' . __( 'Related By', $this->slug ) . '</h3>' . "\n";
     $html .= ' <ul>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTitle"' . $relPostTitle . ' /> <label>' . __( 'Post Title', $this->slug ) . '</label></li>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTags"' . $relPostTags . ' /> <label>' . __( 'Post Tags', $this->slug ) . '</label></li>' . "\n";
@@ -123,9 +125,36 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= ' <input type="checkbox" name="' . $this->get_field_name( 'wpSearch' ) . '" ' . $wpSearch . ' /> <label> ' . __( 'Site Search (On Search Results Page)', $this->slug ) . "</label>\n";
     $html .= '</fieldset>' . "\n";
 
-
-    $html .= '<h3>' . __( 'Appearance', $this->slug ) . "</h3>\n";
+    /**
+     * Group: Appearance
+     */
+    $html .= '<h3 style="margin-top:1.5em;border-bottom:1px solid #000;" class="rytv_widget">' . __( 'Appearance', $this->slug ) . "</h3>\n";
     $html .= "<ul>\n";
+
+
+    // HTML id attribute
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'id' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'ID:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'id' ) . '" value="' . $data['id'] . '" />' . "\n";
+    $html .= ' </li>' . "\n";
+
+    // HTML class attribute
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'class' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Class:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'class' ) . '" value="' . $data['class'] . '" />' . "\n";
+    $html .= ' </li>' . "\n";
+
+    // Video object width
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'width' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Width:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'width' ) . '" value="' . $data['width'] . '" />' . "\n";
+    $html .= ' </li>' . "\n";
+
+    // Video object height
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'height' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Height:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'height' ) . '" value="' . $data['height'] . '" />' . "\n";
+    $html .= ' </li>' . "\n";
 
     // Show video title
     $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'showvideotitle' ) . '" ' . $videoTitle . ' /> <label> ' . __( 'Display video title', $this->slug ) . "</label></li>\n";
@@ -133,11 +162,61 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     // Show video Description
     $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'showvideodescription' ) . '" ' . $videoDescription . ' /> <label> ' . __( 'Display video description', $this->slug ) . "</label></li>\n";
 
+    // previewMode
+    $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'preview' ) . '" ' . $previewMode . ' /> <label> ' . __( 'Preview Mode ', $this->slug ) . "</label></li>\n";
+
+    $html .= "</ul>\n";
+
+
+    /**
+     * Group: Configuration
+     */
+    $html .= '<h3 style="margin-top:1.5em;border-bottom:1px solid #000;" class="rytv_widget">' . __( 'Configuration', $this->slug ) . '</h3>' . "\n";
+    $html .= "<ul>\n";
+
+    // Number of videos / search results that will be returned (between 1 and 10)
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'max' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Nr. of Videos:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <select name="' . $this->get_field_name( 'max' ) . '" size="1">' . "\n";
+
+    for( $i = 1; $i <= 10; $i++ ) {
+
+      $html .= '  <option value="' . $i . '"';
+      
+      if( $i == $data['max'] ) {
+        
+        $html .= ' selected="selected"';
+        
+      }
+      
+      $html .= '>' . $i . '</option>' . "\n";
+
+    }
+
+    $html .= '  </select>' . "\n";
+    $html .= ' </li>' . "\n";
+
+    // Random - Show a random video in terms of {number of videos} random videos out of {random}
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'random' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Random:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'random' ) . '" value="' . $data['random'] . '"/>' . "\n";
+    $html .= ' </li>' . "\n";
+
+    // Offset - skip this number of videos/search results
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'start' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Offset:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'start' ) . '" value="' . $data['start'] . '"/>' . "\n";
+    $html .= ' </li>' . "\n";
+
     $html .= "</ul>\n";
 
 
 
-    $html .= '<h3>' . __( 'Advanced Settings', $this->slug ) . '</h3>' . "\n";
+
+    /**
+     * Group: YouTube
+     */
+    $html .= '<h3 style="margin-top:1.5em;border-bottom:1px solid #000;" class="rytv_widget">' . __( 'YouTube', $this->slug ) . '</h3>' . "\n";
 
     $html .= '<ul>' . "\n";
 
@@ -163,63 +242,30 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= '  </select>' . "\n";
     $html .= ' </li>' . "\n";
 
-    // Video object width
+    // Language
     $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'width' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Width:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <input type="text" name="' . $this->get_field_name( 'width' ) . '" value="' . $data['width'] . '" />' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'lang' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Language:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'lang' ) . '" value="' . $data['lang'] . '"/>' . "\n";
     $html .= ' </li>' . "\n";
 
-    // Video object height
+    // Region
     $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'height' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Height:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <input type="text" name="' . $this->get_field_name( 'height' ) . '" value="' . $data['height'] . '" />' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'region' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Region:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'region' ) . '" value="' . $data['region'] . '"/>' . "\n";
     $html .= ' </li>' . "\n";
 
-    // HTML id attribute
+    // Author
     $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'id' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'ID:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <input type="text" name="' . $this->get_field_name( 'id' ) . '" value="' . $data['id'] . '" />' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'author' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Author:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'author' ) . '" value="' . $data['author'] . '"/>' . "\n";
     $html .= ' </li>' . "\n";
 
-    // HTML class attribute
+    // Filter
     $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'class' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Class:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <input type="text" name="' . $this->get_field_name( 'class' ) . '" value="' . $data['class'] . '" />' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'filter' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Filter:', $this->slug ) . '</label>' . "\n";
+    $html .= '  <input type="text" name="' . $this->get_field_name( 'filter' ) . '" value="' . $data['filter'] . '"/>' . "\n";
     $html .= ' </li>' . "\n";
 
-    // Offset - skip this number of videos/search results
-    $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'start' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Offset:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <input type="text" name="' . $this->get_field_name( 'start' ) . '" value="' . $data['start'] . '"/>' . "\n";
-    $html .= ' </li>' . "\n";
-
-    // Random - Show a random video in terms of {number of videos} random videos out of {random}
-    $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'random' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Random:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <input type="text" name="' . $this->get_field_name( 'random' ) . '" value="' . $data['random'] . '"/>' . "\n";
-    $html .= ' </li>' . "\n";
-
-    // Number of videos / search results that will be returned (between 1 and 10)
-    $html .= ' <li>' . "\n";
-    $html .= '  <label for="' . $this->get_field_id( 'max' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'Nr. of Videos:', $this->slug ) . '</label>' . "\n";
-    $html .= '  <select name="' . $this->get_field_name( 'max' ) . '" size="1">' . "\n";
-
-    for( $i = 1; $i <= 10; $i++ ) {
-
-      $html .= '  <option value="' . $i . '"';
-      
-      if( $i == $data['max'] ) {
-        
-        $html .= ' selected="selected"';
-        
-      }
-      
-      $html .= '>' . $i . '</option>' . "\n";
-
-    }
-
-    $html .= '  </select>' . "\n";
-    $html .= ' </li>' . "\n";
 
     $html .= '</ul>' . "\n";
 

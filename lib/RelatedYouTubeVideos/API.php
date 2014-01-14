@@ -13,18 +13,9 @@ class RelatedYouTubeVideos_API {
   /**
    * Do the actual YouTube search by generating a GET request.
    *
-   * @param array   $args       An array of parameters.
-   * 
-   * string   searchTerm    These terms will be user to search YouTube for results.
-   * bool     exact         Will search for the exact phrase that has been set in the 'searchTerms' parameter.
-   * string   orderBy       Order the search results by a given set of rules.
-   * int      start         Number of videos/search results that will be skipped.
-   * int      max           Number of videos/search results that will be returned.
-   * int      apiVersion    Verion of the YouTube API that shall be used.
-   *
-   * @return mixed              Will return FALSE in case the request was invalid or some other error has occured (like a timeout) or an array containing the search results.
+   * @param   array   $args   An array of parameters.
+   * @return  mixed           FALSE in case the request was invalid or some other error has occured (like a timeout) or an array containing the search results.
    */
- 
   public function searchYouTube( $args ) {
 
     $searchTerms  = isset( $args['searchTerms'] ) ? $args['searchTerms']      : '';
@@ -53,8 +44,7 @@ class RelatedYouTubeVideos_API {
 
     $region       = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
 
-$author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
-
+    $author       = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
 
     $exact        = ( isset( $args['exact'] ) && $args['exact'] === true ) ? true : false;
 
@@ -68,76 +58,107 @@ $author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
     
     $max          = (int) $max;
     
+
+
     $random       = ( isset( $args['random'] ) && $args['random'] > $max )  ? (int) $args['random'] : $max;
 
-    
     if( $random > $max ) {
       
-      $target       = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $random . '&v=2';
+      $target     = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $random . '&v=2';
       
     }
     else {
   
-      $target       = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $max . '&v=2';
+      $target     = 'http://gdata.youtube.com/feeds/api/videos?q=' . $searchTerms . '&orderby=' . $orderBy . '&start-index=' . $start . '&max-results=' . $max . '&v=2';
     
     }
 
+    /**
+     * Now that the basic URL has been build,
+     * add optional parameter only when they're actually set.
+     * Otherwise YouTube tends to invalidate the whole request sometimes!
+     */
+
+    // Optional: Duration
     if( $duration !== '' ) {
       
-      $target .= '&duration=' . $duration;
+      $target     .= '&duration=' . $duration;
       
     }
 
+    // Optional: Language
     if( $lang !== '' ) {
   
-      $target .= '&lr=' . $lang;
+      $target     .= '&lr=' . $lang;
 
     }
 
+    // Optional: Region/Country
     if( $region !== '' ) {
 
-      $target .= '&region=' . $region;
+      $target     .= '&region=' . $region;
 
     }
 
-if( $author !== '' ) {
+    // Optional: Author/YouTube user
+    if( $author !== '' ) {
   
-  $target .= '&author=' . $author;
+      $target     .= '&author=' . $author;
   
-}
+    }
 
 
-    // @todo (future feature) $target caching with the filename containing the blog ID for MultiSite use!
-    $xml          = simplexml_load_file( $target );
+// @new
+    // Call the YouTube Search Webservice
+    if( !defined( 'RYTV_METHOD' ) || RYTV_METHOD === false ) {
+      
+      return "<!-- Related YouTube Videos: Error: Looks like you cannot load external files! Please check your server and PHP settings! -->\n";
+      
+    }
+    
+    $loadURL  = 'loadUrlVia_' . strtolower( RYTV_METHOD );
+    
+    $data     = $this->$loadURL( $target );
+    
+    // Make the request by loading the response directly into a SimpleXML object.
+    // $xml          = @simplexml_load_file( $target );
 
+    $xml      = @simplexml_load_string( $data );
+
+    // Return FALSE in case the URL could not be loaded or no SimpleXML object could be created from it.
     if( !is_object( $xml ) ) {
     
       return false;
     
     }
     
+    // In case the YouTube response XML contains an error message, respectively code, return it!
     if( isset( $xml->errors->error->code ) ) {
       
       return array( 'error' => $xml->errors->error->code );
       
     }
 
+    /**
+     * Now build the list of videos according to the plugin configuration and "input parameters" (shortcode/widget).
+     */
+
     $result       = array();
 
     foreach( $xml->entry as $video ) {
 
-      $result[]    = $video;
+      $result[]   = $video;
 
     }
 
     /* {max} random videos out of {random} */
     if( $random > $max ) {
 
-      $total = count( $result );
+      $total      = count( $result );
       
       if( $total < $random ) {
         
-        $random = $total;
+        $random   = $total;
         
       }
 
@@ -148,7 +169,7 @@ if( $author !== '' ) {
       /* Generate random index numbers, between 0 and $random */
       while( $count < $max ) {
         
-        $tmp = mt_rand( 0, ( $random -1 ) );
+        $tmp      = mt_rand( 0, ( $random -1 ) );
         
         if( !in_array( $tmp, $randIndex ) ) {
           
@@ -161,7 +182,7 @@ if( $author !== '' ) {
       }
 
       /* Use the random index number so re-build the results array */
-      $randResults = array();
+      $randResults  = array();
 
       foreach( $randIndex as $index ) {
         
@@ -270,9 +291,9 @@ if( typeof showRelatedVideo !== 'function' ) {
 </script>
 EOF;
 
-      $html   .= $jsFunction;
+      $html               .= $jsFunction;
       
-      $html   .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
+      $html               .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
 
       foreach( $results as $video ) {
 
@@ -291,77 +312,81 @@ EOF;
         $videoDescription = ( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) ? ", description : '" . $videoDescription . "'" : '';
 
         
-        $argsObj = "{ videoID:'" . $videoID . "', width:" . $width . ", height:" . $height . $videoTitle . $videoDescription . "}";
+        $argsObj          = "{ videoID:'" . $videoID . "', width:" . $width . ", height:" . $height . $videoTitle . $videoDescription . "}";
   
-        $html .= '   <li onClick="innerHTML = showRelatedVideo(' . $argsObj . ");removeAttribute('onClick');\">\n";
+        $html             .= '   <li onClick="innerHTML = showRelatedVideo(' . $argsObj . ");removeAttribute('onClick');\">\n";
 
         if( $videoID != null ) {
 
-          $html .= '     <img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" width="' . $width . '" height="' . $height . '" />' . "\n";
+          $html           .= '     <img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" width="' . $width . '" height="' . $height . '" />' . "\n";
 
         }
         else {
 
-          $html .= '  <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
+          $html           .= '  <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
 
         }
 
-        $html .= "   </li>\n";
+        $html             .= "   </li>\n";
 
       }
 
-      $html   .= "  </ul>\n";
+      $html               .= "  </ul>\n";
 
     }
     else {
     
-      $html   .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
+      $html               .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
 
       foreach( $results as $video ) {
 
         // Try detecting the YouTube Video ID 
         preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
   
-        $videoID    = isset( $match[1] )      ? (string) $match[1]          : null;
+        $videoID          = isset( $match[1] )      ? (string) $match[1]          : null;
   
-        $videoTitle = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
+        $videoTitle       = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
 
         $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
   
-        $html .= "   <li>\n";
+        $html             .= "   <li>\n";
 
         /**
          * This is meant to be valid (x)HTML embedding of the videos, so please correct me if I'm wrong!
          */
         if( $videoID != null ) {
 
-          $html .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
-          $html .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
-          $html .= '     <param name="wmode" value="transparent" />' . "\n";
-          $html .= '     <param name="allowfullscreen" value="true" />' . "\n";
-          $html .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
-          $html .= "    </object>\n";
+          $html           .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
+          $html           .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
+          $html           .= '     <param name="wmode" value="transparent" />' . "\n";
+          $html           .= '     <param name="allowfullscreen" value="true" />' . "\n";
+          $html           .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
+          $html           .= "    </object>\n";
 
           if( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) {
-            $html .= '    <div class="title">' . $videoTitle . "</div>\n";
+            
+            $html         .= '    <div class="title">' . $videoTitle . "</div>\n";
+          
           }
         
           if( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) {
-            $html .= '    <div class="description">' . $videoDescription . "</div>\n";
+            
+            $html         .= '    <div class="description">' . $videoDescription . "</div>\n";
+          
           }
   
         }
         else {
 
-          $html .= '  <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
+          $html           .= '   <li><a href="' . $video->link['href'] . '" title="' . $videoTitle . '">' . $videoTitle . '</a></li>';
 
         }
 
-        $html .= "   </li>\n";
+        $html             .= "   </li>\n";
 
       }
 
-      $html   .= "  </ul>\n";
+      $html               .= "  </ul>\n";
     
     }
 
@@ -372,7 +397,8 @@ EOF;
   /**
    * Validate a configurational array.
    *
-   * @param array $args Array for configuring the YouTube search as well as the plugin output.
+   * @param   array $args   Array for configuring the YouTube search as well as the plugin output.
+   * @return  array         Normalized data.
    */
   public function validateConfiguration( $args = array() ) {
 
@@ -391,37 +417,39 @@ EOF;
       
     }
 
-    // looks like the YouTube API is case sensitive here!
-    if( $orderBy == 'viewcount' ) {
+    // The YouTube API is case sensitive!
+    if( $orderBy === 'viewcount' ) {
 
-      $orderBy = 'viewCount';
+      $orderBy    = 'viewCount';
 
     }
     
+    // Start
     $start        = isset( $args['start'] )       ? (int) abs( $args['start'] )             : 0;
     
-    if( $start == 0 && isset( $args['offset'] ) ) {
+    if( $start === 0 && isset( $args['offset'] ) ) {
       
-      $start = (int) abs( $args['offset'] );
+      $start      = (int) abs( $args['offset'] );
       
     }
     
     if( $start < 0 ) {
       
-      $start = 0;
+      $start      = 0;
       
     }
     
+    // Max
     $max          = isset( $args['max'] )         ? (int) abs( $args['max'] )               : 10;
     
     if( $max < 1 ) {
       
-      $max = 1;
+      $max        = 1;
       
     }
     else if( $max > 10 ) {
       
-      $max = 10;
+      $max        = 10;
       
     }
 
@@ -441,7 +469,7 @@ EOF;
 
     $class        = isset( $args['class'] )       ? strip_tags( $args['class'] )   	        : '';
     
-    $id           = isset( $args['class'] )       ? strip_tags( $args['id'] )               : '';
+    $id           = isset( $args['id'] )          ? strip_tags( $args['id'] )               : '';
     
     $relation     = isset( $args['relation'] )    ? strtolower( $args['relation'] )         : '';
 
@@ -449,6 +477,7 @@ EOF;
     
     $preview      = ( isset( $args['preview'] ) && ( $args['preview'] === true || $args['preview'] == 'true' || (int) $args['preview'] == 1 || $args['preview'] == 'on' ) ) ? true : false;
     
+    // Random pool
     $random       = ( isset( $args['random'] ) )    ? (int) abs( $args['random'] )            : $max;
   
     if( $random < $max ) {
@@ -457,35 +486,40 @@ EOF;
       
     }
 
-    $lang = ( isset( $args['lang'] ) && preg_match( '#^[a-z]{2}$#i', $args['lang'] ) ) ? strtolower( $args['lang'] ) : '';
+    $lang         = ( isset( $args['lang'] ) && preg_match( '#^[a-z]{2}$#i', $args['lang'] ) ) ? strtolower( $args['lang'] ) : '';
 
-    $region = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
+    $region       = ( isset( $args['region'] ) && preg_match( '#^[a-z]{2}$#i', $args['region'] ) ) ? strtoupper( $args['region'] ) : '';
 
-$author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
+    $author       = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
 
 
+    /**
+     * Depending on what relation has been specified generate the proper keywords for searching YouTube.
+     */
     if( $relation !== 'posttags' && $relation !== 'keywords' ) {
       
-      $relation = 'posttitle';
+      $relation   = 'posttitle';
       
     }
 
-    if( $relation == 'posttitle' ) {
+    // Relation: Post title.
+    if( $relation === 'posttitle' ) {
       
       global $post;
       
-      $search = ( isset( $post->post_title ) ) ? $post->post_title : '';
+      $search     = ( isset( $post->post_title ) ) ? $post->post_title : '';
       
     }
+    // Relation: Post tags.
     else if( $relation == 'posttags' ) {
       
       global $post;
       
       if( isset( $post->ID ) ) {
       
-        $tags   = wp_get_post_tags( $post->ID );
+        $tags     = wp_get_post_tags( $post->ID );
       
-        $search = '';
+        $search   = '';
       
         foreach( $tags as $tag ) {
         
@@ -493,23 +527,42 @@ $author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
         
         }
       
-        $search = trim( $search );
+        $search   = trim( $search );
       
       }
       else {
         
-        $search = '';
+        $search   = '';
         
       }
 
     }
+// @todo post categories
+    // Relation: Custom Keywords.
     else if( $relation == 'keywords' ) {
       
-      $search = trim( $searchTerms );
+      $search     = trim( $searchTerms );
       
     }
 
-    $norm = array(
+    /**
+     * You can add additional filtering paramets via the "filter" parameter.
+     * The filter value will simply be added to the search terms.
+     */
+    $filter = '';
+    
+    if( isset( $args['filter'] ) && !empty( $args['filter'] ) ) {
+      
+      $filter  = trim( strip_tags( $args['filter'] ) );
+    
+      $search .= ' ' . $filter;
+    
+      
+    }
+
+
+
+    $norm         = array(
       'title'                 => $title,
       'terms'                 => $searchTerms,
       'orderBy'               => $orderBy,
@@ -531,12 +584,85 @@ $author = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
       'duration'              => $duration,
       'lang'                  => $lang,
       'region'                => $region,
-      'author'                => $author
+      'author'                => $author,
+      'filter'                => $filter
     );
 
     return $norm;
 
   }
   
+  /**
+   * Load external file/URL via cURL
+   *
+   * @param   string  $url    URL to be loaded.
+   * @return  string          Response from the YT web service or a plain error message.
+   */
+  public function loadUrlVia_curl( $url ) {
+
+    try {
+    
+      // Configure cURL
+      $curl   = curl_init();
+
+      curl_setopt( $curl, CURLOPT_URL, $url );
+
+      // The YouTube search API is requires connecting via SSL/HTTPS which cURL needs to be configurated for.
+      if( isset( $match[1] ) && strtolower( $match[1] ) === 'https' ) {
+        
+        curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
+
+        curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
+      
+      }
+
+      curl_setopt( $curl, CURLOPT_FILETIME, true );
+
+      curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
+    
+
+      // Load the URL/response
+      $data   = curl_exec( $curl );
+
+      $error  = (int) curl_errno( $curl );
+    
+
+      curl_close( $curl );
+    
+
+      if( $error !== 0 ) {
+      
+        return 'cURL error code: ' . $error;
+      
+      }
+      else {
+    
+        return $data;
+    
+      }
+
+    }
+    catch( Exception $e ) {
+    
+      return 'cURL exception: ' . $e->getMessage();
+    
+    }
+
+  }
+  
+  /**
+   * Load external file/URL via fopen
+   *
+   * @param   string  $url    URL to be loaded.
+   * @return  string          Response from the YT web service or a plain error message.
+   */
+  public function loadUrlVia_fopen( $url ) {
+    
+    $data = @file_get_contents( $url );
+    
+    return ( $data === false ) ? 'Cannot reach YouTube Search API!' : $data;
+    
+  }
+
 }
 ?>
