@@ -229,7 +229,7 @@ class RelatedYouTubeVideos_API {
 
     $class  = isset( $args['class'] )   ? 'class="relatedYouTubeVideos ' . strip_tags( $args['class'] ) . '"' : 'class="relatedYouTubeVideos"';
     
-    $id     = isset( $args['id'] )      ? 'id="' . strip_tags( $args['id'] ) . '"'                            : '';
+    $id     = ( isset( $args['id'] ) && !empty( $args['id'] ) ) ? 'id="' . strip_tags( $args['id'] ) . '"'                            : '';
     
     $width  = isset( $args['width'] )   ? (int) $args['width']  : 0;
     
@@ -291,34 +291,55 @@ if( typeof showRelatedVideo !== 'function' ) {
 </script>
 EOF;
 
-      $html               .= $jsFunction;
+      $html                    .= $jsFunction;
       
-      $html               .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
+      $html                    .= '  <ul ' . $class . ' ' . $id . '>' . "\n";
 
       foreach( $results as $video ) {
 
         // Try detecting the YouTube Video ID 
         preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
   
-        $videoID          = isset( $match[1] )      ? (string) $match[1]          : null;
+        $videoID                = isset( $match[1] )      ? (string) $match[1]          : null;
   
-        $videoTitle       = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
-
-        $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
-
+        $videoTitle             = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
         
-        $videoTitle       = ( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) ? ", videoTitle : '" . $videoTitle . "'" : '';
+        $videoTitle_clean       = $videoTitle;
 
-        $videoDescription = ( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) ? ", description : '" . $videoDescription . "'" : '';
-
+        $videoTitle_esc         = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoTitle );
         
-        $argsObj          = "{ videoID:'" . $videoID . "', width:" . $width . ", height:" . $height . $videoTitle . $videoDescription . "}";
-  
-        $html             .= '   <li onClick="innerHTML = showRelatedVideo(' . $argsObj . ");removeAttribute('onClick');\">\n";
+        $videoDescription       = (string) $video->children('media', true)->group->children('media', true )->description;
+        
+        $videoDescription_clean = $videoDescription;
+        
+        $videoDescription_esc   = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoDescription );
+
+        $videoTitle             = ( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) ? ", videoTitle : '" . $videoTitle_esc . "'" : '';
+
+        $videoDescription       = ( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) ? ", description : '" . $videoDescription_esc . "'" : '';
+        
+        $argsObj                = "{ videoID:'" . $videoID . "', width:" . $width . ", height:" . $height . $videoTitle . $videoDescription . "}";
+
+        $html                  .= "   <li onClick=\"innerHTML=showRelatedVideo(" . $argsObj . ");removeAttribute('onClick');\">\n";
 
         if( $videoID != null ) {
 
           $html           .= '     <img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" width="' . $width . '" height="' . $height . '" />' . "\n";
+
+
+          if( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) {
+            
+            $html         .= '    <div class="title">' . $videoTitle_clean . "</div>\n";
+          
+          }
+        
+          if( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) {
+            
+            $html         .= '    <div class="description">' . $videoDescription_clean . "</div>\n";
+          
+          }
+  
+
 
         }
         else {
