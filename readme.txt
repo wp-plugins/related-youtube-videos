@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.8.1
-Stable tag:         1.5.2
+Stable tag:         1.5.3
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,7 +200,10 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
-= 1.5.1 =
+= 1.5.3 =
+* Quick typo fix in the JS code. Oh boy^^
+
+= 1.5.2 =
 * Fix: Preview mode now shows title and description again (it you want it to).
 
 = 1.5.1 =
@@ -212,13 +215,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.4.6 =
 * New attribute added: author="{YouTube Username}" will only show videos from that very YT user.
-
-= 1.4.5 =
-* New attribute added: lang="", e.g. lang="en". Inserting a two-letter language code should restricts the videos to that very language.
-* New attribute added: region="", e.g. region="de". Only show videos that are viewable for a given (two-letter country code) region.
-
-= 1.4.3 =
-* Added Serbo-Croatian translation, thanks to by Borisa Djuraskovic.
 
 
 == Upgrade Notice ==

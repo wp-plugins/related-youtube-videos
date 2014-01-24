@@ -314,7 +314,7 @@ EOF;
         
         $videoDescription_esc   = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoDescription );
 
-        $videoTitle             = ( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) ? ", videoTitle : '" . $videoTitle_esc . "'" : '';
+        $videoTitle             = ( isset( $args['showvideotitle'] ) && $args['showvideotitle'] === true ) ? ", title : '" . $videoTitle_esc . "'" : '';
 
         $videoDescription       = ( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) ? ", description : '" . $videoDescription_esc . "'" : '';
         
