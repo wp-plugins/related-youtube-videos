@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.8.0
-Stable tag:         1.5.0
+Tested up to:       3.8.1
+Stable tag:         1.5.1
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
+= 1.5.1 =
+* HTML/JS fix for displaying the videos.
+
 = 1.5.0 =
 * New attribute added filter="" you can add more keywords or search parameters here that will always be added to the YT search and -eg if the relation is postTitle or postTags- can be used to modify or filter the results.
 * The plugin now has a backend page. This contains a little settings section, a system requirements check and the documentation.
@@ -213,9 +216,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.4.3 =
 * Added Serbo-Croatian translation, thanks to by Borisa Djuraskovic.
-
-= 1.4.2 =
-* Added internal "Allow fullscreen mode" (HTML) parameter.
 
 
 == Upgrade Notice ==

@@ -269,7 +269,7 @@ if( typeof showRelatedVideo !== 'function' ) {
     var video = '',
         videoTitle = ( undefined === config.title ) ? '' : config.title;
     
-    video += '<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' +  config.videoID + '?autoplay=1" width="' + config.width +  '" height="' + config.height + '">';
+    video += '<object data="http://www.youtube.com/embed/' +  config.videoID + '?autoplay=1" width="' + config.width +  '" height="' + config.height + '">';
     video += ' <param name="movie" value="http://www.youtube.com/v/' + config.videoID + '" />';
     video += ' <param name="wmode" value="transparent" />';
     video += ' <param name="allowfullscreen" value="true" />';
@@ -356,7 +356,7 @@ EOF;
          */
         if( $videoID != null ) {
 
-          $html           .= '    <object type="application/x-shockwave-flash" data="http://www.youtube.com/v/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
+          $html           .= '    <object data="http://www.youtube.com/embed/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
           $html           .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
           $html           .= '     <param name="wmode" value="transparent" />' . "\n";
           $html           .= '     <param name="allowfullscreen" value="true" />' . "\n";
