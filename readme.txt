@@ -25,25 +25,6 @@ Also, this plugin offers you two ways to embed related videos:
 2. by using the WordPress widget "Related YouTube Videos" in any of your widget areas (multiple instances are possible).
 
 
-= System Requirements =
-
-In order to run this plugin you need the following components installed and enabled in your server and PHP environment:
-
-* PHP 5.1.2+
-* SimpleXML (usually is enabled by default anyways)
-* cURL (preferred) or fopen/fsockopen
-* OpenSSL + HTTPS wrapper (is only required if cURL is not available)
-* WordPress 3.0+
-
-In general you should not have to worry about these things since they're included in most web hosting packages nowadays.
-But to be sure you can download and install this plugin and then check the backend page. There is a "System Requirements" section that will show you exactly if you can good to go or if there is any problem.
-
-In case you're getting a "URL file-access is disabled in the server configuration" error you should make sure your PHP.ini file contains these two lines:
-
-  allow_url_include = on
-  
-  allow_url_fopen = on
-
 
 = The Shortcode =
 
@@ -113,6 +94,25 @@ When you set a numeric value for the RANDOM parameter/option you can get random 
 **[relatedYouTubeVideos relation="keywords" terms="fast cars" max="2" random="10"]** will actually request 10 videos from YouTube but only show 2 random ones out of that 10.
 
 So RANDOM will determine the size of the pool MAX videos will be chosen from.
+
+= System Requirements =
+
+In order to run this plugin you need the following components installed and enabled in your server and PHP environment:
+
+* PHP 5.1.2+
+* SimpleXML (usually is enabled by default anyways)
+* cURL (preferred) or fopen/fsockopen
+* OpenSSL + HTTPS wrapper (is only required if cURL is not available)
+* WordPress 3.0+
+
+In general you should not have to worry about these things since they're included in most web hosting packages nowadays.
+But to be sure you can download and install this plugin and then check the backend page. There is a "System Requirements" section that will show you exactly if you can good to go or if there is any problem.
+
+In case you're getting a "URL file-access is disabled in the server configuration" error you should make sure your PHP.ini file contains these two lines:
+
+  allow_url_include = on
+  
+  allow_url_fopen = on
 
 = Available Languages: =
 * English
@@ -199,6 +199,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.5.4 =
+* Randomizer maths fix.
 
 = 1.5.3 =
 * Quick typo fix in the JS code. Oh boy^^

@@ -169,8 +169,8 @@ class RelatedYouTubeVideos_API {
       /* Generate random index numbers, between 0 and $random */
       while( $count < $max ) {
         
-        $tmp      = mt_rand( 0, ( $random -1 ) );
-        
+        $tmp = ( $random > 1 ) ? mt_rand( 0, ( $random -1 ) ) : 0;
+
         if( !in_array( $tmp, $randIndex ) ) {
           
           $randIndex[] = $tmp;
