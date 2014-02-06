@@ -201,6 +201,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 == Changelog ==
 
 = 1.5.5 =
+* Behaviour fixed when YT is not returning a single result/video.
+
+= 1.5.4 =
 * Randomizer maths fix.
 
 = 1.5.3 =

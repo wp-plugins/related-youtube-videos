@@ -108,7 +108,6 @@ class RelatedYouTubeVideos_API {
     }
 
 
-// @new
     // Call the YouTube Search Webservice
     if( !defined( 'RYTV_METHOD' ) || RYTV_METHOD === false ) {
       
@@ -117,7 +116,7 @@ class RelatedYouTubeVideos_API {
     }
     
     $loadURL  = 'loadUrlVia_' . strtolower( RYTV_METHOD );
-    
+
     $data     = $this->$loadURL( $target );
     
     // Make the request by loading the response directly into a SimpleXML object.
@@ -128,10 +127,10 @@ class RelatedYouTubeVideos_API {
     // Return FALSE in case the URL could not be loaded or no SimpleXML object could be created from it.
     if( !is_object( $xml ) ) {
     
-      return false;
+      return array();
     
     }
-    
+
     // In case the YouTube response XML contains an error message, respectively code, return it!
     if( isset( $xml->errors->error->code ) ) {
       
@@ -143,8 +142,14 @@ class RelatedYouTubeVideos_API {
      * Now build the list of videos according to the plugin configuration and "input parameters" (shortcode/widget).
      */
 
-    $result       = array();
+    if( !isset( $xml->entry ) ) {
+      
+      return array();
+      
+    }
 
+    $result       = array();
+    
     foreach( $xml->entry as $video ) {
 
       $result[]   = $video;
