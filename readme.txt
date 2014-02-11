@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.8.1
-Stable tag:         1.5.6
+Stable tag:         1.5.7
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
+= 1.5.7 =
+* Fix of decting the method that shall be used to call the remote YouTube API.
+
 = 1.5.5 =
 * Behaviour fixed when YT is not returning a single result/video.
 
@@ -211,16 +214,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.5.2 =
 * Fix: Preview mode now shows title and description again (it you want it to).
-
-= 1.5.1 =
-* HTML/JS fix for displaying the videos.
-
-= 1.5.0 =
-* New attribute added filter="" you can add more keywords or search parameters here that will always be added to the YT search and -eg if the relation is postTitle or postTags- can be used to modify or filter the results.
-* The plugin now has a backend page. This contains a little settings section, a system requirements check and the documentation.
-
-= 1.4.6 =
-* New attribute added: author="{YouTube Username}" will only show videos from that very YT user.
 
 
 == Upgrade Notice ==
