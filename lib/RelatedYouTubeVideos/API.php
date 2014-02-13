@@ -109,14 +109,8 @@ class RelatedYouTubeVideos_API {
 
 
     // Call the YouTube Search Webservice
-    if( !defined( 'RYTV_METHOD' ) || RYTV_METHOD === false ) {
-      
-      return "<!-- Related YouTube Videos: Error: Looks like you cannot load external files! Please check your server and PHP settings! -->\n";
-      
-    }
+    $loadURL  = ( defined( 'RYTV_METHOD' ) && RYTV_METHOD === 'curl' ) ? 'loadUrlVia_curl' : 'loadUrlVia_fopen';
     
-    $loadURL  = 'loadUrlVia_' . strtolower( RYTV_METHOD );
-
     $data     = $this->$loadURL( $target );
     
     // Make the request by loading the response directly into a SimpleXML object.
@@ -141,7 +135,6 @@ class RelatedYouTubeVideos_API {
     /**
      * Now build the list of videos according to the plugin configuration and "input parameters" (shortcode/widget).
      */
-
     if( !isset( $xml->entry ) ) {
       
       return array();
@@ -683,6 +676,12 @@ EOF;
    * @return  string          Response from the YT web service or a plain error message.
    */
   public function loadUrlVia_fopen( $url ) {
+    
+    if( preg_match( '#^https#i', $url ) && ( RYTV_METHOD === false ) ) {
+      
+      return '<!-- RelatedYouTubeVideos: Error: Cannot open HTTPS connection! Please install either curl or an HTTPS wrapper for the fopen function. -->';
+      
+    }
     
     $data = @file_get_contents( $url );
     

@@ -281,7 +281,7 @@ class RelatedYouTubeVideos_Backend_Index extends Meomundo_WP {
 
     $html .= ' <li class="' . ( ( $fopen === true ) ? 'success' : 'error' ) . '">fOpen</li>' . "\n";
 
-    $html .= ' <li class="' . ( ( $https === true ) ? 'success' : 'error' ) . '">HTTPS wrapper - <em>' . _x( '(only) required if cURL cannot be used.', $this->slug ) . "</em></li>\n";
+    $html .= ' <li class="' . ( ( $https === true ) ? 'success' : 'error' ) . '">HTTPS wrapper - <em>' . _x( 'In case no video is being displayed you might have to install this one on your server.', $this->slug ) . "</em></li>\n";
 
     $html .= "</ul>\n";
     
