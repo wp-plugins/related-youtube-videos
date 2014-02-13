@@ -4,7 +4,7 @@ Plugin Name:  Related YouTube Videos
 Plugin URI:   http://www.meomundo.com/
 Description:  Embeds videos from YouTube that (can) automatically relate to a current page or post.
 Author:       Chris Doerr
-Version:      1.5.8
+Version:      1.5.9
 Author URI:   http://www.meomundo.com/
 */
 
@@ -60,7 +60,7 @@ if( !defined( 'RYTV_METHOD' ) ) {
     $meoTemp['httpsWrapper_isInstalled']  = ( function_exists( 'stream_get_wrappers' ) && in_array( 'https', stream_get_wrappers() ) ) ? true : false;
     
     if(
-         $mepTemp['fopen_isInstalled']        === true
+         $meoTemp['fopen_isInstalled']        === true
       && $meoTemp['openSSL_isInstalled']      === true
       && $meoTemp['httpsWrapper_isInstalled'] === true
     ) {
