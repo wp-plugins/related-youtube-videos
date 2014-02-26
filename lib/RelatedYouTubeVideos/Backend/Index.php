@@ -96,6 +96,8 @@ class RelatedYouTubeVideos_Backend_Index extends Meomundo_WP {
     
     $defaultRelation  = ( isset( $options['defaultRelation'] ) ) ? strtolower( $options['defaultRelation'] ) : 'posttitle';
     
+    $customMessage    = ( isset( $options['customMessage'] ) ) ? $options['customMessage'] : '';
+    
 
     $html .= '<form action="admin.php?page=' . $this->slug . '_index" method="post" id="rytv_settings">' . "\n";
 
@@ -144,6 +146,12 @@ class RelatedYouTubeVideos_Backend_Index extends Meomundo_WP {
     
     $html .= " </tr>\n";
     
+    // Setting: Custom Message "No video(s) found"
+    $html .= " <tr>\n";
+    $html .= '  <th><label for="rytv_settings_customMessage">' . _x( 'Custom error message &quot;No Video(s) Found&quot;', $this->slug ) . ":</label></th>\n";
+    $html .= '  <td><input type="text" name="rytv_settings_customMessage" id="rytv_settings_customMessage" value="' . $customMessage . '" /></td>' . "\n";
+    $html .= " </tr>\n";
+    
 
     $html .= "</table>\n";
 
@@ -184,6 +192,8 @@ class RelatedYouTubeVideos_Backend_Index extends Meomundo_WP {
       $new['defaultRelation'] = ( isset( $old['defaultRelation'] ) ) ? $old['defaultRelation'] : 'posttitle';
       
     }
+    
+    $new['customMessage'] = ( isset( $_POST['rytv_settings_customMessage'] ) ) ? trim( $_POST['rytv_settings_customMessage'] ) : '';
     
     /**
      * The WP options update function also returns FALSE in case there was no change in the options.

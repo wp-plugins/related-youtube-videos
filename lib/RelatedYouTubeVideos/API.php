@@ -218,7 +218,19 @@ class RelatedYouTubeVideos_API {
      */
     if( !is_array( $results ) || empty( $results) ) {
       
-      return '<!-- relatedYouTubeVideos Error: No related videos found! (' . $this->latestCall . ') -->';
+      $options = get_option( 'relatedyoutubevideos' );
+      
+      $errMsg = '';
+      
+      if( isset( $options['customMessage'] ) && trim( $options['customMessage'] ) !== '' ) {
+        
+        $errMsg .= $options['customMessage'];
+        
+      }
+      
+      $errMsg .= "\n" . '<!-- relatedYouTubeVideos Error: No related videos found! (' . $this->latestCall . ') -->' . "\n";
+      
+      return $errMsg;
       
     }
     

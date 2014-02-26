@@ -4,7 +4,7 @@ Plugin Name:  Related YouTube Videos
 Plugin URI:   http://www.meomundo.com/
 Description:  Embeds videos from YouTube that (can) automatically relate to a current page or post.
 Author:       Chris Doerr
-Version:      1.6.0
+Version:      1.6.1
 Author URI:   http://www.meomundo.com/
 */
 

@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.8.1
-Stable tag:         1.6.0
+Stable tag:         1.6.1
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -199,6 +199,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.6.1 =
+* Plugin Setting: You can now have your own message when no video(s) were found.
 
 = 1.6.0 =
 * Not a real fix but in case no video can be found include the YouTube request URL into the error message.
