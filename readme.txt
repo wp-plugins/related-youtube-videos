@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.8.1
-Stable tag:         1.5.9
+Stable tag:         1.6.0
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
+= 1.6.0 =
+* Not a real fix but in case no video can be found include the YouTube request URL into the error message.
+
 = 1.5.9 =
 * Workaround: In case curl is not install simply try loading calling the YouTube API, no matter if the (officially) required HTTPS wrapper is installed or not.
 
@@ -214,9 +217,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.5.3 =
 * Quick typo fix in the JS code. Oh boy^^
-
-= 1.5.2 =
-* Fix: Preview mode now shows title and description again (it you want it to).
 
 
 == Upgrade Notice ==

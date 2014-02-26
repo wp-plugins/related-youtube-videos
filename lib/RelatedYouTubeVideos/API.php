@@ -9,6 +9,8 @@
  *
  */
 class RelatedYouTubeVideos_API {
+  
+  protected $latestCall = '';
 
   /**
    * Do the actual YouTube search by generating a GET request.
@@ -107,6 +109,7 @@ class RelatedYouTubeVideos_API {
   
     }
 
+    $this->latestCall = $target;
 
     // Call the YouTube Search Webservice
     $loadURL  = ( defined( 'RYTV_METHOD' ) && RYTV_METHOD === 'curl' ) ? 'loadUrlVia_curl' : 'loadUrlVia_fopen';
@@ -215,13 +218,13 @@ class RelatedYouTubeVideos_API {
      */
     if( !is_array( $results ) || empty( $results) ) {
       
-      return '<!-- [relatedYouTubeVideos] Error: No related videos found! -->';
+      return '<!-- relatedYouTubeVideos Error: No related videos found! (' . $this->latestCall . ') -->';
       
     }
     
     if( isset( $results['error'] ) ) {
 
-      return '<!-- [relatedYouTubeVideos] Error: ' . str_replace( '_', ' ', $results['error'] ) . '! -->';
+      return '<!-- relatedYouTubeVideos Error: ' . str_replace( '_', ' ', $results['error'] ) . '! -->';
 
     }
 
