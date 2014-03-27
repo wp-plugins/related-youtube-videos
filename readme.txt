@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.8.1
-Stable tag:         1.6.1
+Stable tag:         1.6.2
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,7 @@ You can use the following options/parameters/attributes:
 * **region**              - {2-letter-country-code} will show videos that are actually viewable in that region/country.
 * **author**              - Only show videos from a given YouTube User(name) .
 * **filter**              - Add additional keywords or filtering search parameters. Those will **always** be added even when the relation is set to post title, tags, or so.
+* **viewRelated**         - set to "no" or "false" will **not** show more related videos at the end of a clip.
 
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
 
@@ -200,6 +201,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
+= 1.6.2 =
+* New shortcode/widget parameter: viewRelated="no" or viewRelated="false" will **not** show more related videos at the end of a clip.
+
 = 1.6.1 =
 * Plugin Setting: You can now have your own message when no video(s) were found.
 
@@ -217,9 +221,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.5.4 =
 * Randomizer maths fix.
-
-= 1.5.3 =
-* Quick typo fix in the JS code. Oh boy^^
 
 
 == Upgrade Notice ==

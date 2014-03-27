@@ -97,8 +97,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
 
     $videoDescription   = ( $data['showvideodescription'] === true ) ? ' checked="checked"' : '';
     
-    $previewMode = ( $data['preview'] === true ) ? 'checked="checked"' : '';
-
+    $previewMode  = ( $data['preview'] === true ) ? 'checked="checked"' : '';
+    
     /**
      * Generating the HTML form for the widget options.
      */
@@ -266,6 +266,37 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= '  <input type="text" name="' . $this->get_field_name( 'filter' ) . '" value="' . $data['filter'] . '"/>' . "\n";
     $html .= ' </li>' . "\n";
 
+    // Show related videos at the end
+    $html .= ' <li>' . "\n";
+    $html .= '  <label for="' . $this->get_field_id( 'viewrelated' ) . '" style="display:inline-block;width:75px;text-align:right;">' . __( 'View related videos:', $this->slug ) . '</label>' . "\n";
+
+    $html .= '  <select name="' . $this->get_field_name( 'viewrelated' ) . '" size="1">' . "\n";
+
+    $html .= '   <option value="1"';
+
+    if( $data['viewrelated'] === 1 ) {
+      
+      $html .= ' selected="selected"';
+      
+    }
+
+    $html .= '>' . __( 'Yes', $this->slug ) . "</option>\n";
+
+    $html .= '   <option value="0"';
+
+    if( $data['viewrelated'] === 0 ) {
+      
+      $html .= ' selected="selected"';
+      
+    }
+
+    $html .= '>' . __( 'No', $this->slug ) . "</option>\n";
+
+    $html .= "  </select>\n";
+    
+    $html .= '<span class="description">' . __( 'at the end of the clip', $this->slug ) . '</span>';
+
+    $html .= ' </li>' . "\n";
 
     $html .= '</ul>' . "\n";
 
@@ -358,7 +389,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
         'class'                 => $data['class'],
         'id'                    => $data['id'],
         'showvideotitle'        => $data['showvideotitle'],
-        'showvideodescription'  => $data['showvideodescription']
+        'showvideodescription'  => $data['showvideodescription'],
+        'viewrelated'           => $data['viewrelated']
       )
     );
 

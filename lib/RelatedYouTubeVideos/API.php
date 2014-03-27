@@ -60,8 +60,6 @@ class RelatedYouTubeVideos_API {
     
     $max          = (int) $max;
     
-
-
     $random       = ( isset( $args['random'] ) && $args['random'] > $max )  ? (int) $args['random'] : $max;
 
     if( $random > $max ) {
@@ -240,13 +238,15 @@ class RelatedYouTubeVideos_API {
 
     }
 
-    $class  = isset( $args['class'] )   ? 'class="relatedYouTubeVideos ' . strip_tags( $args['class'] ) . '"' : 'class="relatedYouTubeVideos"';
+    $class        = isset( $args['class'] )   ? 'class="relatedYouTubeVideos ' . strip_tags( $args['class'] ) . '"' : 'class="relatedYouTubeVideos"';
     
-    $id     = ( isset( $args['id'] ) && !empty( $args['id'] ) ) ? 'id="' . strip_tags( $args['id'] ) . '"'                            : '';
+    $id           = ( isset( $args['id'] ) && !empty( $args['id'] ) ) ? 'id="' . strip_tags( $args['id'] ) . '"'                            : '';
     
-    $width  = isset( $args['width'] )   ? (int) $args['width']  : 0;
+    $width        = isset( $args['width'] )   ? (int) $args['width']  : 0;
     
-    $height = isset( $args['height'] )  ? (int) $args['height'] : 0;
+    $height       = isset( $args['height'] )  ? (int) $args['height'] : 0;
+    
+    $viewRelated  = ( isset( $args['viewrelated'] ) && (int) $args['viewrelated'] === 0 ) ? 0 : 1;
 
     /**
      * Starting the HTML generation.
@@ -259,7 +259,7 @@ class RelatedYouTubeVideos_API {
      */
 
     if( isset( $args['preview'] ) && $args['preview'] === true ) {
-
+      
       $jsFunction =<<<EOF
 <script type="text/javascript">
 if( typeof showRelatedVideo !== 'function' ) {
@@ -282,8 +282,8 @@ if( typeof showRelatedVideo !== 'function' ) {
     var video = '',
         videoTitle = ( undefined === config.title ) ? '' : config.title;
     
-    video += '<object data="http://www.youtube.com/embed/' +  config.videoID + '?autoplay=1" width="' + config.width +  '" height="' + config.height + '">';
-    video += ' <param name="movie" value="http://www.youtube.com/v/' + config.videoID + '" />';
+    video += '<object data="http://www.youtube.com/embed/' +  config.videoID + '?autoplay=1&rel={$viewRelated}" width="' + config.width +  '" height="' + config.height + '">';
+    video += ' <param name="movie" value="http://www.youtube.com/v/' + config.videoID + '?rel={$viewRelated}" />';
     video += ' <param name="wmode" value="transparent" />';
     video += ' <param name="allowfullscreen" value="true" />';
     video += ' <a href="http://www.youtube.com/watch?v=' + config.videoID + '"><img src="http://img.youtube.com/vi/' + config.videoID + '/0.jpg" alt="' + videoTitle + '" /><br />YouTube Video</a>';
@@ -390,8 +390,8 @@ EOF;
          */
         if( $videoID != null ) {
 
-          $html           .= '    <object data="http://www.youtube.com/embed/' . $videoID  . '" width="' . $width . '" height="' . $height . '">' . "\n";
-          $html           .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '" />' . "\n";
+          $html           .= '    <object data="http://www.youtube.com/embed/' . $videoID  . '?rel=' . $viewRelated . '" width="' . $width . '" height="' . $height . '">' . "\n";
+          $html           .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '?rel=' . $viewRelated . '" />' . "\n";
           $html           .= '     <param name="wmode" value="transparent" />' . "\n";
           $html           .= '     <param name="allowfullscreen" value="true" />' . "\n";
           $html           .= '     <a href="http://www.youtube.com/watch?v=' . $videoID . '"><img src="http://img.youtube.com/vi/' . $videoID . '/0.jpg" alt="' . $videoTitle . '" /><br />YouTube Video</a>' . "\n";
@@ -526,6 +526,13 @@ EOF;
 
     $author       = ( isset( $args['author'] ) ) ? trim( $args['author'] ) : '';
 
+    $viewRelated  = ( isset( $args['viewrelated'] ) && ( (int) $args['viewrelated'] === 0 || strtolower( $args['viewrelated'] ) === 'false' || strtolower( $args['viewrelated'] ) === 'no' ) ) ? 0 : 1;
+    
+    if( isset( $args['viewrelated'] ) && ( strtolower( $args['viewrelated'] ) === 'yes' || strtolower( $args['viewrelated'] ) === 'true' ) ) {
+      
+      $viewRelated = 1;
+      
+    }
 
     /**
      * Depending on what relation has been specified generate the proper keywords for searching YouTube.
@@ -595,7 +602,6 @@ EOF;
     }
 
 
-
     $norm         = array(
       'title'                 => $title,
       'terms'                 => $searchTerms,
@@ -619,7 +625,8 @@ EOF;
       'lang'                  => $lang,
       'region'                => $region,
       'author'                => $author,
-      'filter'                => $filter
+      'filter'                => $filter,
+      'viewrelated'           => $viewRelated
     );
 
     return $norm;
