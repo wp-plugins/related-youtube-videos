@@ -159,7 +159,8 @@ class RelatedYouTubeVideos extends Meomundo_WP {
         'id'                    => $data['id'],
         'showvideotitle'        => $data['showvideotitle'],
         'showvideodescription'  => $data['showvideodescription'],
-        'preview'               => $data['preview']
+        'preview'               => $data['preview'],
+        'viewrelated'           => $data['viewrelated']
       )
     );
     

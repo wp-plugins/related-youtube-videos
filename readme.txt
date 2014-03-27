@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       3.8.1
-Stable tag:         1.6.2
+Stable tag:         1.6.3
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -201,7 +201,7 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
-= 1.6.2 =
+= 1.6.3 =
 * New shortcode/widget parameter: viewRelated="no" or viewRelated="false" will **not** show more related videos at the end of a clip.
 
 = 1.6.1 =
