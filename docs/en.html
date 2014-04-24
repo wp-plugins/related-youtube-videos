@@ -118,7 +118,10 @@
  </tr>
  <tr>
   <th>filter</th>
-  <td>Add additional keywords or filtering search parameters. This might be usefull if your relation is title, tags, or categories. In case of <em>keywords</em> you could add these filters to your keywords directly.<br /><strong><code>filter="intitle:official -intitle:cover -intitle:lyrics"</code></strong> will (hopefully) only show the official music video and no cover version or lyrics slideshow.</td>
+  <td>Add additional keywords or filtering search parameters. This might be usefull if your relation is title, tags, or categories. In case of <em>keywords</em> you could add these filters to your keywords directly.<br /><strong><code>filter="intitle:official -intitle:cover -intitle:lyrics"</code></strong> will (hopefully) only show the official music video and no cover version or lyrics slideshow.<br />
+  You can also manually add the post title, tags, and/or categories by adding <strong>+postTags</strong>, <strong>+postCategories</strong>, and/or <strong>+postTitle</strong> to your filter.<br />
+  E.g. if <strong><code>relation="postTitle"</code></strong> and might use <strong><code>filter="+postCategories"</code></strong> to search YT.
+  </td>
  </tr>
  <tr>
   <th>viewRelated</th>
@@ -220,7 +223,7 @@ if( class_exists( 'RelatedYouTubeVideos_API' ) ) {
 
 <a name="rytv_docs_credits" class="anchor">&nbsp;</a>
 <h4 class="rytv_docs">Credits</h4>
-<p>If you have any questions or requests which might be usefull to others as well please post them on <a href="http://wordpress.org/support/plugin/related-youtube-videos" target="_post">wordpress.org/support/plugin/related-youtube-videos</a>. Or you can contact me directly via <a href="http://www.meomundo.com/contact/" target="_blank">meomundo.com</a>.
+<p>If you have any questions or requests which might be usefull to others as well please post them on <a href="http://wordpress.org/support/plugin/related-youtube-videos" target="_blank">wordpress.org/support/plugin/related-youtube-videos</a>. Or you can contact me directly via <a href="http://www.meomundo.com/contact/" target="_blank">meomundo.com</a>.
 <p>I'd also like to thank Borisa Djuraskovic for providing the Serbo-Croatian translation.</p>
 <p>Oh, and if you like this plugin it would be nice of you to <a href="http://wordpress.org/plugins/related-youtube-videos/">give it a little rating</a> (in the sidebar), thx :)</p>
 <p class="top"><a href="#top">top</a></p>

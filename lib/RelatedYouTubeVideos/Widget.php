@@ -86,6 +86,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $relPostTitle = ( strtolower( $data['relation'] ) == 'posttitle' )  ? ' checked="checked"' : '';
 
     $relPostTags  = ( strtolower( $data['relation'] ) == 'posttags' )  ? ' checked="checked"' : '';
+    
+    $relPostCats  = ( strtolower( $data['relation'] ) == 'postcategories' ) ? ' checked="checked"' : '';
 
     $relKeywords  = ( strtolower( $data['relation'] ) == 'keywords' )   ? ' checked="checked"' : '';
     
@@ -113,12 +115,13 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     $html .= " </li>\n";
     $html .= "</ul>\n";
 
-    // Related by postType, postTags, or keywords (in which case you have to enter your search terms/keywords)
+    // Related by postType, postTags, postCategories, or keywords (in which case you have to enter your search terms/keywords)
     $html .= '<fieldset>' . "\n";
     $html .= ' <h3 style="margin-top:1.5em;border-bottom:1px solid #000;" class="rytv_widget">' . __( 'Related By', $this->slug ) . '</h3>' . "\n";
     $html .= ' <ul>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTitle"' . $relPostTitle . ' /> <label>' . __( 'Post Title', $this->slug ) . '</label></li>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postTags"' . $relPostTags . ' /> <label>' . __( 'Post Tags', $this->slug ) . '</label></li>' . "\n";
+    $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="postCategories"' . $relPostCats . ' /> <label>' . __( 'Post Categories', $this->slug ) . '</label></li>' . "\n";
     $html .= '  <li><input type="radio" name="' . $this->get_field_name( 'relation' ) . '" value="keywords"' . $relKeywords . ' /> <label>' . __( 'Keywords: ', $this->slug ) . '</label><input type="text" name="' . $this->get_field_name( 'terms' ) . '" value="' . $data['terms'] . '" /></li>';
     $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'exact' ) . '" ' . $exact . ' /> <label> ' . __( '(try) exact match', $this->slug ) . "</label></li>\n";
     $html .= ' </ul>' . "\n";
@@ -366,7 +369,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
         'random'      => $data['random']
       )
     );
-    
+
     /**
      * View results in form of an unordered HTML list.
      */

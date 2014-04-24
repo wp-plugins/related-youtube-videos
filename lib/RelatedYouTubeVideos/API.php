@@ -10,7 +10,15 @@
  */
 class RelatedYouTubeVideos_API {
   
+  /**
+   * @var string $latestCall Store the latest URL call to the YouTube webservice.
+   */
   protected $latestCall = '';
+  
+  /**
+   * @var array $meta Acts as cache for storing post meta data like the tilte, categories, and tags.
+   */
+  protected $meta;
 
   /**
    * Do the actual YouTube search by generating a GET request.
@@ -537,7 +545,7 @@ EOF;
     /**
      * Depending on what relation has been specified generate the proper keywords for searching YouTube.
      */
-    if( $relation !== 'posttags' && $relation !== 'keywords' ) {
+    if( $relation !== 'posttags' && $relation !== 'keywords' && $relation !== 'postcategories' ) {
       
       $relation   = 'posttitle';
       
@@ -546,41 +554,23 @@ EOF;
     // Relation: Post title.
     if( $relation === 'posttitle' ) {
       
-      global $post;
-      
-      $search     = ( isset( $post->post_title ) ) ? $post->post_title : '';
+      $search = $this->getPostTitle();
       
     }
     // Relation: Post tags.
-    else if( $relation == 'posttags' ) {
+    elseif( $relation == 'posttags' ) {
       
-      global $post;
-      
-      if( isset( $post->ID ) ) {
-      
-        $tags     = wp_get_post_tags( $post->ID );
-      
-        $search   = '';
-      
-        foreach( $tags as $tag ) {
-        
-          $search .= ' ' . $tag->name;
-        
-        }
-      
-        $search   = trim( $search );
-      
-      }
-      else {
-        
-        $search   = '';
-        
-      }
+      $search  = $this->getPostTags();
 
     }
-// @todo post categories
+    // Relation: Post categories.
+    elseif( $relation === 'postcategories' ) {
+
+      $search = $this->getPostCategories();
+      
+    }
     // Relation: Custom Keywords.
-    else if( $relation == 'keywords' ) {
+    elseif( $relation === 'keywords' ) {
       
       $search     = trim( $searchTerms );
       
@@ -590,17 +580,24 @@ EOF;
      * You can add additional filtering paramets via the "filter" parameter.
      * The filter value will simply be added to the search terms.
      */
-    $filter = '';
+    $filter     = '';
     
     if( isset( $args['filter'] ) && !empty( $args['filter'] ) ) {
       
-      $filter  = trim( strip_tags( $args['filter'] ) );
-    
-      $search .= ' ' . $filter;
-    
+      $filter   = trim( strip_tags( $args['filter'] ) );
       
-    }
+      // Use $tmp so $filter stays untouched an can be saved as widget option.
+      $tmp      = preg_replace( '#\+posttitle#i', $this->getPostTitle(), $filter );
+      
+      $tmp      = preg_replace( '#\+posttags#i', $this->getPostTags(), $tmp );
+        
+      $tmp      = preg_replace( '#\+postcategories#i', $this->getPostCategories(), $tmp );
+      
+      $tmp      = trim( $tmp );
 
+      $search   .= ' ' . $tmp;
+
+    }
 
     $norm         = array(
       'title'                 => $title,
@@ -709,6 +706,127 @@ EOF;
     
     return ( $data === false ) ? 'Cannot reach YouTube Search API!' : $data;
     
+  }
+  
+  /**
+   * Get the (current) post title.
+   * Use cached data if possible.
+   *
+   * @return string The post title (or an empty string).
+   */
+  public function getPostTitle() {
+    
+    global $post;
+    
+    if( !isset( $post->ID ) ) {
+      
+      return '';
+      
+    }
+    
+    if( isset( $this->meta[ $post->ID ]['title'] ) ) {
+      
+      return $this->meta[ $post->ID ]['title'];
+      
+    }
+    else {
+
+      $title = ( isset( $post->post_title ) ) ? $post->post_title : '';
+      
+      $this->meta[ $post->ID ]['title'] = $title;
+      
+      return $title;
+
+    }
+
+  }
+
+  /**
+   * Get a list of all tags for the current post.
+   * Use cached data if possible instead of calling the database over and over again.
+   *
+   * @return string List of post tags.
+   */
+  public function getPostTags() {
+
+    global $post;
+    
+    if( !isset( $post->ID ) ) {
+      
+      return '';
+    
+    }
+    
+    if( isset( $this->meta[ $post->ID ]['tags'] ) ) {
+      
+      return $this->meta[ $post->ID ]['tags'];
+      
+    }
+    else {
+    
+      $list       = '';
+    
+      $tags     = wp_get_post_tags( $post->ID );
+      
+      foreach( $tags as $tag ) {
+        
+        $list   .= ' ' . $tag->name;
+        
+      }
+      
+      $list     = trim( $list );
+      
+      $this->meta[ $post->ID ]['tags'] = $list;
+      
+      return $list;
+      
+    }
+
+  }
+
+  /**
+   * Get a list of all categories for the current post.
+   * Use cached data if possible instead of calling the database over and over again.
+   *
+   * @return string List of all categories.
+   */
+  public function getPostCategories() {
+    
+    global $post;
+    
+    if( !isset( $post->ID ) ) {
+      
+      return '';
+      
+    }
+    
+    if( isset( $this->meta[ $post->ID ]['categories'] ) ) {
+      
+      return $this->meta[ $post->ID ]['categories'];
+      
+    }
+    else {
+
+      $list         = '';
+    
+      $categories = wp_get_post_categories( $post->ID );
+
+      foreach( $categories as $category ) {
+      
+        $cat      = get_category( $category );
+      
+        $list     .= ' ' . $cat->name;
+    
+      }
+    
+      $list       = trim( $list );
+
+      $this->meta[ $post->ID ]['categories'] = $list;
+
+      return $list;
+
+    }
+  
   }
 
 }

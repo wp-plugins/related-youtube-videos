@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.8.1
-Stable tag:         1.6.3
+Tested up to:       3.9.0
+Stable tag:         1.6.4
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,7 @@ Automatically embed YouTube videos that are related to your content.
 
 * the title of your current post, page or custom post type.
 * the tags of your current post, page or custom post type.
+* the categories of your current post, page or custom post type.
 * any keywords you specify.
 
 Also, this plugin offers you two ways to embed related videos:
@@ -52,14 +53,14 @@ You can use the following options/parameters/attributes:
 
 **YouTube**
 
-* **relation**            - Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
+* **relation**            - Specify the kind of relation that shall be used for searching YouTube. Can either be 'postTitle', 'postTags', 'postCategories', or 'keywords' (in which case the attribute 'terms' will be used for the YouTube search).
 * **terms**               - Search YouTube for these terms - no separating commas required.
 * **exact**               - Set to 'true' will (try to) search for the exact phrase.
 * **orderBy**             - Can either be 'published', 'rating', 'viewCount', (default) 'relevance'.
 * **lang**                - {2-letter-language-code} will show videos in that language.
 * **region**              - {2-letter-country-code} will show videos that are actually viewable in that region/country.
 * **author**              - Only show videos from a given YouTube User(name) .
-* **filter**              - Add additional keywords or filtering search parameters. Those will **always** be added even when the relation is set to post title, tags, or so.
+* **filter**              - Add additional keywords or filtering search parameters. Those will **always** be added even when the relation is set to post title, tags, or so. You can also manually add post tags by adding '+postTags', categories by adding '+postCategories', the post title by adding '+postTitle' to the filter.
 * **viewRelated**         - set to "no" or "false" will **not** show more related videos at the end of a clip.
 
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
@@ -77,6 +78,8 @@ Shortcode Example 5: **[relatedYouTubeVideos relation="keywords" terms="monthy p
 Shortcode Example 6: **[relatedYouTubeVideos relation="keywords" terms="monthy python" max="1" preview="true"]** Will show the thumbnail of a Monty Python video and load + play the video only when it's being clicked.
 
 Shortcode Example 7: **[relatedYouTubeVideos relation="postTitle" filter="intitle:official -intitle:cover" max="1" preview="true"]** If the post title is about a music video (band and song title, for example) this will only show the official music video.
+
+Shortcode Example 8: **[relatedYouTubeVideos relation="postTitle" filter="+postCategories" max="1" preview="true"]** Will use the post title and a list of all categories the post is in to search YT.
 
 = The Widget =
 
@@ -202,6 +205,10 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 == Changelog ==
 
 = 1.6.3 =
+* You can now also choose postCategories as relation.
+* You can now combine tite, tags, and/or categories by adding filters "+postTags", "+postCategories", and/or "+postTitle".
+
+= 1.6.3 =
 * New shortcode/widget parameter: viewRelated="no" or viewRelated="false" will **not** show more related videos at the end of a clip.
 
 = 1.6.1 =
@@ -218,9 +225,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.5.5 =
 * Behaviour fixed when YT is not returning a single result/video.
-
-= 1.5.4 =
-* Randomizer maths fix.
 
 
 == Upgrade Notice ==
