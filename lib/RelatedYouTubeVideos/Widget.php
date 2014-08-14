@@ -330,13 +330,13 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
    */
 	public function widget( $args, $instance ) {
 
-    $beforeWidget = isset( $args['before_widget'] ) ? strip_tags( trim( $args['before_widget'] ) ) : '';
+    $beforeWidget = isset( $args['before_widget'] ) ? trim( $args['before_widget'] ) : '';
 
-    $afterWidget  = isset( $args['after_widet'] )   ? strip_tags( trim( $args['after_widget'] ) ) : '';
+    $afterWidget  = isset( $args['after_widet'] )   ? trim( $args['after_widget'] ) : '';
 
-    $beforeTitle  = isset( $args['before_title'] )  ? strip_tags( trim( $args['before_title'] ) ) : '';
+    $beforeTitle  = isset( $args['before_title'] )  ? trim( $args['before_title'] ) : '';
 
-    $afterTitle   = isset( $args['after_title'] )   ? strip_tags( trim( $args['after_title'] ) )  : '';
+    $afterTitle   = isset( $args['after_title'] )   ? trim( $args['after_title'] ) : '';
     
     $data         = $this->API->validateConfiguration( $instance );
 

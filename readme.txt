@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.9.0
-Stable tag:         1.6.4
+Tested up to:       3.9.2
+Stable tag:         1.6.5
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -204,7 +204,10 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
-= 1.6.3 =
+= 1.6.5 =
+* Widget: 'before' and 'after' code output fixed
+
+= 1.6.4 =
 * You can now also choose postCategories as relation.
 * You can now combine tite, tags, and/or categories by adding filters "+postTags", "+postCategories", and/or "+postTitle".
 
