@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       3.9.2
-Stable tag:         1.6.5
+Tested up to:       4.0.0
+Stable tag:         1.6.7
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,7 +60,7 @@ You can use the following options/parameters/attributes:
 * **lang**                - {2-letter-language-code} will show videos in that language.
 * **region**              - {2-letter-country-code} will show videos that are actually viewable in that region/country.
 * **author**              - Only show videos from a given YouTube User(name) .
-* **filter**              - Add additional keywords or filtering search parameters. Those will **always** be added even when the relation is set to post title, tags, or so. You can also manually add post tags by adding '+postTags', categories by adding '+postCategories', the post title by adding '+postTitle' to the filter.
+* **filter**              - Add additional keywords or filtering search parameters. Those will **always** be added even when the relation is set to post title, tags, or so. You can also manually add post tags by adding '+postTags', categories by adding '+postCategories', the post title by adding '+postTitle', post meta data by adding '+postMeta:key' to the filter.
 * **viewRelated**         - set to "no" or "false" will **not** show more related videos at the end of a clip.
 
 I recommend always using the attributes 'relation', 'max', and if the relation shall be 'keywords' the 'terms' attribute. Depending on your design you might also set a custom width and height for the videos so they fit in properly.
@@ -203,6 +203,12 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.6.7 =
+* Filter added: "+postMeta:key" will add post meta data to the search string.
+
+= 1.6.6 =
+* Added timeout functionality so you don't run into related errors when you have to wait longer for YouTube to respond than you server allows (PHP) script execution.
 
 = 1.6.5 =
 * Widget: 'before' and 'after' code output fixed

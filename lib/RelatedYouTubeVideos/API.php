@@ -19,6 +19,22 @@ class RelatedYouTubeVideos_API {
    * @var array $meta Acts as cache for storing post meta data like the tilte, categories, and tags.
    */
   protected $meta;
+  
+  /** 
+   * @var int $timeout = PHP/Server settings: Max Execution Time - 5 seconds
+   */
+  protected $timeout;
+
+  /**
+   * The Constructor
+   */
+  public function __construct() {
+    
+    $max_execution_time = (int) ini_get('max_execution_time');
+    
+    $this->timeout      = ( $max_execution_time > 0 ) ? ( $max_execution_time - 5 ) : 15;
+    
+  }
 
   /**
    * Do the actual YouTube search by generating a GET request.
@@ -328,8 +344,9 @@ EOF;
         $videoTitle_clean       = $videoTitle;
 
         $videoTitle_esc         = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoTitle );
-        
-        $videoDescription       = (string) $video->children('media', true)->group->children('media', true )->description;
+
+        // @changelog 2014-10-03
+        $videoDescription       = ( $video->children('media', true)->group->children('media', true )->description ) ? (string) $video->children('media', true)->group->children('media', true )->description : '';
         
         $videoDescription_clean = $videoDescription;
         
@@ -359,8 +376,6 @@ EOF;
             $html         .= '    <div class="description">' . $videoDescription_clean . "</div>\n";
           
           }
-  
-
 
         }
         else {
@@ -375,6 +390,9 @@ EOF;
 
       $html               .= "  </ul>\n";
 
+      
+      $video              = null;
+      
     }
     else {
     
@@ -389,8 +407,9 @@ EOF;
   
         $videoTitle       = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
 
-        $videoDescription = (string) $video->children('media', true)->group->children('media', true )->description;
-  
+        // @changelog 2014-10-03
+        $videoDescription = ( $video->children('media', true)->group->children('media', true )->description ) ? (string) $video->children('media', true)->group->children('media', true )->description : '';
+
         $html             .= "   <li>\n";
 
         /**
@@ -426,6 +445,8 @@ EOF;
 
         $html             .= "   </li>\n";
 
+        $video            = null;
+
       }
 
       $html               .= "  </ul>\n";
@@ -443,6 +464,8 @@ EOF;
    * @return  array         Normalized data.
    */
   public function validateConfiguration( $args = array() ) {
+    
+    global $post;
 
     $title        = isset( $args['title'] )       ? strip_tags( trim( $args['title'] ) )    : '';
 
@@ -593,6 +616,27 @@ EOF;
         
       $tmp      = preg_replace( '#\+postcategories#i', $this->getPostCategories(), $tmp );
       
+      // @changed 2014-10-25
+      // +postMeta:key
+      $postMetaPattern = '#\+postmeta:([a-z0-9-_]+)#i';
+
+      if( preg_match_all( $postMetaPattern, $tmp, $match ) && isset( $match[1] ) && !empty( $match[1] ) && isset( $post->ID ) ) {
+        
+        $postMeta     = '';
+        
+        foreach( $match[1] as $postMetaKey ) {
+          
+          $postMeta .= get_post_meta( $post->ID, $postMetaKey, true );
+          $postMeta .= ' ';
+
+        }
+
+      	$tmp  = preg_replace( $postMetaPattern, ' ', $tmp );
+        
+        $tmp .= ' ' . $postMeta;
+    
+      }
+
       $tmp      = trim( $tmp );
 
       $search   .= ' ' . $tmp;
@@ -654,6 +698,8 @@ EOF;
       
       }
 
+      curl_setopt( $curl, CURLOPT_TIMEOUT, $this->timeout );
+
       curl_setopt( $curl, CURLOPT_FILETIME, true );
 
       curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
@@ -701,8 +747,17 @@ EOF;
       return '<!-- RelatedYouTubeVideos: Error: Cannot open HTTPS connection! Please install either curl or an HTTPS wrapper for the fopen function. -->';
       
     }
+
+    $context  = stream_context_create(
+      array(
+        'http' =>
+          array(
+            'timeout' => $this->timeout
+        )
+      )
+    );
     
-    $data = @file_get_contents( $url );
+    $data     = @file_get_contents( $url, false, $context );
     
     return ( $data === false ) ? 'Cannot reach YouTube Search API!' : $data;
     
