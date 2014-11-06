@@ -271,6 +271,8 @@ class RelatedYouTubeVideos_API {
     $height       = isset( $args['height'] )  ? (int) $args['height'] : 0;
     
     $viewRelated  = ( isset( $args['viewrelated'] ) && (int) $args['viewrelated'] === 0 ) ? 0 : 1;
+    
+    $autoplay     = ( isset( $args['autoplay'] ) && (int) $args['autoplay'] === 1 ) ? 1 : 0;
 
     /**
      * Starting the HTML generation.
@@ -281,7 +283,6 @@ class RelatedYouTubeVideos_API {
      * In PREVIEW mode only the images will be displayed. When clicked such an image will be replace with the video.
      * This requires Javascript to be enabled in the browser!!
      */
-
     if( isset( $args['preview'] ) && $args['preview'] === true ) {
       
       $jsFunction =<<<EOF
@@ -417,7 +418,7 @@ EOF;
          */
         if( $videoID != null ) {
 
-          $html           .= '    <object data="http://www.youtube.com/embed/' . $videoID  . '?rel=' . $viewRelated . '" width="' . $width . '" height="' . $height . '">' . "\n";
+          $html           .= '    <object data="http://www.youtube.com/embed/' . $videoID  . '?rel=' . $viewRelated . ( $autoplay === 1 ? '&autoplay=1' : '' ). '" width="' . $width . '" height="' . $height . '">' . "\n";
           $html           .= '     <param name="movie" value="http://www.youtube.com/v/' . $videoID . '?rel=' . $viewRelated . '" />' . "\n";
           $html           .= '     <param name="wmode" value="transparent" />' . "\n";
           $html           .= '     <param name="allowfullscreen" value="true" />' . "\n";
@@ -540,8 +541,10 @@ EOF;
 
     $wpSearch     = ( isset( $args['wpSearch'] ) && $args['wpSearch'] == true ) ? true      : false;  // Will only have an effect on the search results page
     
-    $preview      = ( isset( $args['preview'] ) && ( $args['preview'] === true || $args['preview'] == 'true' || (int) $args['preview'] == 1 || $args['preview'] == 'on' ) ) ? true : false;
+    $preview      = ( isset( $args['preview'] ) && ( ( $args['preview'] === true || strtolower( $args['preview'] ) === 'true' || (int) $args['preview'] == 1 || $args['preview'] == 'on' ) ) ) ? true : false;
     
+    $autoplay     = ( isset( $args['autoplay'] ) && ( ( $args['autoplay'] === true || strtolower( $args['autoplay'] ) === 'true' ) || (int) $args['autoplay'] === 1 || strtolower( $args['autoplay'] ) === 'on' ) ) ? true : '';
+
     // Random pool
     $random       = ( isset( $args['random'] ) )    ? (int) abs( $args['random'] )            : $max;
   
@@ -667,7 +670,8 @@ EOF;
       'region'                => $region,
       'author'                => $author,
       'filter'                => $filter,
-      'viewrelated'           => $viewRelated
+      'viewrelated'           => $viewRelated,
+      'autoplay'              => $autoplay
     );
 
     return $norm;

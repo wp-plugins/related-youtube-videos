@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       4.0.0
-Stable tag:         1.6.7
+Stable tag:         1.6.8
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,7 @@ You can use the following options/parameters/attributes:
 * **preview**             - "true" will only display the preview image and only load the video (via Javascript!) when this image has been clicked.
 * **showVideoTitle**      - "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
 * **showVideoDescripton** - "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
+* **autoplay**            - "true" if you want the video to automatically start playing when ready. This will obviously **not** work in preview mode!!
 
 **Configuration**
 
@@ -203,6 +204,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.6.8 =
+* Option/Parameter added: autoplay="true" 
 
 = 1.6.7 =
 * Filter added: "+postMeta:key" will add post meta data to the search string.

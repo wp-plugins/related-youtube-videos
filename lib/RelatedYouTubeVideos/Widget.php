@@ -101,6 +101,8 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
     
     $previewMode  = ( $data['preview'] === true ) ? 'checked="checked"' : '';
     
+    $autoplay     = ( $data['autoplay'] === true ) ? 'checked="checked"' : '';
+    
     /**
      * Generating the HTML form for the widget options.
      */
@@ -167,6 +169,10 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
 
     // previewMode
     $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'preview' ) . '" ' . $previewMode . ' /> <label> ' . __( 'Preview Mode ', $this->slug ) . "</label></li>\n";
+
+    // autoplay videos
+    $html .= '  <li><input type="checkbox" name="' . $this->get_field_name( 'autoplay' ) . '" ' . $autoplay . ' /> <label> ' . __( 'Autoplay Video(s)', $this->slug ) . "</label></li>\n";
+
 
     $html .= "</ul>\n";
 
@@ -282,7 +288,7 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
       $html .= ' selected="selected"';
       
     }
-
+// @todo autoplay yes/no 
     $html .= '>' . __( 'Yes', $this->slug ) . "</option>\n";
 
     $html .= '   <option value="0"';
@@ -393,7 +399,9 @@ class RelatedYouTubeVideos_Widget extends WP_Widget {
         'id'                    => $data['id'],
         'showvideotitle'        => $data['showvideotitle'],
         'showvideodescription'  => $data['showvideodescription'],
-        'viewrelated'           => $data['viewrelated']
+        'viewrelated'           => $data['viewrelated'],
+        'autoplay'              => $data['autoplay'],
+        'preview'               => $data['preview']
       )
     );
 
