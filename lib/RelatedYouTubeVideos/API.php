@@ -11,6 +11,12 @@
 class RelatedYouTubeVideos_API {
   
   /**
+   * @todo remove!
+   */
+//  protected $apiKey = 'AIzaSyBJ3dEEiMCCfYmwVioaWhR91fgqrxX9xtM';
+  protected $apiKey = '';
+  
+  /**
    * @var string $latestCall Store the latest URL call to the YouTube webservice.
    */
   protected $latestCall = '';
@@ -24,6 +30,12 @@ class RelatedYouTubeVideos_API {
    * @var int $timeout = PHP/Server settings: Max Execution Time - 5 seconds
    */
   protected $timeout;
+  
+  protected $rootPath;
+  
+  protected $cachePath;
+  
+  protected $options;
 
   /**
    * The Constructor
@@ -34,7 +46,44 @@ class RelatedYouTubeVideos_API {
     
     $this->timeout      = ( $max_execution_time > 0 ) ? ( $max_execution_time - 5 ) : 15;
     
+    $this->rootPath     = realpath( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' ) . DIRECTORY_SEPARATOR;
+    
+    $this->cachePath    = $this->rootPath . 'cache' . DIRECTORY_SEPARATOR;
+    
+    if( !is_dir( $this->cachePath ) ) {
+      @mkdir( $this->cachePath, 0775);
+    }
+    
+    $this->options      = get_option( 'relatedyoutubevideos' );
+    
+    $this->apiKey       = ( isset( $this->options['devKey'] ) ) ? $this->options['devKey'] : '';
+    
   }
+
+  public function cacheIsValid( $cacheFile ) {
+    
+    if( !file_exists( $cacheFile ) ) {
+      
+      return false;
+      
+    }
+    
+    $now        = time();
+    
+    $filedate   = filemtime( $cacheFile );
+    
+    $cachetime  = ( isset( $this->options['cachetime'] ) ) ? (int) $this->options['cachetime'] : 24; // 24 hours is the default
+    
+    if( $cachetime < 1 ) {
+      
+      $cachetime = 1;
+      
+    }
+    
+    return ( $now < ( $filedate + $cachetime * 60 * 60 ) );
+    
+  }
+
 
   /**
    * Do the actual YouTube search by generating a GET request.
@@ -43,6 +92,13 @@ class RelatedYouTubeVideos_API {
    * @return  mixed           FALSE in case the request was invalid or some other error has occured (like a timeout) or an array containing the search results.
    */
   public function searchYouTube( $args ) {
+    
+    if( trim( $this->apiKey ) === '' ) {
+      
+      // @todo error message: Developer Key required!!
+      return array();
+      
+    }
 
     $searchTerms  = isset( $args['searchTerms'] ) ? $args['searchTerms']      : '';
     
@@ -131,48 +187,46 @@ class RelatedYouTubeVideos_API {
   
     }
 
-    $this->latestCall = $target;
 
-    // Call the YouTube Search Webservice
-    $loadURL  = ( defined( 'RYTV_METHOD' ) && RYTV_METHOD === 'curl' ) ? 'loadUrlVia_curl' : 'loadUrlVia_fopen';
+    /* The YouTube API v3 requires a whole new apprach but the old $target URL will be used to cache requests! */
+    $urlParts = parse_url( $target );
+  	
+  	parse_str( $urlParts['query'], $query );
     
-    $data     = $this->$loadURL( $target );
+    ksort( $urlParts );
     
-    // Make the request by loading the response directly into a SimpleXML object.
-    // $xml          = @simplexml_load_file( $target );
-
-    $xml      = @simplexml_load_string( $data );
-
-    // Return FALSE in case the URL could not be loaded or no SimpleXML object could be created from it.
-    if( !is_object( $xml ) ) {
+    // @todo too much overhead?!
+    $cacheFile    = $this->cachePath . md5( serialize( $urlParts ) ) . '.json';
     
-      return array();
-    
-    }
-
-    // In case the YouTube response XML contains an error message, respectively code, return it!
-    if( isset( $xml->errors->error->code ) ) {
+    if( file_exists( $cacheFile ) && $this->cacheIsValid( $cacheFile ) ) {
       
-      return array( 'error' => $xml->errors->error->code );
+      $json       = file_get_contents( $cacheFile );
+      
+      $result     = json_decode( $json, true );
       
     }
-
-    /**
-     * Now build the list of videos according to the plugin configuration and "input parameters" (shortcode/widget).
-     */
-    if( !isset( $xml->entry ) ) {
-      
-      return array();
-      
-    }
-
-    $result       = array();
+    else {
     
-    foreach( $xml->entry as $video ) {
+      if( !class_exists( 'RelatedYouTubeVideos_Youtube' ) ) {
+        
+        require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'Youtube.php' );
+      
+      }
 
-      $result[]   = $video;
+      $YouTube        = new RelatedYouTubeVideos_Youtube();
 
+      $searchResults  = $YouTube->search( $query );
+    
+      $result         = $YouTube->extractVideos( $searchResults );
+      
+      if( is_dir( $this->cachePath ) ) {
+      
+        @file_put_contents( $cacheFile, json_encode( $result ) );
+      
+      }
+    
     }
+    
 
     /* {max} random videos out of {random} */
     if( $random > $max ) {
@@ -335,20 +389,16 @@ EOF;
 
       foreach( $results as $video ) {
 
-        // Try detecting the YouTube Video ID 
-        preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
+        $videoID                = isset( $video['videoID'] ) ? $video['videoID'] : null;
   
-        $videoID                = isset( $match[1] )      ? (string) $match[1]          : null;
-  
-        $videoTitle             = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
+        $videoTitle             = isset( $video['title'] ) ? strip_tags( $video['title'] ) : 'YouTube Video';
         
         $videoTitle_clean       = $videoTitle;
 
         $videoTitle_esc         = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoTitle );
 
-        // @changelog 2014-10-03
-        $videoDescription       = ( $video->children('media', true)->group->children('media', true )->description ) ? (string) $video->children('media', true)->group->children('media', true )->description : '';
-        
+        $videoDescription       = ( isset( $video['description'] ) ) ? $video['description'] : '';
+
         $videoDescription_clean = $videoDescription;
         
         $videoDescription_esc   = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoDescription );
@@ -371,7 +421,7 @@ EOF;
             $html         .= '    <div class="title">' . $videoTitle_clean . "</div>\n";
           
           }
-        
+
           if( isset( $args['showvideodescription'] ) && $args['showvideodescription'] === true ) {
             
             $html         .= '    <div class="description">' . $videoDescription_clean . "</div>\n";
@@ -401,6 +451,8 @@ EOF;
 
       foreach( $results as $video ) {
 
+// @todo fallback
+/*
         // Try detecting the YouTube Video ID 
         preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
   
@@ -410,7 +462,12 @@ EOF;
 
         // @changelog 2014-10-03
         $videoDescription = ( $video->children('media', true)->group->children('media', true )->description ) ? (string) $video->children('media', true)->group->children('media', true )->description : '';
-
+*/
+      
+      $videoID = isset( $video['videoID'] ) ? $video['videoID'] : null;
+      $videoTitle = isset( $video['titel'] ) ? strip_tags( $video['title'] ) : 'YouTube Video';
+      $videoDescription = isset( $video['description'] ) ? strip_tags( $video['description'] ) : '';
+      
         $html             .= "   <li>\n";
 
         /**
@@ -692,9 +749,9 @@ EOF;
       $curl   = curl_init();
 
       curl_setopt( $curl, CURLOPT_URL, $url );
-
+      
       // The YouTube search API is requires connecting via SSL/HTTPS which cURL needs to be configurated for.
-      if( isset( $match[1] ) && strtolower( $match[1] ) === 'https' ) {
+      if( preg_match( '#^https#i', $url ) ) {
         
         curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
 
@@ -707,7 +764,8 @@ EOF;
       curl_setopt( $curl, CURLOPT_FILETIME, true );
 
       curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
-    
+
+
 
       // Load the URL/response
       $data   = curl_exec( $curl );
@@ -716,6 +774,8 @@ EOF;
     
 
       curl_close( $curl );
+
+var_dump( $data);Exit;die();return;
     
 
       if( $error !== 0 ) {

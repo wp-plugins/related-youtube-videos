@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       4.0.0
-Stable tag:         1.6.8
+Stable tag:         1.8.1
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,7 +25,13 @@ Also, this plugin offers you two ways to embed related videos:
 1. by using the shortcode [relatedYouTubeVideos] somewhere in your post/page content.
 2. by using the WordPress widget "Related YouTube Videos" in any of your widget areas (multiple instances are possible).
 
+= Disclaimer / Important =
 
+As of April 2015 the YouTube API can only be accessed when you have a valid key for the data API. Also, the number of free requests per day is limited!
+
+There is a nice and short video tutorial (https://www.youtube.com/watch?v=zOYW7FO9rzA) on how to get such an API key. But it's up to you to make sure your stay within the free limit or keep track of the costs when you need more than that!
+
+Please read Youtube and Google's terms and conditions for more details.
 
 = The Shortcode =
 
@@ -43,7 +49,7 @@ You can use the following options/parameters/attributes:
 * **height**              - Height of the HTML video object
 * **preview**             - "true" will only display the preview image and only load the video (via Javascript!) when this image has been clicked.
 * **showVideoTitle**      - "true" if you want to show the video title right below the video itself. Can be styled via CSS class `.title`
-* **showVideoDescripton** - "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
+* **showVideoDescription**  - "true" if you want to show the video description below the video, respectively, when the video title is displayed right below the title. Can be styled via CSS class `.description` 
 * **autoplay**            - "true" if you want the video to automatically start playing when ready. This will obviously **not** work in preview mode!!
 
 **Configuration**
@@ -204,6 +210,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.8.1 =
+* YouTube API v3 support (v2 has been dropped!)
 
 = 1.6.8 =
 * Option/Parameter added: autoplay="true" 

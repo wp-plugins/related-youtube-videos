@@ -172,9 +172,17 @@ class RelatedYouTubeVideos extends Meomundo_WP {
    */
   public function registerBackend() {
     
-    $page = add_menu_page( 'Related YouTube Videos', 'Related YouTube Videos', 'manage_options', $this->slug . '_index', array( $this, 'ViewBackend' ) );
+    $pages['index']       = add_menu_page( 'Related YouTube Videos', 'Related YouTube Videos', 'manage_options', $this->slug . '_index', array( $this, 'ViewBackend' ) );
 
-    add_action( 'admin_print_styles-' . $page, array( $this, 'loadBackendStyles' ) );
+    $pages['settings']    = add_submenu_page( $this->slug . '_index', 'Settings', 'Settings', 'manage_options', $this->slug . '_settings', array( $this, 'viewBackend' ) );
+    
+    $pages['clearCache']  = add_submenu_page( null, 'Clear Cache Manually', 'Clear Cache Manually', 'manage_options', $this->slug . '_clearcache', array( $this, 'viewBackend' ) );
+    
+    foreach( $pages as $page ) {
+    
+      add_action( 'admin_print_styles-' . $page, array( $this, 'loadBackendStyles' ) );
+  
+    }
 
   }
 
@@ -189,7 +197,7 @@ class RelatedYouTubeVideos extends Meomundo_WP {
    * This shoudl save some memory and maybe even CPU when you're in the backend but not on this plugin's page.
    */
   public function viewBackend() {
-    
+/*    
     $this->loadClass( 'RelatedYouTubeVideos_Backend_Index' );
     
     $Backend = new RelatedYouTubeVideos_Backend_Index( $this->path, $this->url, $this->slug );
@@ -199,6 +207,23 @@ class RelatedYouTubeVideos extends Meomundo_WP {
     echo $Backend->controller();
 
     echo '</div>';
+*/
+
+    // Detect the proper class name for a page.
+    $page       = str_replace( $this->slug . '_', '', $_GET['page'] );
+    
+    $classname  = 'RelatedYouTubeVideos_Backend_' . ucfirst( $page );
+    
+    $this->loadClass( $classname );
+
+    // Each backend page class applies to a certain, standardized pattern.
+    $Backend = new $classname( $this->path, $this->url, $this->slug );
+    
+    echo '<div class="wrap" id="rytv" name="top">' . "\n";
+    
+    echo $Backend->controller();
+    
+    echo "</div>\n";
     
   }
 

@@ -11,13 +11,20 @@
 </div>
 
 <h4 class="rytv_docs">Introduction</h4>
+ <p>The <strong>Related YouTube Videos</strong> plugin allows you to easily embed YouTube videos that automatically relate to your content in one way or another by using a simple shortcode <strong class="marker">[relatedYouTubeVideos]</strong> or a widget.</p>
+ <p>You can specify if the relation is by <strong>post title</strong>, <strong>post tags</strong>, <strong>post categories</strong>, or by using your own <strong>custom keywords</strong>.</p>
 
-<p>The <strong>Related YouTube Videos</strong> plugin allows you to easily embed YouTube videos that automatically relate to your content in one way or another by using a simple shortcode <strong class="marker">[relatedYouTubeVideos]</strong> or a widget.</p>
-<p>You can specify if the relation is by <strong>post title</strong>, <strong>post tags</strong>, <strong>post categories</strong>, or by using your own <strong>custom keywords</strong>.</p>
-<p class="top"><a href="#top">top</a></p>
+ <p class="top"><a href="#top">top</a></p>
 
 <a name="rytv_docs_settings" class="anchor">&nbsp;</a>
 <h4 class="rytv_docs">Settings</h4>
+
+ <h5 class="rytv_docs">YouTube API Key</h5>
+ <p style="background-color:#F3B3B3;"><strong>As of April 2015 the YouTube API can only be accessed when you have a valid key for the data API. Also, the number of free requests per day is limited!</strong></p>
+ <p>There is a nice and short <a href="https://www.youtube.com/watch?v=zOYW7FO9rzA" target="_blank">video tutorial</a> on how to get such an API key (it's actually not that hard).</p>
+ <p>Because of the access limit the plugin now has a caching option. So a single request might only have to made once every 24 hours (or whatever you choose). But still: You should <strong>keep track of your stats so you don't run into a payment plan you didn't expect! Make sure you carefully read Youtube's and Google's terms and conditions!</strong></p>
+
+<p class="top"><a href="#top">top</a></p>
 
 <h5 class="rytv_docs">Load CSS theme file in the frontend.</h5>
 <p>If this option is checked an additional CSS file will be loaded when visiting the frontend of your website. If you want to use the out-of-the-box <a href="#rytv_docs_themes">themes or styles</a> that are being provided by this plugin you will have to do this!</p>
@@ -114,7 +121,7 @@
  </tr>
  <tr>
   <th>author</th>
-  <td>Only show videos uploaded from a given YouTube username.<br /><strong><code>author="meomundodotcom"</code></strong> will only show videos from the YouTube user <em>meomundodtocom</em>.</td>
+  <td>Only show videos uploaded from a given YouTube user. Sadly, Youtube has changed from allowing clear names to using cryptic channel IDs!<br /><strong><code>author="UCwkD5zbWqzHn9QhHyscSTMg"</code></strong> will only show videos from the YouTube user <em>meomundodtocom</em>.<br />You can find the proper channel ID by hovering the channel name below a video when watching it on YouTube.</td>
  </tr>
  <tr>
   <th>filter</th>
