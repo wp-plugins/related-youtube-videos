@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       4.0.0
-Stable tag:         1.8.1
+Tested up to:       4.2.0
+Stable tag:         1.8.2
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 

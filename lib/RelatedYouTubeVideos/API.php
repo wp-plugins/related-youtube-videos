@@ -10,10 +10,6 @@
  */
 class RelatedYouTubeVideos_API {
   
-  /**
-   * @todo remove!
-   */
-//  protected $apiKey = 'AIzaSyBJ3dEEiMCCfYmwVioaWhR91fgqrxX9xtM';
   protected $apiKey = '';
   
   /**
@@ -189,13 +185,14 @@ class RelatedYouTubeVideos_API {
 
 
     /* The YouTube API v3 requires a whole new apprach but the old $target URL will be used to cache requests! */
-    $urlParts = parse_url( $target );
+    $urlParts     = parse_url( $target );
+    
+    $query        = array();
   	
   	parse_str( $urlParts['query'], $query );
-    
-    ksort( $urlParts );
-    
-    // @todo too much overhead?!
+
+    ksort( $query );
+
     $cacheFile    = $this->cachePath . md5( serialize( $urlParts ) ) . '.json';
     
     if( file_exists( $cacheFile ) && $this->cacheIsValid( $cacheFile ) ) {
@@ -213,12 +210,12 @@ class RelatedYouTubeVideos_API {
       
       }
 
-      $YouTube        = new RelatedYouTubeVideos_Youtube();
+      $YouTube        = new RelatedYouTubeVideos_Youtube( $this->apiKey );
 
       $searchResults  = $YouTube->search( $query );
-    
-      $result         = $YouTube->extractVideos( $searchResults );
-      
+
+      $result         = $YouTube->extractVideos( $searchResults, $start );
+
       if( is_dir( $this->cachePath ) ) {
       
         @file_put_contents( $cacheFile, json_encode( $result ) );
@@ -451,22 +448,9 @@ EOF;
 
       foreach( $results as $video ) {
 
-// @todo fallback
-/*
-        // Try detecting the YouTube Video ID 
-        preg_match( '#\?v=([^&]*)&#i', $video->link['href'], $match );
-  
-        $videoID          = isset( $match[1] )      ? (string) $match[1]          : null;
-  
-        $videoTitle       = isset( $video->title )  ? strip_tags( $video->title ) : 'YouTube Video';
-
-        // @changelog 2014-10-03
-        $videoDescription = ( $video->children('media', true)->group->children('media', true )->description ) ? (string) $video->children('media', true)->group->children('media', true )->description : '';
-*/
-      
-      $videoID = isset( $video['videoID'] ) ? $video['videoID'] : null;
-      $videoTitle = isset( $video['titel'] ) ? strip_tags( $video['title'] ) : 'YouTube Video';
-      $videoDescription = isset( $video['description'] ) ? strip_tags( $video['description'] ) : '';
+        $videoID          = isset( $video['videoID'] ) ? $video['videoID'] : null;
+        $videoTitle       = isset( $video['titel'] ) ? strip_tags( $video['title'] ) : 'YouTube Video';
+        $videoDescription = isset( $video['description'] ) ? strip_tags( $video['description'] ) : '';
       
         $html             .= "   <li>\n";
 

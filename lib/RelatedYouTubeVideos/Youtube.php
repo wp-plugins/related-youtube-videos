@@ -10,10 +10,6 @@
  */
 class RelatedYouTubeVideos_Youtube {
   
-  /**
-   * @todo remove!
-   */
-  protected $apiKey = 'AIzaSyBJ3dEEiMCCfYmwVioaWhR91fgqrxX9xtM ';
   
   /**
    * @var string $latestCall Store the latest URL call to the YouTube webservice.
@@ -35,7 +31,9 @@ class RelatedYouTubeVideos_Youtube {
   /**
    * The Constructor
    */
-  public function __construct() {
+  public function __construct( $apiKey ) {
+    
+    $this->apiKey = $apiKey;
     
     $max_execution_time = (int) ini_get('max_execution_time');
     
@@ -49,7 +47,7 @@ class RelatedYouTubeVideos_Youtube {
     $client->setDeveloperKey( $this->apiKey );
 
     // Define an object that will be used to make all API requests.
-    $this->Youtube  = new Google_Service_YouTube($client);
+    $this->Youtube  = new Google_Service_YouTube( $client );
 
   }
   
@@ -60,12 +58,19 @@ class RelatedYouTubeVideos_Youtube {
     $request['type'] = 'video';
     
     // mapping v2 parameters to v3 parameters
-    // @todo https://developers.google.com/youtube/v3/docs/search/list
+    // https://developers.google.com/youtube/v3/docs/search/list
     $request['maxResults']          = ( isset( $config['max-results'] ) ) ? (int) $config['max-results'] : 1;
 
     if( $request['maxResults'] < 1 ) {
       
       $request['maxResults']        = 1;
+      
+    }
+
+    if( isset( $config['start-index'] ) && $config['start-index'] > 1 ) {
+      
+      $request['maxResults'] += $config['start-index'];
+      
       
     }
 
@@ -109,10 +114,7 @@ class RelatedYouTubeVideos_Youtube {
       
     }
 
-    // @todo still unclear?!
-    //  start-index
-    //  author => channelID / playlist ID ???
-
+    //  author => channelID !!
     
     $errorMsg = '';
   
@@ -148,7 +150,7 @@ class RelatedYouTubeVideos_Youtube {
 
   }
   
-  public function extractVideos( $searchResponse ) {
+  public function extractVideos( $searchResponse, $offset = 1 ) {
 
     $videos = array();
     
@@ -158,7 +160,19 @@ class RelatedYouTubeVideos_Youtube {
 
     }
     
+    $counter  = 0;
+    
+    $dimItems = count( $searchResponse['items'] );
+
     foreach( $searchResponse['items'] as $item ) {
+      
+      $counter++;
+      
+      if( $offset > 1 && ( $counter < $offset || $counter === $dimItems ) ) {
+        
+        continue;
+        
+      }
       
       $videoID      = isset( $item['id']['videoId'] )     ? $item['id']['videoId'] : '';
       $title        = isset( $item['snippet']['title'] )       ? $item['snippet']['title'] : '';
