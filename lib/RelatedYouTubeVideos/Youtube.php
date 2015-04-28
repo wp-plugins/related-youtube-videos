@@ -39,9 +39,6 @@ class RelatedYouTubeVideos_Youtube {
     
     $this->timeout      = ( $max_execution_time > 0 ) ? ( $max_execution_time - 5 ) : 15;
 
-    require_once 'Google/Client.php';
-    require_once 'Google/Service/YouTube.php';
-
     $client = new Google_Client();
 
     $client->setDeveloperKey( $this->apiKey );
@@ -58,7 +55,7 @@ class RelatedYouTubeVideos_Youtube {
     $request['type'] = 'video';
     
     // mapping v2 parameters to v3 parameters
-    // https://developers.google.com/youtube/v3/docs/search/list
+    // @todo https://developers.google.com/youtube/v3/docs/search/list
     $request['maxResults']          = ( isset( $config['max-results'] ) ) ? (int) $config['max-results'] : 1;
 
     if( $request['maxResults'] < 1 ) {
@@ -114,7 +111,9 @@ class RelatedYouTubeVideos_Youtube {
       
     }
 
-    //  author => channelID !!
+    // @todo still unclear?!
+    //  author => channelID // playlist ID ???
+
     
     $errorMsg = '';
   

@@ -4,7 +4,7 @@ Plugin Name:  Related YouTube Videos
 Plugin URI:   http://www.meomundo.com/
 Description:  Embeds videos from YouTube that (can) automatically relate to a current page or post.
 Author:       Chris Doerr
-Version:      1.8.2
+Version:      1.8.3
 Author URI:   http://www.meomundo.com/
 */
 
@@ -79,16 +79,31 @@ if( !defined( 'RYTV_METHOD' ) ) {
 }
 
 
-$meoTemp['include_path'] = get_include_path();
+/**
+ * Customized version of the original Google API autoloader
+ */
+function rytv_google_api_php_client_autoload( $className ) {
 
-if(
-  !class_exists( 'Google_Client' )
-  && !preg_match( '#related-youtube-videos#i', $meoTemp['include_path'] )
-) {
+  $classPath  = explode('_', $className);
 
-  set_include_path( $meoTemp['include_path'] . PATH_SEPARATOR . $meoTemp['path'] . 'lib' );
+  if ($classPath[0] != 'Google') {
+    return;
+  }
 
+  // Drop 'Google', and maximum class file path depth in this project is 3.
+  $classPath  = array_slice( $classPath, 1, 2 );
+  
+  // This is the part of the actual customization
+  $filePath   = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Google' . DIRECTORY_SEPARATOR . implode( '/', $classPath ) . '.php';
+
+  if( file_exists( $filePath ) ) {
+
+    require_once( $filePath );
+
+  }
 }
+spl_autoload_register( 'rytv_google_api_php_client_autoload' );
+
 
 /**
  * The Plugin Object

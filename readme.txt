@@ -4,8 +4,8 @@ Contributors:       Zenation
 Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5K6UDDJRNKXE2
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
-Tested up to:       4.2.0
-Stable tag:         1.8.2
+Tested up to:       4.0.0
+Stable tag:         1.8.3
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -211,6 +211,9 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 == Changelog ==
 
+= 1.8.3 =
+* Google autoloader fix
+
 = 1.8.1 =
 * YouTube API v3 support (v2 has been dropped!)
 
@@ -235,18 +238,6 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 
 = 1.6.1 =
 * Plugin Setting: You can now have your own message when no video(s) were found.
-
-= 1.6.0 =
-* Not a real fix but in case no video can be found include the YouTube request URL into the error message.
-
-= 1.5.9 =
-* Workaround: In case curl is not install simply try loading calling the YouTube API, no matter if the (officially) required HTTPS wrapper is installed or not.
-
-= 1.5.7 =
-* Fix of decting the method that shall be used to call the remote YouTube API.
-
-= 1.5.5 =
-* Behaviour fixed when YT is not returning a single result/video.
 
 
 == Upgrade Notice ==
