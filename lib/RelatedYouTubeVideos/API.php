@@ -389,7 +389,7 @@ EOF;
         $videoID                = isset( $video['videoID'] ) ? $video['videoID'] : null;
   
         $videoTitle             = isset( $video['title'] ) ? strip_tags( $video['title'] ) : 'YouTube Video';
-        
+
         $videoTitle_clean       = $videoTitle;
 
         $videoTitle_esc         = preg_replace( array( '#"#im', "#'#im" ), array( '&quot;', '&rsquo;' ), $videoTitle );
@@ -448,10 +448,10 @@ EOF;
 
       foreach( $results as $video ) {
 
-        $videoID          = isset( $video['videoID'] ) ? $video['videoID'] : null;
-        $videoTitle       = isset( $video['titel'] ) ? strip_tags( $video['title'] ) : 'YouTube Video';
-        $videoDescription = isset( $video['description'] ) ? strip_tags( $video['description'] ) : '';
-      
+        $videoID          = isset( $video['videoID'] )      ? $video['videoID'] : null;
+        $videoTitle       = isset( $video['title'] )        ? strip_tags( $video['title'] ) : 'YouTube Video';
+        $videoDescription = isset( $video['description'] )  ? strip_tags( $video['description'] ) : '';
+
         $html             .= "   <li>\n";
 
         /**

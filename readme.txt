@@ -5,7 +5,7 @@ Donate link:        https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_b
 Tags:               videos, youtube, related
 Requires at least:  3.0.0
 Tested up to:       4.0.0
-Stable tag:         1.8.3
+Stable tag:         1.8.4
 License:            GPLv2
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,6 +210,10 @@ If you have any question, any kind of suggestion, or maybe a feature request, pl
 1. The widget backend for customizing the video request.
 
 == Changelog ==
+
+= 1.8.4 =
+* showVideoTitle fix (for non-preview mode)
+* Delete plugin options when uninstalling the plugin
 
 = 1.8.3 =
 * Google autoloader fix
