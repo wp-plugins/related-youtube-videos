@@ -101,7 +101,8 @@ class RelatedYouTubeVideos_Youtube {
 
     if( isset( $config['orderby'] ) ) {
     
-      $request['order']             = $config['orderby'];
+      // this is a workaround to match older shortcodes or widgets that were created under the API v2!
+      $request['order']             = ( strtolower( $config['orderby'] ) === 'published' ) ? 'date' : $config['orderby'];
     
     }
     

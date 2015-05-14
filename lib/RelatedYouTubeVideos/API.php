@@ -759,8 +759,6 @@ EOF;
 
       curl_close( $curl );
 
-var_dump( $data);Exit;die();return;
-    
 
       if( $error !== 0 ) {
       
